@@ -22,7 +22,7 @@
         <div class="card mb-4">
             <div class="card-header">
                 <a class="btn btn-primary btn-sm filt" href="{{ '/formFiltroAnno' }}" role="button">Filtro anno rinnovo</a>
-                <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio x</a>
+                <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
                 <button class="btn btn-secondary btn-sm saveEtt">Etichette da Sel.</button>
                 <button class="btn btn-success btn-sm saveAll">Bollettini da Sel.</button>
