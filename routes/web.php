@@ -76,7 +76,7 @@ Route::controller(IscrizioneController::class)->group(function () {
     Route::get('editIscrizione/{id}', 'showData');// edit iscrizione 
     Route::get('showIscrizione/{id}', 'formIscr'); // Form per aggiungere iscrizione ad un socio
     Route::POST('addIscrizione', 'AddIscrizione'); // anno aggiunge iscrizione
-    Route::get('deleteIscrizione/{id}', 'deleteIscrizione');
+    Route::get('deleteIscrizione/{id}', 'deleteIscrizione'); 
     Route::get('filtraIscritto', 'filtraIscritto');
     Route::POST('trovaIscritto', 'trovaIscritto');
     Route::get('socio/{id}', 'socioIscrizione');
