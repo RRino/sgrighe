@@ -67,32 +67,29 @@ class SociController extends Controller
          /**
           * Cambia lo stato Ablilitato/sospeso del socio
           *Route::get('changeStatus/{id}', 'changeStatus');
+          * richiamato da ajax
           */
         $viewData = [];
         $soci = Soci::find($id);
         $stato = $soci->getPublished();
 
         if ($stato == "Abilitato") {
-            $soci->published = "Sospeso";
-            
+            $soci->published = "Sospeso";           
         } else {
-            $soci->published = "Abilitato";
-           
+            $soci->published = "Abilitato";          
         }
 
         $soci->save();
 
-      $id = '';
+        $id = '';
         $viewData["title"] = "Soci";
         Paginator::useBootstrap();
         $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
        
-        
         return redirect('/list');
-       //return view('soci.index')->with("viewData", $viewData);
-        // return response()->json(['success'=>'Status change successfully.']);
-
     }
+
+
 
     public function indexOrd($ord)
     {
@@ -288,4 +285,28 @@ class SociController extends Controller
 
         //return view('soci.SociList', ['socis' => $datas]);
     }
+
+
+
+
+
+    public function sociCancella(Request $requ){
+    
+        // Recupera gli 'id' salvati nel database tabella 'servizios'
+        // inseriti dal Controller ServizioController 
+        //public function salvaSelChck()
+
+
+            $datis= DB::table('servizios')->where('nome', 'check')->first();
+            $dt = explode(',', $datis->dati);
+           
+            $sheet1Data = Soci::find($dt);
+            // Cancella i soci
+            foreach ($sheet1Data as $key => $socio) {              
+                soci::destroy($socio->id);
+            }
+            
+        return redirect('/list');
+    }
+
 }

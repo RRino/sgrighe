@@ -33,6 +33,7 @@ Route::get('/', [HomeController::class, 'index'])->middleware('is_admin');
 
 //usa database per memorizzare dati da javascript
 Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
+Route::post('salvaChck_del', [ServizioController::class, 'salvaSelChck_selSocio']);
 
 Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/anagrafiche', 'home');
@@ -59,7 +60,7 @@ Route::controller(ExcelController::class)->group(function () {
 Route::controller(SociController::class)->group(function () {
     Route::get('/list', 'index')->name('soci.index')->middleware('is_admin');//ok visualizza lista soci
     Route::get('/list/{col}', 'indexOrd')->middleware('is_admin');//ok ordina una colonna in index.blade
-    Route::get('changeStatus/{id}', 'changeStatus');//ok cambia lo stato di unn socio Ablilitato/sospeso
+    Route::get('changeStatus/{id}', 'changeStatus');//ok cambia lo stato di unn socio Ablilitato/sospeso con Ajax
     Route::view('formAdd', 'soci.formAdd');//ok crea form per add socio
     Route::POST('add', 'salvasocio');// ok salva nuovo socio nel database
     Route::POST('/paginazione', 'pagine'); // ok imposta numero righe nelle tabelle che hanno la paginazione e il box righe
@@ -69,6 +70,7 @@ Route::controller(SociController::class)->group(function () {
     Route::get('singolo/{id}', 'singolo'); // ok Visualizza dati singolo socio 
     Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
     Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
+    Route::get('deleteSoci/{id}', 'sociCancella'); // ok Cancella socio dal database 'deleteSoci/1' è richiamata da $ajax in index.blade
 });
 
 Route::controller(IscrizioneController::class)->group(function () {
