@@ -1,0 +1,43 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+//@import 'variables';
+
+// Bootstrap
+//@import 'bootstrap/scss/bootstrap';
+//S@import '../../node_modules/bootstrap/scss/bootstrap';
+
+@import 'home';
+@import 'list_soci';
+@import 'excel';
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+
+  .btn.btn-primary.btn-block {
+    float: left;
+    margin-right: 5px;
+  }
+
+  .navbar {
+   background:rgb(242, 238, 238);
+   border:solid 1px #ccc;
+  }
+  
+
+  .navheader{
+    float:right;
+  }
+  
+  
+.logo{
+  height:40px;
+}

@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Listen for XDebug",
+            "type": "php",
+            "request": "launch",
+
+            // Server Remote XDebug Port - 9000 is the default XDebug port
+            "port": 9003,
+
+            // Server Remote Path -> Local Project Path
+            "pathMappings": {
+                "/app/www": "${workspaceRoot}/www"
+            }
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+
+            // Local XDebug Port - 9000 is the default XDebug port
+            "port": 9003
+        }
+    ]
+}

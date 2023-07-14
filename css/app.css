@@ -1,0 +1,66 @@
+@import url("https://fonts.bunny.net/css?family=Nunito");
+.navbar-brand {
+  margin-left: 40%;
+}
+
+.nav li a {
+  margin: 5px;
+}
+
+.benve {
+  text-align: center;
+  color: darkcyan;
+}
+
+.filt {
+  margin-left: 10px;
+}
+
+.head {
+  font-weight: 700;
+}
+
+.btn.btn-link {
+  color: red;
+}
+
+.tit-add {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slabel {
+  color: blue;
+  width: 100px;
+}
+
+.mexcelcontainer {
+  width: 95%;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.cae {
+  margin-top: 5px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.btn.btn-primary.btn-block {
+  float: left;
+  margin-right: 5px;
+}
+
+.navbar.navbar-expand-md.navbar-light.bg-white.shadow-sm {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  border: solid 1px #ccc;
+}/*# sourceMappingURL=app.css.map */
