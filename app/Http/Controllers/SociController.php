@@ -20,8 +20,8 @@ class SociController extends Controller
         /**
          * Visualizza lista soci
          *  Route::get('/list', 'index')->name('soci.index')->middleware('is_admin');
-         * 
          */
+
         $viewData = [];
         $viewData["title"] = "Anagrafica";
 
@@ -47,13 +47,14 @@ class SociController extends Controller
     }
 
    public function pagine(Request $req){
+    
     /**
      * Route::POST('/paginazione', 'pagine');
      * setta il numero righe nelle tabelle per la paginazione
      * nota - se c'è un join non va ?
      * /paginazione usato in  consegne.blade -- soci.index.blade
-     * 
      */
+
         session(['pag' => $req->rows]);
         //return back();
         return redirect('/list');
