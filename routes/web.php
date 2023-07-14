@@ -68,6 +68,7 @@ Route::controller(SociController::class)->group(function () {
     Route::get('edit/{id}', 'editSocio');
     Route::post('editSocio', 'update');// ok Aggiorna Socio usato in soci.edit.blade
     Route::get('singolo/{id}', 'singolo'); // ok Visualizza dati singolo socio 
+
     Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
     Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
     Route::get('deleteSoci/{id}', 'sociCancella'); // ok Cancella socio dal database 'deleteSoci/1' è richiamata da $ajax in index.blade
@@ -88,23 +89,20 @@ Route::controller(IscrizioneController::class)->group(function () {
 });
 
 Route::controller(PdfController::class)->group(function () {
-    //usati in view.pdf.pdfFiltroAnno.blaede.php
-    Route::post('bollettini_ultimo', 'PdfBollettini');
-    Route::post('bollettini_penultimo', 'PdfBollettini');
-    //usato da bottone "Bollettini anno" in soci.SociList.blade.php richiama la view pdf.pdfFiltroAnno
-    Route::view('bollettini_anno', 'pdf.pdfFiltroAnno');
-    //usato da bottone "Bollettini da chckbox" che chiama ajax poi da success in soci.SociList.blade.php
-    Route::get('bollettini/{tipo}', 'PdfBollettini');
-    // Route::get('bollettini_anno/{tipo}', 'pdf.pdfFiltroAnno');
-
-    //usati in view.pdf.pdfFiltroAnno.blaede.php
-    Route::post('etichette_ultimo', 'PdfEtichette');
-    Route::post('etichette_penultimo', 'PdfEtichette');
-    //usato da bottone "Bollettini anno" in soci.SociList.blade.php richiama la view pdf.pdfFiltroAnno
-    Route::view('etichette_anno', 'pdf.PdfFiltroEtichette');
-    //usato da bottone "Bollettini da chckbox" che chiama ajax poi da success in soci.SociList.blade.php
-    Route::get('etichette/{tipo}', 'PdfEtichette');
-    // Route::get('bollettini_anno/{tipo}', 'pdf.pdfFiltroAnno');
+    /**
+     * Il bottone dropdown 'bollettini da sel.' in soci.index.blade richiama ajax che prima chiama
+     * Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
+     * il quale salva in una tabella 'servizios' gli 'id' selezionati dai checkbox
+     * poi chiama Route::get('bollettini/{tipo}', 'PdfBollettini'); con  window.location.href = "/bollettini/1";
+     * che crea i pdf dei bollettini
+     * stessa cosa per le etichette
+     */
+    Route::view('bollettini_anno', 'pdf.pdfFiltroBollettini'); // pagina con form richiamati da bottone 'Filtra anno bolettini'
+    Route::view('etichette_anno',  'pdf.PdfFiltroEtichette');
+    Route::post('bollettini_anno', 'PdfBollettini'); // richiamato dal form filtro anno bollettini
+    Route::post('etichette_anno',  'PdfEtichette'); 
+    Route::get('bollettini/{tipo}', 'PdfBollettini');//usato da bottone "Bollettini da chckbox" che chiama AJAX poi da success in soci.index.blade.php
+    Route::get('etichette/{tipo}',  'PdfEtichette');
 });
 
 Route::get('/nonAut', function () {

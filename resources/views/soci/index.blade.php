@@ -139,17 +139,17 @@
             // Crea Bollettini da chckbox selezionato
 
             $('.saveAll').on('click', function(e) {
-                console.log('clic');
+                console.log('0clic');
                 var studentIdArr = [];
                 $(".checkbox:checked").each(function() {
                     studentIdArr.push($(this).attr('data-id'));
                 });
+                console.log('1st ' + studentIdArr);
                 if (studentIdArr.length <= 0) {
                     alert("Scegliere almeno un nome [ ]");
                 } else {
-                    //if (confirm("Sicuro?")) {
                     var stuId = studentIdArr.join(",");
-                    console.log(stuId);
+                    console.log('2s',stuId);
                     $.ajax({
                         url: "{{ url('salvaChck') }}",
                         type: 'POST',
@@ -158,74 +158,48 @@
                         },
                         data: 'ids=' + stuId,
                         success: function(data) {
-                            console.log('dt '.data);
+                            console.log('3dt '.data);
                             window.location.href = "/bollettini/1";
-
-
-                            /* if (data['status'] == true) {
-                                 $(".checkbox:checked").each(function() {
-                                     //$(this).parents("tr").remove();
-                                     $( ".checkbox" ).prop( "checked", false );
-                                 });
-                                 alert(data['message']);
-                             } else {
-                                 
-                                 alert('Error occured.');
-                                 $( ".checkbox" ).prop( "checked", false );
-                             }*/
                         },
-
-
                         error: function(data) {
                             alert(data.responseText);
                         }
                     });
-                    //}
                 }
             });
 
             // Crea etichette da sel. chckbox
 
             $('.saveEtt').on('click', function(e) {
-                console.log('clic');
-                var eticIdArr = [];
+                console.log('0clic');
+                var studentIdArr = [];
                 $(".checkbox:checked").each(function() {
-                    eticIdArr.push($(this).attr('data-id'));
-
+                    studentIdArr.push($(this).attr('data-id'));
                 });
-                console.log('st ' + eticIdArr);
-                if (eticIdArr.length <= 0) {
+                console.log('1st ' + studentIdArr);
+                if (studentIdArr.length <= 0) {
                     alert("Scegliere almeno un nome [ ]");
                 } else {
-                    //if (confirm("Sicuro?")) {
-                    var etiId = eticIdArr.join(",");
-                    console.log('s ' + etiId);
+                    var stuId = studentIdArr.join(",");
+                    console.log('2s',stuId);
                     $.ajax({
-                        /**
-                         *  richiama 
-                         * Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
-                         */
                         url: "{{ url('salvaChck') }}",
                         type: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        data: 'ids=' + etiId,
+                        data: 'ids=' + stuId,
                         success: function(data) {
-                            /**
-                             *  richiama 
-                             * Route::get('etichette/{tipo}', 'PdfEtichette');
-                             */
-
+                            console.log('3dt '.data);
                             window.location.href = "/etichette/1";
                         },
                         error: function(data) {
                             alert(data.responseText);
                         }
                     });
-                    //}
                 }
-            });
+            });     
+  
 
             // Del socio sel. checkbox
 

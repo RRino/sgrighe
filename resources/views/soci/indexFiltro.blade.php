@@ -11,13 +11,10 @@
         <div class="card mb-4">
             <div class="card-header">
                 <a class="btn btn-primary filt" href="{{ '/formFiltroAnno' }}" role="button">Filtro anno rinnovo</a>
-                <a class="btn btn-primary adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
-                <a class="btn btn-primary " href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
-
-                <button class="btn btn-secondary btn-sm saveEtt">Crea pdf ETICHETTE da selezionati</button>
-                <button class="btn btn-success btn-sm saveAll">Crea pdf BOLLETTINI da selezionati</button>
-                <a class="btn btn-secondary " href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
-                <a class="btn btn-primary " href="{{ '/bollettini_anno' }}" role="button">Bollettini anno</a>
+                
+                <a class="btn btn-primary " href="{{ '/etichette_anno' }}" role="button">Etichette</a>
+                <a class="btn btn-primary " href="{{ '/bollettini_anno' }}" role="button">Bollettini</a>
+                <a class="btn btn-success " href="{{ '/list' }}" role="button">Ritorno a lista</a>
             </div>
             <div class="card-body">
                 @if ($errors->any())

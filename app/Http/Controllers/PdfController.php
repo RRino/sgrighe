@@ -15,10 +15,15 @@ class PdfController extends Controller
     public function PdfBollettini(Request $req)
     {
 
-        $ultimo_anno = $req->bollettini_ultimo;
-        $penultimo_anno = $req->bollettini_penultimo;
+        
+        $anno = $req->bollettini_anno;
+        // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
+        //    window.location.href = "/bollettini/1";
         $tip = $req->tipo;
 
+        /**
+         * legge tabella database dove ajax ha memorizzato i check selezionati
+         */
         if ($tip == 1) {
           //  $datis = Servizio::find(1);
             $datis= DB::table('servizios')->where('nome', 'check')->first();
@@ -34,12 +39,10 @@ class PdfController extends Controller
             */
         }
 
-        if ($ultimo_anno != null) {
-            $data = DB::table('socis')->where('socis.ultimo', $ultimo_anno)->orderBy('id', 'DESC')->get();
+        if ($tip == 3) {
+            $data = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->get();
         }
-        if ($penultimo_anno != null) {
-            $data = DB::table('socis')->where('socis.ultimo', $penultimo_anno)->orderBy('id', 'DESC')->get();
-        }
+ 
         $pdf = new TCPDF;
 
         //$nbol2 = 1;//$data->count();
@@ -265,15 +268,20 @@ class PdfController extends Controller
 
     }
 
-    public function PdfEtichette(Request $requ)
+    public function PdfEtichette(Request $req)
     {
-     
-        $ultimo_anno = $requ->etichette_ultimo;
-        $penultimo_anno = $requ->etichette_penultimo;
-        $tip = $requ->etichette_tipo;
+ 
+ 
 
+        $anno = $req->etichette_anno;
+        // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
+        //    window.location.href = "/etichette/1";
+        $tip = $req->tipo;
 
-        if ($tip == null) {
+        /**
+         * legge tabella database dove ajax ha memorizzato i check selezionati
+         */
+        if ($tip == 1) {
             //$datis = Servizio::find(1);
             $datis= DB::table('servizios')->where('nome', 'check')->first();
             $dt = explode(',', $datis->dati);
@@ -288,12 +296,10 @@ class PdfController extends Controller
         }
 
         if ($tip == 2) {
-            $sheet1Data = DB::table('socis')->where('socis.ultimo', $ultimo_anno)->orderBy('id', 'DESC')->get();
+            $sheet1Data = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->get();
         }
 
-        if ($tip == 3) {
-            $sheet1Data = DB::table('socis')->where('socis.ultimo', $penultimo_anno)->orderBy('id', 'DESC')->get();
-        }
+
 
         $pdf = new TCPDF;
 
@@ -385,7 +391,6 @@ class PdfController extends Controller
 
                 $pdf::writeHTMLCell(70, 36, $poor, $pv,  $htmlx, 0, 0, 0, true, '', true);
 
-          
             }
             $pdf::Ln(0);
 
