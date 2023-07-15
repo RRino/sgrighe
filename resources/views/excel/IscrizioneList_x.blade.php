@@ -3,7 +3,6 @@
 
 @section('content')
 
-{{ dd($data) }}
 <div class="container">
             <div class="col-md-12">
 

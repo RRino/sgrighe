@@ -24,43 +24,28 @@
                         @endif
 
                         <form action="{{ url('import') }}" method="post" enctype="multipart/form-data">
-
                             @csrf
-
                             <fieldset>
-
                                 <label>Segliere il file da caricare <small
                                         class="warning text-muted">{{ __('Please upload only Excel (.xlsx or .xls) files') }}</small></label>
-
                                 <div class="minput-group">
-
                                     <input type="file" required class="form-control" name="uploaded_file"
                                         id="uploaded_file">
-
                                     @if ($errors->has('uploaded_file'))
                                         <p class="text-right mb-0">
-
                                             <small class="danger text-muted"
                                                 id="file-error">{{ $errors->first('uploaded_file') }}</small>
-
                                         </p>
                                     @endif
-
                                     <div class="input-group-append" id="button-addon2">
-
                                         <button class="btn btn-primary square btn-sm cae" type="submit"><i
                                                 class="ft-upload mr-1"></i> Carica da Excel</button>
-
                                     </div>
-
                                 </div>
-
                             </fieldset>
-
                         </form>
 
                     </div>
-
                 </div>
 
             </div>

@@ -13,7 +13,7 @@
     <a class="btn btn-primary adds" href="{{ '/add' }}" role="button">Aggiungi Socio</a>
     <a class="btn btn-primary " href="{{ '/iscrizione' }}" role="button">Lista Iscrizione</a>
     @if (auth()->check() && auth()->user()->is_admin == 1)
-        <a class="btn btn-primary " href="{{ '/excel_soci' }}" role="button">Excel</a>
+        <a class="btn btn-primary " href="{{ '/formExcel_soci' }}" role="button">Excel</a>
     @else
         <a class="btn btn-secondary " href="{{ '/home' }}" role="button">Login x Excel</a>
     @endif

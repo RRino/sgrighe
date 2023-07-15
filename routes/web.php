@@ -47,14 +47,13 @@ Route::controller(AnagraficheController::class)->group(function () {
 });
 
 Route::controller(ExcelController::class)->group(function () {
-    Route::get('/excel_soci', 'index_soci')->middleware('is_admin');
-    Route::get('/excel_iscrizioni', 'index_iscrizioni');
-    Route::post('/import', 'importSoci');
+    Route::get('/formExcel_soci', 'index_soci');//->middleware('is_admin'); // da menu sidebar richiama form per importare excel
+    Route::post('/importSoci', 'importSoci');
+    Route::get('/exportSoci', 'exportSoci');
 
-    Route::get('/export', 'exportSoci');
+    Route::get('/formExcel_iscrizioni', 'index_iscrizioni');// da menu sidebar richiama form per importare excel
+    Route::post('/importIscrizione', 'importIscrizione');
     Route::get('/exportIscrizione', 'exportIscrizione');
-    Route::post('/importIscriz', 'importIscrizione');
-
 });
 
 Route::controller(SociController::class)->group(function () {

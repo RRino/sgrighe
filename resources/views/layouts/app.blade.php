@@ -85,13 +85,14 @@
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Esporta excel
+                        Import Export Excel
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/export">Esporta Soci</a></li>
-                        <li><a class="dropdown-item" href="/excel_soci">Importa soci</a></li>
-                        <li><a class="dropdown-item" href="#">Esporta Iscrizioni</a></li>
-                        <li><a class="dropdown-item" href="#">Importa Iscrizioni</a></li>
+                        <li><a class="dropdown-item" href="/exportSoci">Esporta Soci</a></li>
+                        <li><a class="dropdown-item" href="/formExcel_soci">Importa soci</a></li>
+                        <hr>
+                        <li><a class="dropdown-item" href="/exportIscrizione">Esporta Iscrizioni</a></li>
+                        <li><a class="dropdown-item" href="/formExcel_iscrizioni">Importa Iscrizioni</a></li>
                     </ul>
                 </div>
             </div>

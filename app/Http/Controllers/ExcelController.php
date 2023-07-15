@@ -20,24 +20,8 @@ use App\Models\Iscrizione;
 
 class ExcelController extends Controller
 {
-   /**
 
-    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-
-    */
-
-    function index_soci() {
-
-        Paginator::useBootstrap();
-           $data = DB::table('socis')->orderBy('cognome', 'ASC')->paginate(50);
-           //$data= Soci::paginate(20); //Eloquent ORM
-           return view('excel.ExcelList', compact('data'));
-    
-       }
-    
-    
-    
-       /**
+         /**
     
         * @param Request $request
     
@@ -48,9 +32,70 @@ class ExcelController extends Controller
         * @throws \PhpOffice\PhpSpreadsheet\Exception
     
         */
+
+   /**
+
+    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+
+    */
+
+           /**
+    
+        * @param $customer_data
+        * esporta dati ExportExcel($customer_data) in excel
+        * per soci e iscrizioni  ecc ..
+        */
+    
+        public function ExportExcel($customer_data){
+            ini_set('max_execution_time', 0);
+            ini_set('memory_limit', '4000M');
+     
+            try {
+    
+                $spreadSheet = new Spreadsheet();   
+                $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);   
+                $spreadSheet->getActiveSheet()->fromArray($customer_data);     
+                $Excel_writer = new Xls($spreadSheet);   
+                header('Content-Type: application/vnd.ms-excel');   
+                header('Content-Disposition: attachment;filename="SoIs.xls"');  
+                header('Cache-Control: max-age=0'); 
+                ob_end_clean();  
+                $Excel_writer->save('php://output');  
+                exit();
+     
+            } catch (Exception $e) {
+                return;
+            }
+     
+        }
+
+
+    function index_soci() {
+
+        /**
+         * Route::get('/formExcel_soci', 'index_soci')
+         * richiama form per caricare dati soci da excel
+         * 
+         */
+        $viewData = [];
+        $viewData["title"] = "Import Export Soci";
+        $viewData["tipo"] = "Soci";
+
+           return view('excel.formImpExpSoci')->with("viewData", $viewData);;
+    
+       }
+    
+    
+    
+  
     
        function importSoci(Request $request){
     
+        /**
+         *   Route::post('/importSoci', 'importSoci');
+         *  Importa i dati da file excel
+         * 
+         */
            $this->validate($request, [
                'uploaded_file' => 'required|file|mimes:xls,xlsx'
            ]);
@@ -109,34 +154,7 @@ class ExcelController extends Controller
        }
     
     
-       /**
-    
-        * @param $customer_data
-    
-        */
-    
-       public function ExportExcel($customer_data){
-           ini_set('max_execution_time', 0);
-           ini_set('memory_limit', '4000M');
-    
-           try {
-   
-               $spreadSheet = new Spreadsheet();   
-               $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);   
-               $spreadSheet->getActiveSheet()->fromArray($customer_data);     
-               $Excel_writer = new Xls($spreadSheet);   
-               header('Content-Type: application/vnd.ms-excel');   
-               header('Content-Disposition: attachment;filename="SoIs.xls"');  
-               header('Cache-Control: max-age=0'); 
-               ob_end_clean();  
-               $Excel_writer->save('php://output');  
-               exit();
-    
-           } catch (Exception $e) {
-               return;
-           }
-    
-       }
+
     
     
        /**
@@ -147,8 +165,13 @@ class ExcelController extends Controller
     
         */
     
-       function exportSoci(){
+      public function exportSoci(){
     
+        /**
+         *  Route::get('/exportSoci', 'exportSoci');
+         * Prepara i dati da esportare in excel con
+         *  $this->ExportExcel($data_array);
+         */
            $data = DB::table('socis')->orderBy('cognome', 'DESC')->get();
     
            $data_array [] = array("id","nome","cognome","indirizzo","consegna","cap","localita","comune","sigla_provincia","ultimo","penultimo","email"
@@ -193,27 +216,36 @@ class ExcelController extends Controller
        // ------------------------------ ISCRIZIONE ------------------------------------------
 
 
-       function index_iscrizioni(){
+      public function index_iscrizioni(){
   
-        Paginator::useBootstrap();
-           $data = DB::table('iscriziones')->orderBy('socio_id', 'ASC')->paginate(20);
-           //$data= Soci::paginate(20); //Eloquent ORM
-           return view('excel.IscrizioneList', compact('data'));
-    
+        /**
+         * Route::get('/formExcel_iscrizioni', 'index_iscrizioni');
+         * // da menu sidebar richiama form per importare excel
+         * form per importare i dati da file excel
+         */
+
+        $viewData = [];
+        $viewData["title"] = "Import Export Iscrizioni";
+        $viewData["tipo"] = "Iscrizioni";
+
+        return view('excel.formImpExpIscrizione')->with("viewData", $viewData);
        }
 
-       function exportIscrizione(){
-   
-        $data = DB::table('iscriziones')->orderBy('socio_id', 'ASC')->get();
-        $data_array [] = array("id","nome","cognome","anno","socio_id","created_at","updated_at");
- 
+
+
+      public  function exportIscrizione(){
+     /**
+      *  Route::get('/exportIscrizione', 'exportIscrizione');
+      * prepara i dati da esportare in excel
+      */
+        $data = DB::table('iscriziones')->get();
+        $data_array [] = array("id","anno","socio_id","created_at","updated_at");
+
         foreach($data as $data_item)
         {
             $data_array[] = array(
  
                 'id' =>$data_item->id,
-                'nome' =>$data_item->nome,
-                'cognome' => $data_item->cognome,
                 'anno' => $data_item->anno,
                 'socio_id' => $data_item->socio_id,
                 'created_at' =>$data_item->created_at,
@@ -221,33 +253,12 @@ class ExcelController extends Controller
  
             );
         }
- 
-        $this->ExportIscriz($data_array);
- 
+       $this->ExportExcel($data_array);
     }
 
-    public function ExportIscriz($iscriz_data){
+
+
     
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '4000M');
- 
- 
-        try {
-            $spreadSheet = new Spreadsheet();
-            $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);
-            $spreadSheet->getActiveSheet()->fromArray($iscriz_data);
-            $Excel_writer = new Xls($spreadSheet);
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Iscriz.xls"');
-            header('Cache-Control: max-age=0');
-            ob_end_clean();
-            $Excel_writer->save('php://output');
-            exit();
-        } catch (Exception $e) {
-            return;
-        }
- 
-    }
 
     function importIscrizione(Request $request){
     
@@ -268,13 +279,11 @@ class ExcelController extends Controller
  
             foreach ( $row_range as $row ) { 
                 $data[] = [
-                    //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
-                    'nome' =>$sheet->getCell( 'B' . $row )->getValue(),
-                    'cognome' => $sheet->getCell( 'C' . $row )->getValue(),
-                    'anno' => $sheet->getCell( 'E' . $row )->getValue(),
-                    'socio_id' => $sheet->getCell( 'E' . $row )->getValue(),
-                    'created_at' =>$sheet->getCell( 'G' . $row )->getValue(),
-                    'updated_at' =>$sheet->getCell( 'H' . $row )->getValue(),
+                    'id' =>$sheet->getCell( 'A' . $row )->getValue(),
+                    'anno' => $sheet->getCell( 'B' . $row )->getValue(),
+                    'socio_id' => $sheet->getCell( 'C' . $row )->getValue(),
+                    'created_at' =>$sheet->getCell( 'D' . $row )->getValue(),
+                    'updated_at' =>$sheet->getCell( 'E' . $row )->getValue(),
                ];
                 $startcount++;
             }
