@@ -15,7 +15,13 @@ class PdfController extends Controller
     public function PdfBollettini(Request $req)
     {
 
-        
+        /** 
+         * Route::get('bollettini/{tipo}', 'PdfBollettini');
+         * //usato da bottone "Bollettini da chckbox" che chiama 
+         * AJAX poi da success in soci.index.blade.php
+         * 
+         */
+
         $anno = $req->bollettini_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
         //    window.location.href = "/bollettini/1";

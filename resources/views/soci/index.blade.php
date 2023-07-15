@@ -31,7 +31,7 @@
                 <a class="btn btn-primary btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
 
 
-                <button class="btn btn-link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
+                <button class="btn btn-primary btn-sm dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="true">
                     Azione da Sel.
                 </button>

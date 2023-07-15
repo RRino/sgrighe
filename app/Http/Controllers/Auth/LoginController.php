@@ -57,7 +57,7 @@ class LoginController extends Controller
 
             } else if (auth()->user()->is_admin == 0) {
                
-                return redirect()->route('admin.home');
+                return redirect('/');
               
 // TODO verificare perche non funziona user al posto di home
             } else {
