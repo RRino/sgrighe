@@ -172,8 +172,9 @@ class ExcelController extends Controller
          * Prepara i dati da esportare in excel con
          *  $this->ExportExcel($data_array);
          */
-           $data = DB::table('socis')->orderBy('cognome', 'DESC')->get();
-    
+     $data = DB::table('socis')->orderBy('id', 'DESC')->get();
+
+
            $data_array [] = array("id","nome","cognome","indirizzo","consegna","cap","localita","comune","sigla_provincia","ultimo","penultimo","email"
                                    ,"pec","codice_fiscale","partita_iva","telefono","cellulare","tipo_socio","published","description","created_at","updated_at");
     
@@ -238,7 +239,7 @@ class ExcelController extends Controller
       *  Route::get('/exportIscrizione', 'exportIscrizione');
       * prepara i dati da esportare in excel
       */
-        $data = DB::table('iscriziones')->get();
+        $data = DB::table('iscriziones')->orderBy('socio_id', 'DESC')->get();
         $data_array [] = array("id","anno","socio_id","created_at","updated_at");
 
         foreach($data as $data_item)

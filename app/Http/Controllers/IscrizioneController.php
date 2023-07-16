@@ -88,11 +88,9 @@ class IscrizioneController extends Controller
         $viewData["iscrizioni"] = new Iscrizione;
         $viewData["iscrizioni"]->socio_id = $id;
         $viewData["iscrizioni"]->anno = $req->anno;
-        //$viewData["iscrizioni"]->nome = $req->nome;
-        //$viewData["iscrizioni"]->cognome = $req->cognome;
         $viewData["iscrizioni"]->description = $req->description;
         $viewData["iscrizioni"]->save();
-        $viewData["socis"] = Soci::find($id);
+        //$viewData["socis"] = Soci::find($id);
 
         return redirect('/iscrizione');
 

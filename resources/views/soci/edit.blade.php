@@ -177,9 +177,25 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Iscrizioni</label>
-                    @foreach ($viewData['iscriziones'] as $iscri)
-                        <div>{{ $iscri->getAnno() }}</div>
-                    @endforeach()
+
+         
+                        <div class="mb-3 row">
+                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ultimo anno:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name="ultimo" value="{{ $viewData['iscriziones'][0]->getAnno()}}" type="text"
+                                    class="form-control" readonly>
+                            </div>
+                        </div>
+             
+                        <div class="mb-3 row">
+                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Penultimo anno:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name="penultimo" value="{{ $viewData['iscriziones'][1]->getAnno()}}" type="text"
+                                    class="form-control" readonly>
+                            </div>
+                        </div>
+                  
+              
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Note</label>

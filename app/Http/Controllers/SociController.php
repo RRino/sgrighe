@@ -205,7 +205,8 @@ class SociController extends Controller
         $viewData["title"] = "Admin Page - Edit soci ";
         $viewData["soci"] = Soci::find($id);
         $viewData["consegnes"] = Consegne::all();
-        $viewData["iscriziones"] = Iscrizione::all();
+        $viewData["iscriziones"] = Iscrizione::orderBy('anno','DESC')->get();
+       // dd($viewData);
         return view('soci.edit')->with("viewData", $viewData);
     }
 
@@ -241,6 +242,8 @@ class SociController extends Controller
         $soci->setCellulare($request->input('cellulare'));
         $soci->setPublished($request->get('published'));
         $soci->setDescription($request->input('description'));
+        $soci->setUltimo($request->input('ultimo'));
+        $soci->setPenultimo($request->input('penultimo'));
         $soci->save();
         return redirect('/list');
         //return view('soci.index')->with("viewData", $viewData);
