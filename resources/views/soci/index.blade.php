@@ -13,7 +13,6 @@
 </style>
 
 
-
 @section('title', $viewData['title'])
 
 
@@ -91,8 +90,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  
                                     @foreach ($viewData['socis'] as $soci)
-                                    {{ dd($soci) }}
+                                   
                                         <tr>
                                             <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
@@ -117,7 +117,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{ $viewData['socis']->links() }}
+                      
                     </div>
                 @endsection
                 <br>

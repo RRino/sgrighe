@@ -29,15 +29,14 @@ class SociController extends Controller
        // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
 
         $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-
         ->paginate(session('pag'));
 
 
         $viewData["socis"] = Soci::leftJoin('iscriziones', function($join) {
             $join->on('socis.id', '=', 'iscriziones.socio_id');
           })
-          ->whereNull('iscriziones.socio_id')
-          ->first([
+          ->whereNull('iscriziones.id')
+          ->get([
               'socis.id',
               'socis.nome',
               'socis.cognome',
@@ -59,10 +58,9 @@ class SociController extends Controller
               'socis.updated_at',
               'socis.ultimo',
               'socis.penultimo',
-     
           ]);
           
-dd($viewData["socis"]);
+
         return view('soci.index')->with("viewData", $viewData);
     }
 
