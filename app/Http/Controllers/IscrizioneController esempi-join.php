@@ -12,7 +12,7 @@ use Symfony\Component\Console\Helper\TableStyle;
 
 class IscrizioneController extends Controller
 {
-2 Tabelle
+/*2 Tabelle
 
      $users = User::join('posts', 'users.id', '=', 'posts.user_id')
                ->get(['users.*', 'posts.descrption']);
@@ -77,5 +77,5 @@ Add Tag
 	
 DB::table('posts')
 ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
-->where('is_published', true)->groupBy('user_id');
+->where('is_published', true)->groupBy('user_id');*/
 }
