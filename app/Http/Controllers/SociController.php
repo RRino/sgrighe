@@ -26,23 +26,34 @@ class SociController extends Controller
         $viewData["title"] = "Anagrafica";
 
         Paginator::useBootstrap();
-        $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
+       // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
 
-        // $viewData["soci"] = Soci::join('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')->orderBy('socis.cognome', 'DESC')
-        //  ->get(['iscriziones.id as idi','iscriziones.anno','iscriziones.socio_id', 'socis.*']);
-    /*   $viewData["soci"] = Soci::leftJoin('iscriziones', function ($join) {
-        $join->on('iscriziones.socio_id', '=', 'socis.id')
-        ->select('socis.*');
-        // ->where('contacts.user_id', '>', 5);
-        })
-        ->paginate(500);
+        $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
 
-        $leagues = DB::table('leagues')
-        ->select('league_name')
-        ->join('countries', 'countries.country_id', '=', 'leagues.country_id')
-        ->where('countries.country_name', $country)
-        ->get();
-         */
+        ->paginate(session('pag'));
+
+
+        $c = Customer::leftJoin('orders', function($join) {
+            $join->on('customers.id', '=', 'orders.customer_id');
+          })
+          ->whereNull('orders.customer_id')
+          ->first([
+              'customers.id',
+              'customers.first_name',
+              'customers.last_name',
+              'customers.email',
+              'customers.phone',
+              'customers.address1',
+              'customers.address2',
+              'customers.city',
+              'customers.state',
+              'customers.county',
+              'customers.district',
+              'customers.postal_code',
+              'customers.country'
+          ]);
+          
+
         return view('soci.index')->with("viewData", $viewData);
     }
 
@@ -56,7 +67,6 @@ class SociController extends Controller
      */
 
         session(['pag' => $req->rows]);
-        //return back();
         return redirect('/list');
     } 
 
@@ -102,9 +112,6 @@ class SociController extends Controller
 
         Paginator::useBootstrap();
         $viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
-
-        // $viewData["soci"] = Soci::join('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')->orderBy('socis.cognome', 'DESC')
-        //  ->get(['iscriziones.id as idi','iscriziones.anno','iscriziones.socio_id', 'socis.*']);
 
         return view('soci.index')->with("viewData", $viewData);
     }
@@ -191,9 +198,7 @@ class SociController extends Controller
          * Route::delete('delete/{id}', 'cancellaSocio'); 
          * // ok Cancella socio dal database
          * 
-         */
-
-         
+         */       
         soci::destroy($id);
         return redirect('/list');
     }
@@ -281,12 +286,9 @@ class SociController extends Controller
         \Illuminate\Pagination\Paginator::useBootstrap();
         $$viewData = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->paginate(session('pag'));
 
-        // $viewData["socis"] = Soci::find($id);
-
         $viewData["iscrizionis"] = Iscrizione::all();
         return view('soci.singolo')->with("viewData", $viewData);
 
-        //return view('soci.SociList', ['socis' => $datas]);
     }
 
 

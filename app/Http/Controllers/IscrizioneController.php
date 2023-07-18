@@ -67,6 +67,9 @@ class IscrizioneController extends Controller
         $viewData["subtitle"] = "Iscrizioni";
         $viewData["socis"] = Soci::find($id);
 
+        $viewData["iscrizione"] = Iscrizione::where('socio_id', '=', $id)->get();
+       
+
         //dd($viewData["socis"]);
         return view('iscrizione.AddIscrizione')->with("viewData", $viewData);
     }
@@ -81,9 +84,12 @@ class IscrizioneController extends Controller
          */
         $id = $req->socio_id;
 
+
         $viewData = [];
         $viewData["title"] = "iscr ";
         $viewData["subtitle"] = "Iscrizioni";
+
+
 
         $viewData["iscrizioni"] = new Iscrizione;
         $viewData["iscrizioni"]->socio_id = $id;
@@ -92,7 +98,7 @@ class IscrizioneController extends Controller
         $viewData["iscrizioni"]->save();
         //$viewData["socis"] = Soci::find($id);
 
-        return redirect('/iscrizione');
+        return redirect('/list');
 
     }
 

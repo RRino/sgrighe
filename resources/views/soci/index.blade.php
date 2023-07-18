@@ -92,6 +92,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($viewData['socis'] as $soci)
+                                    {{ dd($soci) }}
                                         <tr>
                                             <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 

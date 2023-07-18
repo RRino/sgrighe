@@ -165,22 +165,34 @@ class ExcelController extends Controller
     
         */
     
-      public function exportSoci(){
-    
+      public function exportSoci(Request $req){
+
+        $anno = $req->anno;
+      
+
+    // TODO prova salva soci
         /**
          *  Route::get('/exportSoci', 'exportSoci');
          * Prepara i dati da esportare in excel con
          *  $this->ExportExcel($data_array);
          */
-     $data = DB::table('socis')->orderBy('id', 'DESC')->get();
+    // $data = DB::table('socis')->orderBy('id', 'DESC')->get();  
+ 
+     $data = DB::table('socis')
+            ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            ->where('iscriziones.anno',$anno)
+            //->orWhere('iscriziones.anno',null)
+            ->get();
+ 
+   // $socir = DB::table('socis')
+    //        ->rightJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+     //       ->get();
 
 
            $data_array [] = array("id","nome","cognome","indirizzo","consegna","cap","localita","comune","sigla_provincia","ultimo","penultimo","email"
                                    ,"pec","codice_fiscale","partita_iva","telefono","cellulare","tipo_socio","published","description","created_at","updated_at");
     
-           foreach($data as $data_item)
-    
-           {
+           foreach($data as $data_item) {
     
                $data_array[] = array(
     
@@ -193,7 +205,7 @@ class ExcelController extends Controller
                    'localita' =>$data_item->localita,
                    'comune' =>$data_item->comune,
                    'sigla_provincia' =>$data_item->sigla_provincia,
-                   'ultimo' =>$data_item->ultimo,
+                   'ultimo' =>$data_item->anno,
                    'penultimo' =>$data_item->penultimo,
                    'email' =>$data_item->email,
                    'pec' =>$data_item->pec,
@@ -214,6 +226,63 @@ class ExcelController extends Controller
     
        }
 
+
+
+       public function exportSociTutti(){  
+        /**
+         *  Route::get('/exportSoci', 'exportSoci');
+         * Prepara i dati da esportare in excel con
+         *  $this->ExportExcel($data_array);
+         */
+    // $data = DB::table('socis')->orderBy('id', 'DESC')->get();  
+ 
+     $data = DB::table('socis')
+            ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            ->orWhere('iscriziones.anno',null)
+            ->orWhereNotNull('iscriziones.anno')
+            ->get();
+ 
+   // $socir = DB::table('socis')
+    //        ->rightJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+     //       ->get();
+
+
+           $data_array [] = array("id","nome","cognome","indirizzo","consegna","cap","localita","comune","sigla_provincia","ultimo","penultimo","email"
+                                   ,"pec","codice_fiscale","partita_iva","telefono","cellulare","tipo_socio","published","description","created_at","updated_at");
+    
+           foreach($data as $data_item) {
+    
+               $data_array[] = array(
+    
+                   'id' =>$data_item->id,
+                   'nome' =>$data_item->nome,
+                   'cognome' => $data_item->cognome,
+                   'indirizzo' => $data_item->indirizzo,
+                   'consegna' => $data_item->consegna,
+                   'cap' => $data_item->cap,
+                   'localita' =>$data_item->localita,
+                   'comune' =>$data_item->comune,
+                   'sigla_provincia' =>$data_item->sigla_provincia,
+                   'ultimo' =>$data_item->anno,
+                   'penultimo' =>$data_item->penultimo,
+                   'email' =>$data_item->email,
+                   'pec' =>$data_item->pec,
+                   'codice_fiscale' =>$data_item->codice_fiscale,
+                   'partita_iva' =>$data_item->partita_iva,
+                   'telefono' =>$data_item->telefono,
+                   'cellulare' =>$data_item->cellulare,
+                   'tipo_socio' =>$data_item->tipo_socio,
+                   'published' =>$data_item->published,
+                   'description' =>$data_item->description,
+                   'created_at' =>$data_item->created_at,
+                   'updated_at' =>$data_item->updated_at
+    
+               );
+           }
+    
+           $this->ExportExcel($data_array);
+    
+       }
        // ------------------------------ ISCRIZIONE ------------------------------------------
 
 

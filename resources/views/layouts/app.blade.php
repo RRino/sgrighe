@@ -88,11 +88,11 @@
                         Import Export Excel
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/exportSoci">Esporta Soci</a></li>
-                        <li><a class="dropdown-item" href="/formExcel_soci">Importa soci</a></li>
+                      
+                        <li><a class="dropdown-item" href="/formExcel_soci">Soci</a></li>
                         <hr>
-                        <li><a class="dropdown-item" href="/exportIscrizione">Esporta Iscrizioni</a></li>
-                        <li><a class="dropdown-item" href="/formExcel_iscrizioni">Importa Iscrizioni</a></li>
+                      
+                        <li><a class="dropdown-item" href="/formExcel_iscrizioni">Iscrizioni</a></li>
                     </ul>
                 </div>
             </div>
