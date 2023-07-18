@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('cellulare',55)->nullable();
             $table->enum('tipo_socio', ['Ordinario','Famigliare','Societa'])->default('Ordinario')->nullable();
             $table->enum('published',['Abilitato','Sospeso'])->default('Abilitato')->nullable();
-            $table->text('description')->default(" ")->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
 
            // $table->integer('socio_id')->unsigned();
