@@ -33,27 +33,36 @@ class SociController extends Controller
         ->paginate(session('pag'));
 
 
-        $c = Customer::leftJoin('orders', function($join) {
-            $join->on('customers.id', '=', 'orders.customer_id');
+        $viewData["socis"] = Soci::leftJoin('iscriziones', function($join) {
+            $join->on('socis.id', '=', 'iscriziones.socio_id');
           })
-          ->whereNull('orders.customer_id')
+          ->whereNull('iscriziones.socio_id')
           ->first([
-              'customers.id',
-              'customers.first_name',
-              'customers.last_name',
-              'customers.email',
-              'customers.phone',
-              'customers.address1',
-              'customers.address2',
-              'customers.city',
-              'customers.state',
-              'customers.county',
-              'customers.district',
-              'customers.postal_code',
-              'customers.country'
+              'socis.id',
+              'socis.nome',
+              'socis.cognome',
+              'socis.indirizzo',
+              'socis.consegna',
+              'socis.cap',
+              'socis.localita',
+              'socis.comune',
+              'socis.sigla_provincia',
+              'socis.email',
+              'socis.pec',
+              'socis.codice_fiscale',
+              'socis.partita_iva',
+              'socis.telefono',
+              'socis.cellulare',
+              'socis.tipo_socio',
+              'socis.published',
+              'socis.created_at',
+              'socis.updated_at',
+              'socis.ultimo',
+              'socis.penultimo',
+     
           ]);
           
-
+dd($viewData["socis"]);
         return view('soci.index')->with("viewData", $viewData);
     }
 
