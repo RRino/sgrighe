@@ -28,13 +28,13 @@
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
 
-                <a class="btn btn-secondary btn-sm" href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
+                <a class="btn btn-primary btn-sm" href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
                 <a class="btn btn-primary btn-sm" href="{{ '/bollettini_anno' }}" role="button">Bollettini anno</a>
 
-                <a class="btn btn-primary btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+              
 
 
-                <button class="btn btn-primary btn-sm dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
+                <button class="btn link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="true">
                     Azione da Sel.
                 </button>
@@ -43,7 +43,12 @@
                     <button class="dropdown-item btn-link  saveAll">Bollettini da Sel.</button>
                     <button class="dropdown-item btn-link del_socio">Cancella soci Sel. </button>
                 </ul>
+
+                <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+
             </div>
+
+         
 
             <div class="card-body">
                 @if ($errors->any())
