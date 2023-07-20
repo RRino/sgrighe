@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('iscriziones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('socio_id');
-            $table->integer('anno');
+            $table->unsignedBigInteger('socio_id')->nullable();;
+            $table->string('nome')->nullable();
+            $table->string('cognome')->nullable();
+            $table->integer('anno')->nullable();;
             $table->string('description')->nullable();
             $table->timestamps();
            // $table->foreign('socio_id')->references('id')->on('socis')->onDelete('cascade');
