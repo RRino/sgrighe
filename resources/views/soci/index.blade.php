@@ -10,10 +10,10 @@
     .nrighe {
         width: 200px;
     }
+
     .col-sm-4.wanno {
-  width: 200px;
-}
- 
+        width: 200px;
+    }
 </style>
 
 
@@ -31,7 +31,7 @@
                 <a class="btn btn-primary btn-sm" href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
                 <a class="btn btn-primary btn-sm" href="{{ '/bollettini_anno' }}" role="button">Bollettini anno</a>
 
-              
+
 
 
                 <button class="btn link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
@@ -48,7 +48,7 @@
 
             </div>
 
-         
+
 
             <div class="card-body">
                 @if ($errors->any())
@@ -89,7 +89,7 @@
                                             <div class="col-sm-4">
                                                 <label for="nom" class="">Anno</label>
                                             </div>
-                                            <div class="col-sm-4 wanno" >
+                                            <div class="col-sm-4 wanno">
                                                 <input type="text" class="form-control" id="nom" name="anno"
                                                     value="{{ session('anno') }}" placeholder="inserire anno o 'tutti'">
                                             </div>
@@ -118,9 +118,10 @@
                                     <tr>
                                         <th scope="col">Sel</th>
                                         <th scope="col">Id</th>
-                                         
+
                                         <th scope="col">Nome</th>
                                         <th scope="col"><a href="/list/cognome">Cognome</a></th>
+                                        <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
                                         <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
                                         <th scope="col">CAP</th>
                                         <th scope="col"><a href="/list/localita">Località</a></th>
@@ -139,7 +140,7 @@
                                             <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
                                             <td><a href="/singolo/{{ $soci->getId() }}">{{ $soci->getId() }}</a></td>
-                                             
+
                                             <td>{{ $soci->getNome() }}</td>
                                             <td>{{ $soci->getCognome() }}</td>
                                             <td>{{ $soci->getIndirizzo() }}</td>

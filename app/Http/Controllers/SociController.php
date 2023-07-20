@@ -156,11 +156,23 @@ if(session('anno') != 'tutti'){
           * Crea ordinamento colonna passata in $ord
           * Route::get('/list/{col}', 'indexOrd')->middleware('is_admin');
           */
+          if(session('ord') == 1){
+            session(['ord' => 2]);
+          }else{
+            session(['ord' => 1]);
+          }
+
         $viewData = [];
         $viewData["title"] = "Soci";
 
         Paginator::useBootstrap();
-        $viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
+         if( session('ord') == 1 ){
+          $viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
+         
+        }else{
+            $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));  
+           
+        }
 
         return view('soci.index')->with("viewData", $viewData);
     }

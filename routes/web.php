@@ -59,7 +59,7 @@ Route::controller(ExcelController::class)->group(function () {
 
 Route::controller(SociController::class)->group(function () {
     Route::get('/list', 'index')->name('soci.index')->middleware('is_admin');//ok visualizza lista soci
-    Route::get('/list/{col}', 'indexOrd')->middleware('is_admin');//ok ordina una colonna in index.blade
+    Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade
     Route::get('changeStatus/{id}', 'changeStatus');//ok cambia lo stato di unn socio Ablilitato/sospeso con Ajax
     Route::view('formAdd', 'soci.formAdd');//ok crea form per add socio
     Route::POST('add', 'salvasocio');// ok salva nuovo socio nel database
