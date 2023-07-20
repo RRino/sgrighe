@@ -31,7 +31,7 @@ class SociController extends Controller
          $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
          ->paginate(session('pag'));
  
-
+if(session('anno') != 'tutti'){
            $viewData["socis"] = Soci::select('socis.id',
             'socis.nome', 
             'socis.cognome', 
@@ -53,11 +53,41 @@ class SociController extends Controller
             'socis.updated_at',
             'socis.ultimo',
             'socis.penultimo',
-            'iscriziones.anno as iscrizione_anno')
+            'iscriziones.anno as iscrizione_anno',
+            'iscriziones.socio_id',
+            )
            ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
            ->where('iscriziones.anno','=',session('anno'))
            ->orWhere('iscriziones.anno','=',null)
            ->paginate(session('pag'));
+}else{
+    $viewData["socis"] = Soci::select('socis.id',
+    'socis.nome', 
+    'socis.cognome', 
+    'socis.indirizzo',
+    'socis.consegna',
+    'socis.cap',
+    'socis.localita',
+    'socis.comune',
+    'socis.sigla_provincia',
+    'socis.email',
+    'socis.pec',
+    'socis.codice_fiscale',
+    'socis.partita_iva',
+    'socis.telefono',
+    'socis.cellulare',
+    'socis.tipo_socio',
+    'socis.published',
+    'socis.created_at',
+    'socis.updated_at',
+    'socis.ultimo',
+    'socis.penultimo',
+    'iscriziones.anno as iscrizione_anno',
+    'iscriziones.socio_id',
+    )
+   ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+   ->paginate(session('pag'));   
+}
            
         return view('soci.index')->with("viewData", $viewData);
     }

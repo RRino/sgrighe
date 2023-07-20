@@ -8,8 +8,12 @@
 
 <style>
     .nrighe {
-        width: 300px;
+        width: 200px;
     }
+    .col-sm-4.wanno {
+  width: 200px;
+}
+ 
 </style>
 
 
@@ -65,9 +69,9 @@
                                             <div class="col-sm-4">
                                                 <label for="nom" class="">N.righe</label>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 wanno">
                                                 <input type="text" class="form-control" id="nom" name="rows"
-                                                    value="{{ session('pag') }}" placeholder="Righe">
+                                                    value="{{ session('pag') }}" placeholder="Numero Righe">
                                             </div>
                                         </div>
                                     </form>
@@ -80,15 +84,16 @@
                                             <div class="col-sm-4">
                                                 <label for="nom" class="">Anno</label>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 wanno" >
                                                 <input type="text" class="form-control" id="nom" name="anno"
-                                                    value="{{ session('anno') }}" placeholder="Anno">
+                                                    value="{{ session('anno') }}" placeholder="inserire anno o 'tutti'">
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="col-sm">
                                     Inserire valore nel box e premere Invio
+
                                 </div>
                             </div>
                         </div>
@@ -108,6 +113,7 @@
                                     <tr>
                                         <th scope="col">Sel</th>
                                         <th scope="col">Id</th>
+                                         
                                         <th scope="col">Nome</th>
                                         <th scope="col"><a href="/list/cognome">Cognome</a></th>
                                         <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
@@ -128,6 +134,7 @@
                                             <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
                                             <td><a href="/singolo/{{ $soci->getId() }}">{{ $soci->getId() }}</a></td>
+                                             
                                             <td>{{ $soci->getNome() }}</td>
                                             <td>{{ $soci->getCognome() }}</td>
                                             <td>{{ $soci->getIndirizzo() }}</td>
