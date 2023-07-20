@@ -17,50 +17,48 @@ class SociController extends Controller
 {
     public function index()
     { 
-        /**
+             /**
          * Visualizza lista soci
          *  Route::get('/list', 'index')->name('soci.index')->middleware('is_admin');
          */
 
-        $viewData = [];
-        $viewData["title"] = "Anagrafica";
+         $viewData = [];
+         $viewData["title"] = "Anagrafica";
+ 
+         Paginator::useBootstrap();
+        // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
+ 
+         $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+         ->paginate(session('pag'));
+ 
 
-        Paginator::useBootstrap();
-       // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
-
-        $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-        ->paginate(session('pag'));
-
-
-        $viewData["socis"] = Soci::leftJoin('iscriziones', function($join) {
-            $join->on('socis.id', '=', 'iscriziones.socio_id');
-          })
-          ->whereNull('iscriziones.id')
-          ->get([
-              'socis.id',
-              'socis.nome',
-              'socis.cognome',
-              'socis.indirizzo',
-              'socis.consegna',
-              'socis.cap',
-              'socis.localita',
-              'socis.comune',
-              'socis.sigla_provincia',
-              'socis.email',
-              'socis.pec',
-              'socis.codice_fiscale',
-              'socis.partita_iva',
-              'socis.telefono',
-              'socis.cellulare',
-              'socis.tipo_socio',
-              'socis.published',
-              'socis.created_at',
-              'socis.updated_at',
-              'socis.ultimo',
-              'socis.penultimo',
-          ]);
-          
-
+           $viewData["socis"] = Soci::select('socis.id',
+            'socis.nome', 
+            'socis.cognome', 
+            'socis.indirizzo',
+            'socis.consegna',
+            'socis.cap',
+            'socis.localita',
+            'socis.comune',
+            'socis.sigla_provincia',
+            'socis.email',
+            'socis.pec',
+            'socis.codice_fiscale',
+            'socis.partita_iva',
+            'socis.telefono',
+            'socis.cellulare',
+            'socis.tipo_socio',
+            'socis.published',
+            'socis.created_at',
+            'socis.updated_at',
+            'socis.ultimo',
+            'socis.penultimo',
+            'iscriziones.anno as iscrizione_anno')
+           ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+           ->where('iscriziones.anno','=',session('anno'))
+           ->orWhere('iscriziones.anno','=',null)
+           ->paginate(session('pag'));
+           
         return view('soci.index')->with("viewData", $viewData);
     }
 
@@ -77,6 +75,20 @@ class SociController extends Controller
         return redirect('/list');
     } 
 
+
+   public function selAnno(Request $req){
+    
+    /**
+     * Route::POST('/selAnno', 'selAnno');
+     * setta anno da filtrare
+     *  
+     * /selAnnousato in  -- soci.index.blade
+     */
+
+
+        session(['anno' => $req->anno]);
+        return redirect('/list');
+    } 
 
     public function changeStatus($id)
     {
@@ -254,8 +266,8 @@ class SociController extends Controller
         $soci->setCellulare($request->input('cellulare'));
         $soci->setPublished($request->get('published'));
         $soci->setDescription($request->input('description'));
-        $soci->setUltimo($request->input('ultimo'));
-        $soci->setPenultimo($request->input('penultimo'));
+        //$soci->setUltimo($request->input('ultimo'));
+        //$soci->setPenultimo($request->input('penultimo'));
         $soci->save();
         return redirect('/list');
         //return view('soci.index')->with("viewData", $viewData);

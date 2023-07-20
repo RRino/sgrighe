@@ -113,38 +113,60 @@ class ExcelController extends Controller
     
                foreach ( $row_range as $row ) { 
                    $data[] = [
-                       //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
+                       'id' =>$sheet->getCell( 'X' . $row )->getValue(),
                        'nome' =>$sheet->getCell( 'B' . $row )->getValue(),
-                       'cognome' => $sheet->getCell( 'C' . $row )->getValue(),
-                       'indirizzo' => $sheet->getCell( 'D' . $row )->getValue(),
-                       'consegna' => $sheet->getCell( 'E' . $row )->getValue(),
-                       'cap' => $sheet->getCell( 'F' . $row )->getValue(),
-                       'localita' =>$sheet->getCell( 'G' . $row )->getValue(),
-                       'comune' =>$sheet->getCell( 'H' . $row )->getValue(),
-                       'sigla_provincia' =>$sheet->getCell( 'I' . $row )->getValue(),
-                       'ultimo' =>$sheet->getCell( 'J' . $row )->getValue(),
-                       'penultimo' =>$sheet->getCell( 'K' . $row )->getValue(),
-    
+                       'cognome' => $sheet->getCell( 'A' . $row )->getValue(),
+                       'indirizzo' => $sheet->getCell( 'C' . $row )->getValue(),
+                       'consegna' => $sheet->getCell( 'P' . $row )->getValue(),
+                       'cap' => $sheet->getCell( 'D' . $row )->getValue(),
+                       'localita' =>$sheet->getCell( 'E' . $row )->getValue(),
+                       'comune' =>$sheet->getCell( 'E' . $row )->getValue(),
+                       'sigla_provincia' =>$sheet->getCell( 'F' . $row )->getValue(),
+                       'ultimo' =>$sheet->getCell( 'H' . $row )->getValue(),
+                       'penultimo' =>$sheet->getCell( 'G' . $row )->getValue(),
                        'email' =>$sheet->getCell( 'L' . $row )->getValue(),
-                       'pec' =>$sheet->getCell( 'M' . $row )->getValue(),
-                       'codice_fiscale' =>$sheet->getCell( 'N' . $row )->getValue(),
-                       'partita_iva' =>$sheet->getCell( 'O' . $row )->getValue(),
-                       'telefono' =>$sheet->getCell( 'P' . $row )->getValue(),
-                       'cellulare' =>$sheet->getCell( 'Q' . $row )->getValue(),
-                       'tipo_socio' =>$sheet->getCell( 'R' . $row )->getValue(),
-                       'published' =>$sheet->getCell( 'S' . $row )->getValue(),
-                       'description' =>$sheet->getCell( 'T' . $row )->getValue(),
+                       'pec' =>$sheet->getCell( 'Q' . $row )->getValue(),
+                       'codice_fiscale' =>$sheet->getCell( 'R' . $row )->getValue(),
+                       'partita_iva' =>$sheet->getCell( 'S' . $row )->getValue(),
+                       'telefono' =>$sheet->getCell( 'T' . $row )->getValue(),
+                       'cellulare' =>$sheet->getCell( 'M' . $row )->getValue(),
+                      // 'tipo_socio' =>$sheet->getCell( 'O' . $row )->getValue(),
+                       'published' => 1,
+                       'description' =>$sheet->getCell( 'N' . $row )->getValue(),
                        'created_at' =>$sheet->getCell( 'U' . $row )->getValue(),
                        'updated_at' =>$sheet->getCell( 'V' . $row )->getValue(),
                   ];
                    $startcount++;
                }
              
+
+               foreach ( $row_range as $row ) { 
+                $iscrizione[] = [
+                    //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
+                    'nome' =>$sheet->getCell( 'B' . $row )->getValue(),
+                    'cognome' => $sheet->getCell( 'A' . $row )->getValue(),
+                    'socio_id' => $sheet->getCell( 'X' . $row )->getValue(),
+                    'anno'=> $sheet->getCell( 'G' . $row )->getValue(),
+                    'description' =>$sheet->getCell( 'N' . $row )->getValue(),
+
+               ];
+                $startcount++;
+            }
+
                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
                DB::table('socis')->truncate();
                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+               DB::table('socis')->insert($data);
 
-              DB::table('socis')->insert($data);
+//--------------------------  -----------------------------------
+              DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+              DB::table('iscriziones')->truncate();
+              DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+              DB::table('iscriziones')->insert($iscrizione);
+
+
+
+
            } catch (Exception $e) {
               // $error_code = $e->errorInfo[1];
     
