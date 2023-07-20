@@ -57,6 +57,7 @@ if(session('anno') != 'tutti'){
             'iscriziones.socio_id',
             )
            ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+           ->orderBy('socis.'.session('colOrd'), session('asc_desc'))
            ->where('iscriziones.anno','=',session('anno'))
            ->orWhere('iscriziones.anno','=',null)
            ->paginate(session('pag'));
@@ -156,6 +157,8 @@ if(session('anno') != 'tutti'){
           * Crea ordinamento colonna passata in $ord
           * Route::get('/list/{col}', 'indexOrd')->middleware('is_admin');
           */
+
+          session(['colOrd' => $ord]);
           if(session('ord') == 1){
             session(['ord' => 2]);
           }else{
@@ -168,10 +171,10 @@ if(session('anno') != 'tutti'){
         Paginator::useBootstrap();
          if( session('ord') == 1 ){
           $viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
-         
+          session(['asc_desc' => 'DESC']);
         }else{
             $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));  
-           
+            session(['asc_desc' => 'ASC']);
         }
 
         return view('soci.index')->with("viewData", $viewData);
