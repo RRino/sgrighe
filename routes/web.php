@@ -72,6 +72,7 @@ Route::controller(SociController::class)->group(function () {
     Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
     Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
     Route::get('deleteSoci/{id}', 'sociCancella'); // ok Cancella socio dal database 'deleteSoci/1' è richiamata da $ajax in index.blade
+    Route::POST('/selAnno', 'selAnno');
 });
 
 Route::controller(IscrizioneController::class)->group(function () {
