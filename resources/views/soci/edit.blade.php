@@ -2,6 +2,9 @@
 @section('title', $viewData['title'])
 
 
+
+
+
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
@@ -18,7 +21,7 @@
 
             <form method="POST" action="/editSocio" enctype="multipart/form-data">
                 @csrf
-            
+
                 <div class="row">
                     <div class="col">
 
@@ -178,33 +181,22 @@
                 <div class="mb-3">
                     <label class="form-label">Iscrizioni</label>
 
-         
-                        <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ultimo anno:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name="ultimo" value="{{ $viewData['iscriziones'][0]->getAnno()}}" type="text"
-                                    class="form-control" readonly>
-                            </div>
-                        </div>
-             
-                        <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Penultimo anno:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name="penultimo" value="{{ $viewData['iscriziones'][1]->getAnno()}}" type="text"
-                                    class="form-control" readonly>
-                            </div>
-                        </div>
-                  
-              
+
+
+
+
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Note</label>
                     <textarea class="form-control" name="description" rows="3">{{ $viewData['soci']->getDescription() }}</textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Invia</button>
+
             </form>
-
-
+            <br>
+            <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+            <a class="btn btn-success btn-sm" href="{{ '/list' }}" role="button">Lista</a>
+            <br>
         </div>
     </div>
     <br>
