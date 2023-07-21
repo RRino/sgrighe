@@ -21,7 +21,7 @@
     @stop
 
     <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista Soci</a><br><br><hr>
-
+   
     <td><a class="btn btn-primary btn-sm b-add" href={{ '/filtraIscritto' }}>Filtra Socio</a></td>
 
     <table class="table tab1">

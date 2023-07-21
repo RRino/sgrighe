@@ -28,7 +28,7 @@ class SociController extends Controller
         }
 
         $viewData = [];
-        $viewData["title"] = "Anagrafica";
+        $viewData["title"] = "Lista soci - Anagrafica";
 
         Paginator::useBootstrap();
         // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));

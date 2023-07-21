@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="/css/app.css">
 
 
-
+    <a class="btn btn-success btn-sm b-add" href="{{ '/iscrizione' }}" role="button">Lista Iscritti</a> 
+    <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista soci</a> <hr>
     <form action="/trovaIscritto" method="POST">
         @csrf
         <div class="form-group">
