@@ -18,7 +18,11 @@
 
 
  @stop
+<!-- 
+    
+     Route::post('etichette_anno',  'PdfEtichette'); 
 
+-->
      <form action="etichette_anno" class="form" method="POST">
          @csrf
          <div class="form-group">

@@ -18,8 +18,12 @@
 
 
  @stop
-
-     <form action="bollettini_anno" class="form" method="POST">
+<!-- 
+    
+    Route::post('creaBollettini_anno', 'PdfBollettini'); 
+    // richiamato dal form filtro anno bollettini
+-->
+     <form action="creaBollettini_anno" class="form" method="POST">
          @csrf
          <div class="form-group">
              <label for="usr">Anno rinnovo:</label>

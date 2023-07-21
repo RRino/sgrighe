@@ -27,6 +27,7 @@ class PdfController extends Controller
         //    window.location.href = "/bollettini/1";
         $tip = $req->tipo;
 
+       
         /**
          * legge tabella database dove ajax ha memorizzato i check selezionati
          */
@@ -35,20 +36,18 @@ class PdfController extends Controller
             $datis= DB::table('servizios')->where('nome', 'check')->first();
             $dt = explode(',', $datis->dati);
             $data = Soci::find($dt);
-
-            // cancella i chck selezionati
-           /* $servizio = Servizio::find(1);
-            $servizio->nome = 'soci';
-            $servizio->uso = 'selChck';
-            $servizio->dati = '';
-            $servizio->save();
-            */
         }
 
+        /**
+         * legge unione tra soci e iscrizione select iscrizione.anno
+         */
         if ($tip == 3) {
-            $data = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->get();
+            $data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            ->where('iscriziones.anno', $anno)
+            ->paginate(session('pag'));            
         }
  
+       
         $pdf = new TCPDF;
 
         //$nbol2 = 1;//$data->count();

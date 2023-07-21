@@ -100,7 +100,7 @@ Route::controller(PdfController::class)->group(function () {
      */
     Route::view('bollettini_anno', 'pdf.pdfFiltroBollettini'); // pagina con form richiamati da bottone 'Filtra anno bolettini'
     Route::view('etichette_anno',  'pdf.PdfFiltroEtichette');
-    Route::post('bollettini_anno', 'PdfBollettini'); // richiamato dal form filtro anno bollettini
+    Route::post('creaBollettini_anno', 'PdfBollettini'); // richiamato dal form filtro anno bollettini
     Route::post('etichette_anno',  'PdfEtichette'); 
     Route::get('bollettini/{tipo}', 'PdfBollettini');//usato da bottone "Bollettini da chckbox" che chiama AJAX poi da success in soci.index.blade.php
     Route::get('etichette/{tipo}',  'PdfEtichette');
