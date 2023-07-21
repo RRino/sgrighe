@@ -3,7 +3,7 @@
  <div class="container">
 <br>
  <h1 class="tit-add">Stampa etichette</h1>
- <h5 class="tit-add">Stampa i etichette dei soci dell'utima iscrizione, della penultima o da selezione da lista</h5>
+ <h5 class="tit-add">Stampa i etichette dei soci anno rinnovo</h5>
  <style>
      .form {
          float: left;
@@ -19,7 +19,7 @@
 
  @stop
 <!-- 
-    
+
      Route::post('etichette_anno',  'PdfEtichette'); 
 
 -->
@@ -29,13 +29,13 @@
              <label for="usr">Anno ultima iscrizione:</label>
              <input type="text" class="form-control" id="nom" name="etichette_anno" value="{{ now()->year }}">
              <input type="hidden" class="form-control" id="nom" name="tipo" value="2">
-         </div>
+         </div><br>
          <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF etichette</button>
      </form>
-
+<br>
 
 
 
    
-     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Stampa selezionati da lista</a><br><br>
+     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br>
  </div>

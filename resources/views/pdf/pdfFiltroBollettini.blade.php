@@ -3,7 +3,7 @@
  <div class="container">
 <br>
  <h1 class="tit-add">Stampa bollettini</h1>
- <h5 class="tit-add">Stampa i bollettini dei soci dell'utima iscrizione, della penultima o da selezione da lista</h5>
+ <h5 class="tit-add">Stampa i bollettini dei soci anno di rinnovo</h5>
  <style>
      .form {
          float: left;
@@ -29,10 +29,10 @@
              <label for="usr">Anno rinnovo:</label>
              <input type="text" class="form-control" id="nom" name="bollettini_anno" value="{{ now()->year }}">
              <input type="hidden" class="form-control" id="nom" name="tipo" value="3">
-         </div>
+         </div><br>
          <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF bollettini</button>
      </form>
-
+<br>
    
-     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Stampa selezionati da lista</a><br><br>
+     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br><br>
  </div>
