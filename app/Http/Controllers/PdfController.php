@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Servizio;
 use App\Models\Soci;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 
 class PdfController extends Controller
 {
@@ -15,11 +13,11 @@ class PdfController extends Controller
     public function PdfBollettini(Request $req)
     {
 
-        /** 
+        /**
          * Route::get('bollettini/{tipo}', 'PdfBollettini');
-         * //usato da bottone "Bollettini da chckbox" che chiama 
+         * //usato da bottone "Bollettini da chckbox" che chiama
          * AJAX poi da success in soci.index.blade.php
-         * 
+         *
          */
 
         $anno = $req->bollettini_anno;
@@ -27,13 +25,12 @@ class PdfController extends Controller
         //    window.location.href = "/bollettini/1";
         $tip = $req->tipo;
 
-       
         /**
          * legge tabella database dove ajax ha memorizzato i check selezionati
          */
         if ($tip == 1) {
-          //  $datis = Servizio::find(1);
-            $datis= DB::table('servizios')->where('nome', 'check')->first();
+            //  $datis = Servizio::find(1);
+            $datis = DB::table('servizios')->where('nome', 'check')->first();
             $dt = explode(',', $datis->dati);
             $data = Soci::find($dt);
         }
@@ -43,11 +40,10 @@ class PdfController extends Controller
          */
         if ($tip == 3) {
             $data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-            ->where('iscriziones.anno', $anno)
-            ->paginate(session('pag'));            
+                ->where('iscriziones.anno', $anno)
+                ->paginate(session('pag'));
         }
- 
-       
+
         $pdf = new TCPDF;
 
         //$nbol2 = 1;//$data->count();
@@ -275,8 +271,6 @@ class PdfController extends Controller
 
     public function PdfEtichette(Request $req)
     {
- 
- 
 
         $anno = $req->etichette_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
@@ -288,27 +282,28 @@ class PdfController extends Controller
          */
         if ($tip == 1) {
             //$datis = Servizio::find(1);
-            $datis= DB::table('servizios')->where('nome', 'check')->first();
+            $datis = DB::table('servizios')->where('nome', 'check')->first();
             $dt = explode(',', $datis->dati);
             $sheet1Data = Soci::find($dt);
 
             // cancella i chck selezionati
-          /*  $servizio = Servizio::find(1);
-            $servizio->nome = 'soci';
-            $servizio->uso = 'selChck';
-            $servizio->dati = '';
-            $servizio->save();*/
+            /*  $servizio = Servizio::find(1);
+        $servizio->nome = 'soci';
+        $servizio->uso = 'selChck';
+        $servizio->dati = '';
+        $servizio->save();*/
         }
 
         if ($tip == 2) {
-            $sheet1Data = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->get();
+            // $sheet1Data = DB::table('socis')->where('socis.anno', $anno)->orderBy('id', 'DESC')->get();
+            $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->where('iscriziones.anno', $anno)
+                ->get();
         }
-
-
 
         $pdf = new TCPDF;
 
-        $nbol = $sheet1Data->count();
+        $netichette = $sheet1Data->count();
 
         $anno = date('Y');
         $inizio = '01-01-' . $anno;
@@ -360,52 +355,69 @@ class PdfController extends Controller
 
         // Page number
         //$pdf::Cell(0, 5, 'Pagina ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
-   
 
+       
         $incr = 0;
-        $inc = 0;
-        
-        $net = (int) ($nbol / 24);
-        for ($bol = 0; $bol <= $net; $bol++) {
-            $nr = $nbol;//8;
-            $pv = 0;
+        $nrighe = 0;
+        $spost_destra = -70; // posizione orrizontale nella riga (larghezza etichetta)
+        $spost_vertic = 3; // bordo pagina sopra 
+        $bordo_sopra = 3;
+        $n_etic_x_pagina = 24;
+        $altezza_etic = 37;
+        $pagine = (int) ($netichette / $n_etic_x_pagina);
+       
+        $rig = 8; 
+
+            for ($re = 0; $re < $netichette; $re++) {
+
+                $spost_destra = $spost_destra + 70;
+                if ($spost_destra > 140) {
+                    $spost_destra = 0;
+                    $spost_vertic = $spost_vertic +  $altezza_etic; // posizione verticale della riga
+                    $nrighe++;
  
-            $poor = -70;// posizione orrizontale nella riga
-            for ($r = 0; $r <= $nr; $r++) {
-                if ($inc == 8) {
-                    $pv = 0;
+                }
+
+                if ($nrighe == $rig) {
+                    $nrighe = 0;
+                    $spost_vertic = $bordo_sopra;
                     $pdf::AddPage('P', 'A4');
                 }
-                $poor = $poor + 70;
-                if($poor > 140){
-                    $poor = 0;
-                    $pv = $pv + 30;// posizione verticale della riga
-                }
-             
 
-                if (isset($sheet1Data[$r]->nome)) {
-                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;' . $sheet1Data[$r]->nome . '&nbsp;&nbsp;' . $sheet1Data[$r]->cognome . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$r]->indirizzo . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$r]->cap . '&nbsp;&nbsp;' . $sheet1Data[$r]->localita . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$r]->sigla_provincia . '
+                $xx = 'xx';
+                if (isset($sheet1Data[$re]->nome)) {
+                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;' . $sheet1Data[$re]->nome . '&nbsp;&nbsp;' . $sheet1Data[$re]->cognome . '
+                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->indirizzo . '
+                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->cap . '&nbsp;&nbsp;' . $sheet1Data[$re]->localita . '
+                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->sigla_provincia . '
                     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span style="font-size:8px">' . $sheet1Data[$r]->consegna . '</span>
+                    <span style="font-size:8px">' . $sheet1Data[$re]->consegna . '</span>
+                     </div>';
+                } else {
+                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="font-size:8px">' . $xx . '</span>
                      </div>';
                 }
 
-                $pdf::writeHTMLCell(70, 36, $poor, $pv,  $htmlx, 0, 0, 0, true, '', true);
-
+                $pdf::writeHTMLCell(70, 36, $spost_destra, $spost_vertic, $htmlx, 0, 0, 0, true, '', true);
+                
+  
             }
+
             $pdf::Ln(0);
 
             $pdf::SetFillColor(255, 255, 255);
             $titolo_doc = 'Ettichette';
-        }
+     
 
         // move pointer to last page
         $pdf::lastPage();
-      
 
         // ---------------------------------------------------------
         //Close and output PDF document
@@ -415,6 +427,5 @@ class PdfController extends Controller
 
         exit();
     }
-
 
 }

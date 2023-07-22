@@ -2,7 +2,7 @@
 
 <div class="container">
     <br>
-    <h1 class='tit-add'>Iscrizioni</h1>
+    <h1 class='tit-add'>Lista iscrizioni</h1>
 
     <link rel="stylesheet" href="/css/app.css">
 

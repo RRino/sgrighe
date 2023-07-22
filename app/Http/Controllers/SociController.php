@@ -61,10 +61,10 @@ class SociController extends Controller
                 'iscriziones.anno as iscrizione_anno',
                 'iscriziones.socio_id',
             )
-                ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+                ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('iscriziones.anno', '=', session('anno'))
-                ->orWhere('iscriziones.anno', '=', null)
+               // ->orWhere('iscriziones.anno', '=', null)
                 ->paginate(session('pag'));
         } else {
             $viewData["socis"] = Soci::select('socis.id',
@@ -92,7 +92,9 @@ class SociController extends Controller
                 'iscriziones.socio_id',
             )
                 ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+                ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->paginate(session('pag'));
+             
         }
 
         return view('soci.index')->with("viewData", $viewData);
