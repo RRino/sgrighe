@@ -141,6 +141,7 @@
 
 
                 <div class="card-body">
+                    {{ count($viewData['socis'] ). ' x numero totale mettere N. righe > 500'}}
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
@@ -167,7 +168,7 @@
                                 <tr>
                                     <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
-                                    <td><a href="/singolo/{{ $soci->getId() }}">{{ $soci->getId() }}</a></td>
+                                    <td><a href="/singolo/{{ $soci->getId() }}">Edit</a></td>
 
                                     <td>{{ $soci->getNome() }}</td>
                                     <td>{{ $soci->getCognome() }}</td>

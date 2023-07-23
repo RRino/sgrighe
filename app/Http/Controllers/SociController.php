@@ -97,8 +97,7 @@ class SociController extends Controller
             )
                 ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
-                ->paginate(session('pag'));
-             
+                ->paginate(session('pag'));   
         }
 
         return view('soci.index')->with("viewData", $viewData);
