@@ -7,12 +7,26 @@
 
 
 <style>
-    .nrighe {
-        width: 200px;
+
+
+    .wanno {
+        width: 50px;
     }
 
-    .col-sm-4.wanno {
-        width: 200px;
+.frighe{
+    width:200px;
+}
+.fanno{
+    width:200px;
+}
+
+.fcognome{
+    width:300px;
+}
+
+    .te {
+        white-space: nowrap;
+        margin-right: 3px;
     }
 </style>
 
@@ -66,250 +80,264 @@
 
                         <div class="container">
                             <div class="row">
-                                <div class="col-sm">
+                                <div class="col-4">
                                     <!-- input numero righe -->
-                                    <form class="nrighe" action="/paginazione" method="POST">
+                                    <form class="frighe" action="/paginazione" method="POST">
                                         @csrf
                                         <div class="row">
-                                            <div class="col-sm-4">
-                                                <label for="nom" class="">N.righe</label>
-                                            </div>
-                                            <div class="col-sm-4 wanno">
-                                                <input type="text" class="form-control" id="nom" name="rows"
-                                                    value="{{ session('pag') }}" placeholder="Numero Righe">
+                                            <div class="input-group">
+                                                <label for="nom" class="te">N.righe</label>
+                                                <input type="text" class="form-control te " id="nom" name="rows"
+                                                    value="{{ session('pag') }}" placeholder="N. righe visualizzate">
+                                                <button type="submit" class="btn btn-success bt-sm te">Invia</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-sm">
+                                <div class="col-4">
                                     <!-- input anno -->
-                                    <form class="nrighe" action="/selAnno" method="POST">
+                                    <form class="fanno" action="/selAnno" method="POST">
                                         @csrf
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <label for="nom" class="">Anno</label>
-                                            </div>
-                                            <div class="col-sm-4 wanno">
-                                                <input type="text" class="form-control" id="nom" name="anno"
-                                                    value="{{ session('anno') }}" placeholder="inserire anno o 'tutti'">
-                                            </div>
+
+                                        <div class="input-group">
+                                            <input type="text" class="form-control te wanno" id="nom"
+                                                name="anno" value="{{ session('anno') }}"
+                                                placeholder="inserire anno o  tutti ">
+                                            <button type="submit" class="btn btn-success bt-sm te">Anno
+                                                rinnovo</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div class="col-4">
+                                    <!-- input cognome-->
+                                    <form class="fcognome" action="/selAnno" method="POST">
+                                        @csrf
+                                        <div class="input-group gr">
+
+                                            <input type="text" class="form-control te wcognome" id="wcognome"
+                                                name="anno" value="" placeholder="inserire un cognome ">
+                                            <button type="submit" class="btn btn-success bt-sm te">Cognome</button>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-sm">
-                                    Inserire valore nel box e premere Invio
 
-                                </div>
+                                </form>
                             </div>
                         </div>
 
 
-
-
-
                     </div>
-                    <div class="colo">
+                </div>
 
 
 
-                        <div class="card-body">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Sel</th>
-                                        <th scope="col">Id</th>
 
-                                        <th scope="col">Nome</th>
-                                        <th scope="col"><a href="/list/cognome">Cognome</a></th>
-                                        <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
-                                        <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
-                                        <th scope="col">CAP</th>
-                                        <th scope="col"><a href="/list/localita">Località</a></th>
-                                        <th scope="col"><a href="/list/comune">Comune</a></th>
-                                        <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
 
-                                        <th scope="col">Pubblicato</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($viewData['socis'] as $soci)
-                                        {{-- dd($soci) --}}
-                                        <tr>
-                                            <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}" ></td>
-
-                                            <td><a href="/singolo/{{ $soci->getId() }}">{{ $soci->getId() }}</a></td>
-
-                                            <td>{{ $soci->getNome() }}</td>
-                                            <td>{{ $soci->getCognome() }}</td>
-                                            <td>{{ $soci->getIndirizzo() }}</td>
-                                            <td>{{ $soci->getCap() }}</td>
-                                            <td>{{ $soci->getLocalita() }}</td>
-                                            <td>{{ $soci->getComune() }}</td>
-                                            <td>{{ $soci->getSigla_provincia() }}</td>
-                                            @if ($soci->getPublished() == 'Abilitato')
-                                                <td><a style="color:green"
-                                                        href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
-                                                @else
-                                                <td><a style="color:red"
-                                                        href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
-                                            @endif
-                                            </td>
-                                            <td>{{ $soci->iscrizione_anno }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        {{ $viewData['socis']->links() }}
-                    </div>
-                @endsection
-                <br>
-                <br>
             </div>
+            <div class="colo">
 
-        </div>
+
+
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sel</th>
+                                <th scope="col">Id</th>
+
+                                <th scope="col">Nome</th>
+                                <th scope="col"><a href="/list/cognome">Cognome</a></th>
+                                <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
+                                <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
+                                <th scope="col">CAP</th>
+                                <th scope="col"><a href="/list/localita">Località</a></th>
+                                <th scope="col"><a href="/list/comune">Comune</a></th>
+                                <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
+
+                                <th scope="col">Pubblicato</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($viewData['socis'] as $soci)
+                                {{-- dd($soci) --}}
+                                <tr>
+                                    <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
+
+                                    <td><a href="/singolo/{{ $soci->getId() }}">{{ $soci->getId() }}</a></td>
+
+                                    <td>{{ $soci->getNome() }}</td>
+                                    <td>{{ $soci->getCognome() }}</td>
+                                    <td>{{ $soci->getIndirizzo() }}</td>
+                                    <td>{{ $soci->getCap() }}</td>
+                                    <td>{{ $soci->getLocalita() }}</td>
+                                    <td>{{ $soci->getComune() }}</td>
+                                    <td>{{ $soci->getSigla_provincia() }}</td>
+                                    @if ($soci->getPublished() == 'Abilitato')
+                                        <td><a style="color:green"
+                                                href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                        @else
+                                        <td><a style="color:red"
+                                                href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                    @endif
+                                    </td>
+                                    <td>{{ $soci->iscrizione_anno }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                {{ $viewData['socis']->links() }}
+            </div>
+        @endsection
+        <br>
+        <br>
     </div>
 
+</div>
+</div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-            @if ($errors->any())
-                alert(' Selezionare almeno un Utente [x]');
-            @endif
+<script type="text/javascript">
+    $(document).ready(function() {
 
-            // Crea Bollettini da chckbox selezionato
+        @if ($errors->any())
+            alert(' Selezionare almeno un Utente [x]');
+        @endif
 
-            $('.saveAll').on('click', function(e) {
-                console.log('0clic');
-                var studentIdArr = [];
-                $(".checkbox:checked").each(function() {
-                    studentIdArr.push($(this).attr('data-id'));
-                });
-                console.log('1st ' + studentIdArr);
-                if (studentIdArr.length <= 0) {
-                    alert("Scegliere almeno un nome [ ]");
-                } else {
-                    var stuId = studentIdArr.join(",");
-                    console.log('2s', stuId);
-                    $.ajax({
-                        url: "{{ url('salvaChck') }}",
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: 'ids=' + stuId,
-                        success: function(data) {
-                            console.log('3dt '.data);
-                            window.location.href = "/bollettini/1";
-                        },
-                        error: function(data) {
-                            alert(data.responseText);
-                        }
-                    });
-                }
+        // Crea Bollettini da chckbox selezionato
+
+        $('.saveAll').on('click', function(e) {
+            console.log('0clic');
+            var studentIdArr = [];
+            $(".checkbox:checked").each(function() {
+                studentIdArr.push($(this).attr('data-id'));
             });
-
-            // Crea etichette da sel. chckbox
-
-            $('.saveEtt').on('click', function(e) {
-                console.log('0clic');
-                var studentIdArr = [];
-                $(".checkbox:checked").each(function() {
-                    studentIdArr.push($(this).attr('data-id'));
-                });
-                console.log('1st ' + studentIdArr);
-                if (studentIdArr.length <= 0) {
-                    alert("Scegliere almeno un nome [ ]");
-                } else {
-                    var stuId = studentIdArr.join(",");
-                    console.log('2s', stuId);
-                    $.ajax({
-                        url: "{{ url('salvaChck') }}",
-                        type: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        data: 'ids=' + stuId,
-                        success: function(data) {
-                            console.log('3dt '.data);
-                            window.location.href = "/etichette/1";
-                        },
-                        error: function(data) {
-                            alert(data.responseText);
-                        }
-                    });
-                }
-            });
-
-
-            // Del socio sel. checkbox
-
-            $('.del_socio').on('click', function(e) {
-                console.log('clic');
-
-                var eticIdArr = [];
-                $(".checkbox:checked").each(function() {
-                    eticIdArr.push($(this).attr('data-id'));
-
-                });
-                console.log('st ' + eticIdArr);
-                if (eticIdArr.length <= 0) {
-                    alert("Scegliere almeno un nome [ ]");
-                } else {
-                    sicuro = confirm('Sei sicuro?');
-                    console.log('sicuro ' + sicuro);
-                    if (sicuro) {
-                        //if (confirm("Sicuro?")) {
-                        var etiId = eticIdArr.join(",");
-                        console.log('datax ' + etiId);
-                        $.ajax({
-                            url: "{{ url('salvaChck') }}",
-                            type: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: 'ids=' + etiId,
-                            success: function(data) {
-                                window.location.href = "/deleteSoci/1";
-                            },
-                            error: function(data) {
-                                alert('ERRORE'.data.responseText);
-                            }
-                        });
-                        //}
-                    }
-                }
-            });
-
-
-        });
-    </script>
-
-
-    <!-- Cambia stato published -->
-    <script>
-        $(function() {
-            $('.form-check-input').change(function() {
-                var status = $(this).prop('checked') == true ? 1 : 0;
-                var user_id = $(this).data('id');
+            console.log('1st ' + studentIdArr);
+            if (studentIdArr.length <= 0) {
+                alert("Scegliere almeno un nome [ ]");
+            } else {
+                var stuId = studentIdArr.join(",");
+                console.log('2s', stuId);
                 $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: '/changeStatus',
-                    data: {
-                        'status': status,
-                        'user_id': user_id
+                    url: "{{ url('salvaChck') }}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
+                    data: 'ids=' + stuId,
                     success: function(data) {
-                        console.log(data.success)
+                        console.log('3dt '.data);
+                        window.location.href = "/bollettini/1";
+                    },
+                    error: function(data) {
+                        alert(data.responseText);
                     }
                 });
-            })
+            }
+        });
+
+        // Crea etichette da sel. chckbox
+
+        $('.saveEtt').on('click', function(e) {
+            console.log('0clic');
+            var studentIdArr = [];
+            $(".checkbox:checked").each(function() {
+                studentIdArr.push($(this).attr('data-id'));
+            });
+            console.log('1st ' + studentIdArr);
+            if (studentIdArr.length <= 0) {
+                alert("Scegliere almeno un nome [ ]");
+            } else {
+                var stuId = studentIdArr.join(",");
+                console.log('2s', stuId);
+                $.ajax({
+                    url: "{{ url('salvaChck') }}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: 'ids=' + stuId,
+                    success: function(data) {
+                        console.log('3dt '.data);
+                        window.location.href = "/etichette/1";
+                    },
+                    error: function(data) {
+                        alert(data.responseText);
+                    }
+                });
+            }
+        });
+
+
+        // Del socio sel. checkbox
+
+        $('.del_socio').on('click', function(e) {
+            console.log('clic');
+
+            var eticIdArr = [];
+            $(".checkbox:checked").each(function() {
+                eticIdArr.push($(this).attr('data-id'));
+
+            });
+            console.log('st ' + eticIdArr);
+            if (eticIdArr.length <= 0) {
+                alert("Scegliere almeno un nome [ ]");
+            } else {
+                sicuro = confirm('Sei sicuro?');
+                console.log('sicuro ' + sicuro);
+                if (sicuro) {
+                    //if (confirm("Sicuro?")) {
+                    var etiId = eticIdArr.join(",");
+                    console.log('datax ' + etiId);
+                    $.ajax({
+                        url: "{{ url('salvaChck') }}",
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: 'ids=' + etiId,
+                        success: function(data) {
+                            window.location.href = "/deleteSoci/1";
+                        },
+                        error: function(data) {
+                            alert('ERRORE'.data.responseText);
+                        }
+                    });
+                    //}
+                }
+            }
+        });
+
+
+    });
+</script>
+
+
+<!-- Cambia stato published -->
+<script>
+    $(function() {
+        $('.form-check-input').change(function() {
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var user_id = $(this).data('id');
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: '/changeStatus',
+                data: {
+                    'status': status,
+                    'user_id': user_id
+                },
+                success: function(data) {
+                    console.log(data.success)
+                }
+            });
         })
-    </script>
+    })
+</script>

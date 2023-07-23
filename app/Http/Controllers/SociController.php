@@ -33,8 +33,12 @@ class SociController extends Controller
         Paginator::useBootstrap();
         // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
 
-        $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-            ->paginate(session('pag'));
+        //$viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+         //   ->paginate(session('pag'));
+
+
+//session(['pag' => 500]);
+
 
         if (session('anno') != 'tutti') {
             $viewData["socis"] = Soci::select('socis.id',
@@ -123,7 +127,7 @@ class SociController extends Controller
          *
          * /selAnnousato in  -- soci.index.blade
          */
-
+        session(['anno' => 500]);
         session(['anno' => $req->anno]);
         return redirect('/list');
     }
