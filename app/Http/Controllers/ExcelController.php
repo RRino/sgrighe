@@ -102,7 +102,6 @@ class ExcelController extends Controller
             $startcount = 2;
             $data = array();
 
-
             foreach ($row_range as $row) {
                 $data[] = [
                     'id' => $sheet->getCell('X' . $row)->getValue(),
@@ -132,6 +131,10 @@ class ExcelController extends Controller
             }
 
             foreach ($row_range as $row) {
+                if ($sheet->getCell('G' . $row)->getValue() == null) {
+                    // dd($sheet->getCell('H' . $row)->getValue(),$sheet->getCell('A' . $row)->getValue());
+                
+                   }else{
                 $iscrizione[] = [
                     //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
                     'nome' => $sheet->getCell('B' . $row)->getValue(),
@@ -141,20 +144,25 @@ class ExcelController extends Controller
                     'description' => $sheet->getCell('N' . $row)->getValue(),
 
                 ];
+               }
                 $startcount++;
             }
 
             foreach ($row_range as $row) {
-                $iscrizione2[] = [
+                if ($sheet->getCell('H' . $row)->getValue() == null) {
+                 // dd($sheet->getCell('H' . $row)->getValue(),$sheet->getCell('A' . $row)->getValue());
+             
+                }else{
+                    $iscrizione2[] = [
+                        //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
+                        'nome' => $sheet->getCell('B' . $row)->getValue(),
+                        'cognome' => $sheet->getCell('A' . $row)->getValue(),
+                        'socio_id' => $sheet->getCell('X' . $row)->getValue(),
+                        'anno' => $sheet->getCell('H' . $row)->getValue(),
+                        'description' => $sheet->getCell('N' . $row)->getValue(),
 
-                    //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
-                    'nome' => $sheet->getCell('B' . $row)->getValue(),
-                    'cognome' => $sheet->getCell('A' . $row)->getValue(),
-                    'socio_id' => $sheet->getCell('X' . $row)->getValue(),
-                    'anno' => $sheet->getCell('H' . $row)->getValue(),
-                    'description' => $sheet->getCell('N' . $row)->getValue(),
-
-                ];
+                    ];
+                }
                 $startcount++;
             }
 //-------------------------- Soci -----------------------------------
@@ -169,22 +177,10 @@ class ExcelController extends Controller
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             DB::table('iscriziones')->insert($iscrizione);
 
- //-------------------------- Iscrizion2 -----------------------------------
+            //-------------------------- Iscrizion2 -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             DB::table('iscriziones')->insert($iscrizione2);
-
-            /**
-             *  @if($query->sixth_step)
-                * <li id="step6">
-            *<strong>Schritt 6<br>
-               * {{$query->sixth_step}}
-            *</strong>
-           *</li>
-           * @endif
-             * 
-             * 
-             */
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
