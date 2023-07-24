@@ -22,8 +22,9 @@ class PdfController extends Controller
 
         $anno = $req->bollettini_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
-        //    window.location.href = "/bollettini/1";
+        // window.location.href = "/bollettini/1";
         $tip = $req->tipo;
+        $causale = $req->causale;
 
         /**
          * legge tabella database dove ajax ha memorizzato i check selezionati
@@ -53,7 +54,7 @@ class PdfController extends Controller
         $inizio = '01-01-' . $anno;
         $costo = 20;
 
-        $causale = "ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste";
+       // $causale = "ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste";
         if (strlen($causale) < 3) {
             echo "Verifica  la causale nella tabella (#__gestionea_parametri)";
             exit;
