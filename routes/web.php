@@ -69,10 +69,11 @@ Route::controller(SociController::class)->group(function () {
     Route::post('editSocio', 'update');// ok Aggiorna Socio usato in soci.edit.blade
     Route::get('singolo/{id}', 'singolo'); // ok Visualizza dati singolo socio 
 
-    Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
-    Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
+    //Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
+   // Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
     Route::get('deleteSoci/{id}', 'sociCancella'); // ok Cancella socio dal database 'deleteSoci/1' è richiamata da $ajax in index.blade
     Route::POST('/selAnno', 'selAnno');
+    Route::POST('/selCognome', 'selCognome');
 });
 
 Route::controller(IscrizioneController::class)->group(function () {

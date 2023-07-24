@@ -7,22 +7,25 @@
 
 
 <style>
-
-
     .wanno {
         width: 50px;
     }
 
-.frighe{
-    width:200px;
-}
-.fanno{
-    width:200px;
-}
+    .frighe {
+        width: 200px;
+    }
 
-.fcognome{
-    width:300px;
-}
+    .fanno {
+        width: 200px;
+    }
+
+    .fcognome {
+        width: 300px;
+    }
+
+    .coloreanno {
+        color: red;
+    }
 
     .te {
         white-space: nowrap;
@@ -38,7 +41,7 @@
     <div class="container-fluid">
         <div class="card mb-4">
             <div class="card-header">
-                <a class="btn btn-primary btn-sm filt" href="{{ '/formFiltroAnno' }}" role="button">Filtro anno rinnovo</a>
+              
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
 
@@ -80,123 +83,136 @@
 
                         <div class="container">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <!-- input numero righe -->
                                     <form class="frighe" action="/paginazione" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="input-group">
-                                                <label for="nom" class="te">N.righe</label>
+                                                
                                                 <input type="text" class="form-control te " id="nom" name="rows"
                                                     value="{{ session('pag') }}" placeholder="N. righe visualizzate">
-                                                <button type="submit" class="btn btn-success bt-sm te">Invia</button>
+                                                <button type="submit" class="btn btn-success bt-sm te">N.Righe</button>
                                             </div>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <!-- input anno -->
                                     <form class="fanno" action="/selAnno" method="POST">
                                         @csrf
 
                                         <div class="input-group">
                                             <input type="text" class="form-control te wanno" id="nom"
-                                                name="anno" value="{{ session('anno') }}"
-                                                placeholder="inserire anno o  tutti ">
+                                                name="anno" value="" placeholder="inserire anno o  tutti ">
                                             <button type="submit" class="btn btn-success bt-sm te">Anno
                                                 rinnovo</button>
                                         </div>
 
                                     </form>
                                 </div>
+                                <div class="col-3">
+                                    <form class="fanno" action="/selAnno" method="POST">
+                                        @csrf
 
-                                <div class="col-4">
+                                        <div class="input-group">
+                                            <input type="hidden" class="form-control te wanno" id="nom"
+                                                name="anno" value="tutti" placeholder="inserire anno o  tutti ">
+                                            <button type="submit" class="btn btn-success bt-sm te">Tutti</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+
+                                <div class="col-3">
                                     <!-- input cognome-->
-                                    <form class="fcognome" action="/selAnno" method="POST">
+                                    <form class="fcognome" action="/selCognome" method="POST">
                                         @csrf
                                         <div class="input-group gr">
 
                                             <input type="text" class="form-control te wcognome" id="wcognome"
-                                                name="anno" value="" placeholder="inserire un cognome ">
+                                                name="cognome" value="" placeholder="Cerca un cognome ">
                                             <button type="submit" class="btn btn-success bt-sm te">Cognome</button>
                                         </div>
                                     </form>
                                 </div>
 
-                                </form>
                             </div>
                         </div>
-
-
                     </div>
+
+
                 </div>
-
-
-
-
-
             </div>
-            <div class="colo">
 
 
 
-                <div class="card-body">
-                    {{'Selezionati: '. $viewData['servizio'].' Anno: '.$viewData['anno']}}
-                    <table class="table table-bordered table-striped">
-                        <thead>
+
+
+        </div>
+        <div class="colo">
+
+
+
+            <div class="card-body">
+                {{ 'Selezionati: ' . $viewData['servizio'] }}.<span
+                    class="coloreanno">{{ ' Anno: ' . $viewData['anno'] }}</span>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sel</th>
+                            <th scope="col">Id</th>
+
+                            <th scope="col">Nome</th>
+                            <th scope="col"><a href="/list/cognome">Cognome</a></th>
+                            <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
+                            <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
+                            <th scope="col">CAP</th>
+                            <th scope="col"><a href="/list/localita">Località</a></th>
+                            <th scope="col"><a href="/list/comune">Comune</a></th>
+                            <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
+
+                            <th scope="col">Pubblicato</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach ($viewData['socis'] as $soci)
+                            {{-- dd($soci) --}}
                             <tr>
-                                <th scope="col">Sel</th>
-                                <th scope="col">Id</th>
+                                <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
-                                <th scope="col">Nome</th>
-                                <th scope="col"><a href="/list/cognome">Cognome</a></th>
-                                <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
-                                <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
-                                <th scope="col">CAP</th>
-                                <th scope="col"><a href="/list/localita">Località</a></th>
-                                <th scope="col"><a href="/list/comune">Comune</a></th>
-                                <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
+                                <td><a href="/singolo/{{ $soci->getId() }}">Edit</a></td>
 
-                                <th scope="col">Pubblicato</th>
-
+                                <td>{{ $soci->getNome() }}</td>
+                                <td>{{ $soci->getCognome() }}</td>
+                                <td>{{ $soci->getIndirizzo() }}</td>
+                                <td>{{ $soci->getCap() }}</td>
+                                <td>{{ $soci->getLocalita() }}</td>
+                                <td>{{ $soci->getComune() }}</td>
+                                <td>{{ $soci->getSigla_provincia() }}</td>
+                                @if ($soci->getPublished() == 'Abilitato')
+                                    <td><a style="color:green"
+                                            href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                    @else
+                                    <td><a style="color:red"
+                                            href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                @endif
+                                </td>
+                                <td>{{ $soci->iscrizione_anno }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach ($viewData['socis'] as $soci)
-                                {{-- dd($soci) --}}
-                                <tr>
-                                    <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
-
-                                    <td><a href="/singolo/{{ $soci->getId() }}">Edit</a></td>
-
-                                    <td>{{ $soci->getNome() }}</td>
-                                    <td>{{ $soci->getCognome() }}</td>
-                                    <td>{{ $soci->getIndirizzo() }}</td>
-                                    <td>{{ $soci->getCap() }}</td>
-                                    <td>{{ $soci->getLocalita() }}</td>
-                                    <td>{{ $soci->getComune() }}</td>
-                                    <td>{{ $soci->getSigla_provincia() }}</td>
-                                    @if ($soci->getPublished() == 'Abilitato')
-                                        <td><a style="color:green"
-                                                href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
-                                        @else
-                                        <td><a style="color:red"
-                                                href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
-                                    @endif
-                                    </td>
-                                    <td>{{ $soci->iscrizione_anno }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                {{ $viewData['socis']->links() }}
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        @endsection
-        <br>
-        <br>
-    </div>
+            {{ $viewData['socis']->links() }}
+        </div>
+    @endsection
+    <br>
+    <br>
+</div>
 
 </div>
 </div>

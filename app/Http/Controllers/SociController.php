@@ -27,32 +27,41 @@ class SociController extends Controller
             session(['colOrd' => 'cognome']);
         }
 
+        if ((session('anno') == null)) {
+            session(['anno' => 'tutti']);
+        }
+
+      
         $viewData = [];
         $viewData["title"] = "Lista soci - Anagrafica";
 
         Paginator::useBootstrap();
         // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
 
+
+// -------------------------------------------------------------------------------------
+        /* per contare i record selezionati da anno */
         $viewData["socix"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
             ->paginate(session('pag'));
 
+        if (session('anno') != 'tutti') {
+            $viewData["socix"] = Soci::select('socis.id',
+                'socis.nome',
+                'iscriziones.anno as iscrizione_anno',
+                'iscriziones.socio_id',
+            )
+                ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+                ->where('iscriziones.anno', '=', session('anno'))
+                ->get();
+        } else {
+            $viewData["socix"] = Soci::all();
+        }
 
-            if (session('anno') != 'tutti') {
-        $viewData["socix"] = Soci::select('socis.id',
-            'socis.nome',
-            'iscriziones.anno as iscrizione_anno',
-            'iscriziones.socio_id',
-        )
-            ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
-            ->where('iscriziones.anno', '=', session('anno'))  
-            ->get();
-            }else{
-                $viewData["socix"] = Soci::all();
-            }
+        $numsel = count($viewData["socix"]);
+        $viewData["servizio"] = $numsel;
+        $viewData["anno"] = session('anno');
 
-$numsel = count($viewData["socix"]);
-$viewData["servizio"] = $numsel;
-$viewData["anno"] = session('anno');
+// --------------------------------------------------------------------------
 
         if (session('anno') != 'tutti') {
             $viewData["socis"] = Soci::select('socis.id',
@@ -82,9 +91,44 @@ $viewData["anno"] = session('anno');
                 ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('iscriziones.anno', '=', session('anno'))
+                //->where('socis.cognome', '=', session('cognome'))
             // ->orWhere('iscriziones.anno', '=', null)
                 ->paginate(session('pag'));
-        } else {
+                session(['anno' =>null]);
+
+        } elseif(session('cognome') != null){
+            $viewData["socis"] = Soci::select('socis.id',
+            'socis.nome',
+            'socis.cognome',
+            'socis.indirizzo',
+            'socis.consegna',
+            'socis.cap',
+            'socis.localita',
+            'socis.comune',
+            'socis.sigla_provincia',
+            'socis.email',
+            'socis.pec',
+            'socis.codice_fiscale',
+            'socis.partita_iva',
+            'socis.telefono',
+            'socis.cellulare',
+            'socis.tipo_socio',
+            'socis.published',
+            'socis.created_at',
+            'socis.updated_at',
+            'socis.ultimo',
+            'socis.penultimo',
+            'iscriziones.anno as iscrizione_anno',
+            'iscriziones.socio_id',
+        )
+            ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+            ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+            ->where('socis.cognome', '=', session('cognome'))
+        // ->orWhere('iscriziones.anno', '=', null)
+            ->paginate(session('pag'));
+
+            session(['cognome' =>null]);
+        }else {
             $viewData["socis"] = Soci::select('socis.id',
                 'socis.nome',
                 'socis.cognome',
@@ -111,11 +155,10 @@ $viewData["anno"] = session('anno');
             )
                 ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+                //->where('socis.cognome', '=', session('cognome'))
                 ->paginate(session('pag'));
 
         }
-
-     
 
         return view('soci.index')->with("viewData", $viewData);
     }
@@ -145,6 +188,23 @@ $viewData["anno"] = session('anno');
          */
         session(['anno' => 500]);
         session(['anno' => $req->anno]);
+        return redirect('/list');
+    }
+
+    public function selCognome(Request $req)
+    {
+
+        /**
+         * Route::POST('/selCognome', 'selCognome');
+         * setta anno da filtrare
+         *
+         * /selCognome usato in  -- soci.index.blade
+         */
+        session(['cognome' => '']);
+        session(['cognome' => $req->cognome]);
+
+ 
+
         return redirect('/list');
     }
 
