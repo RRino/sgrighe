@@ -33,12 +33,26 @@ class SociController extends Controller
         Paginator::useBootstrap();
         // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
 
-        //$viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-         //   ->paginate(session('pag'));
+        $viewData["socix"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            ->paginate(session('pag'));
 
 
-//session(['pag' => 500]);
+            if (session('anno') != 'tutti') {
+        $viewData["socix"] = Soci::select('socis.id',
+            'socis.nome',
+            'iscriziones.anno as iscrizione_anno',
+            'iscriziones.socio_id',
+        )
+            ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+            ->where('iscriziones.anno', '=', session('anno'))  
+            ->get();
+            }else{
+                $viewData["socix"] = Soci::all();
+            }
 
+$numsel = count($viewData["socix"]);
+$viewData["servizio"] = $numsel;
+$viewData["anno"] = session('anno');
 
         if (session('anno') != 'tutti') {
             $viewData["socis"] = Soci::select('socis.id',
@@ -68,7 +82,7 @@ class SociController extends Controller
                 ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('iscriziones.anno', '=', session('anno'))
-               // ->orWhere('iscriziones.anno', '=', null)
+            // ->orWhere('iscriziones.anno', '=', null)
                 ->paginate(session('pag'));
         } else {
             $viewData["socis"] = Soci::select('socis.id',
@@ -97,8 +111,11 @@ class SociController extends Controller
             )
                 ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
-                ->paginate(session('pag'));   
+                ->paginate(session('pag'));
+
         }
+
+     
 
         return view('soci.index')->with("viewData", $viewData);
     }

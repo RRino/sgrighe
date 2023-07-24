@@ -141,7 +141,7 @@
 
 
                 <div class="card-body">
-                    {{ count($viewData['socis'] ). ' x numero totale mettere N. righe > 500'}}
+                    {{'Selezionati: '. $viewData['servizio'].' Anno: '.$viewData['anno']}}
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
