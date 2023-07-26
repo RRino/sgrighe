@@ -172,7 +172,7 @@
                             <th scope="col"><a href="/list/localita">Località</a></th>
                             <th scope="col"><a href="/list/comune">Comune</a></th>
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
-
+                            <th scope="col">Consegne</th>
                             <th scope="col">Pubblicato</th>
 
                         </tr>
@@ -193,6 +193,7 @@
                                 <td>{{ $soci->getLocalita() }}</td>
                                 <td>{{ $soci->getComune() }}</td>
                                 <td>{{ $soci->getSigla_provincia() }}</td>
+                                <td>{{ $soci->getConsegna() }}</td>
                                 @if ($soci->getPublished() == 'Abilitato')
                                     <td><a style="color:green"
                                             href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>

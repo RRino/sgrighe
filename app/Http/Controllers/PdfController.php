@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Soci;
+use App\Models\Param_etichette;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -270,12 +271,20 @@ class PdfController extends Controller
 
     }
 
+    /***
+     * Crea pdf etichette
+     * 
+     * 
+     */
     public function PdfEtichette(Request $req)
     {
 
+     
+        $etichetta_nome = $req->etichetta_nome;
+
         $anno = $req->etichette_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
-        //    window.location.href = "/etichette/1";
+        // window.location.href = "/etichette/1";
         $tip = $req->tipo;
 
         /**
@@ -301,6 +310,7 @@ class PdfController extends Controller
                 ->where('iscriziones.anno', $anno)
                 ->get();
         }
+
 
         $pdf = new TCPDF;
 
@@ -357,14 +367,15 @@ class PdfController extends Controller
         // Page number
         //$pdf::Cell(0, 5, 'Pagina ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
-       
+       $datiEtichetta = Param_etichette::where('nome', '=', $etichetta_nome)->firstOrFail();
+      
         $incr = 0;
         $nrighe = 0;
-        $spost_destra = -70; // posizione orrizontale nella riga (larghezza etichetta)
-        $spost_vertic = 3; // bordo pagina sopra 
-        $bordo_sopra = 3;
-        $n_etic_x_pagina = 24;
-        $altezza_etic = 37;
+        $spost_destra = -$datiEtichetta->larghezza;//-70; // posizione orrizontale nella riga (larghezza etichetta)
+        $spost_vertic = $datiEtichetta->spazio_sopra;//3; // bordo pagina sopra 
+        $bordo_sopra = $datiEtichetta->spazio_sopra;//3
+        $n_etic_x_pagina = $datiEtichetta->numero_verticale * $datiEtichetta->numero_orrizontale;// 24;
+        $altezza_etic = $datiEtichetta->altezza;
         $pagine = (int) ($netichette / $n_etic_x_pagina);
        
         $rig = 8; 
@@ -429,4 +440,41 @@ class PdfController extends Controller
         exit();
     }
 
+    public function getFiltroEtichette(){
+
+        $viewData = [];
+        $viewData["TipoEtichette"] = Param_etichette::all();
+
+        return view('pdf.PdfFiltroEtichette')->with("viewData", $viewData);
+
+    }
+
+    public function addParamEtichette(Request $req){
+
+          /**
+         * 
+         *  Route::POST('addIscrizione', 'AddIscrizione'); 
+         * //  aggiunge anno iscrizione
+         * 
+         */
+
+        $viewData = [];
+        $viewData["title"] = "etichette ";
+        $viewData["subtitle"] = "Parametri etichette";
+
+
+        $viewData["param_etichette"] = new Param_etichette;
+        $viewData["param_etichette"]->nome = $req->nome;
+        $viewData["param_etichette"]->spazio_sopra = $req->spazio_sopra;
+        $viewData["param_etichette"]->altezza = $req->altezza;
+        $viewData["param_etichette"]->larghezza = $req->larghezza;
+        $viewData["param_etichette"]->numero_verticale = $req->numero_verticale;
+        $viewData["param_etichette"]->numero_orrizontale = $req->numero_orrizontale;
+        $viewData["param_etichette"]->description = $req->description;
+        $viewData["param_etichette"]->save();
+        //$viewData["socis"] = Soci::find($id);
+
+        return redirect('/etichette_anno');
+
+    }
 }

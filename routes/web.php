@@ -6,6 +6,7 @@ use App\Http\Controllers\IscrizioneController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AnagraficheController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,21 @@ Auth::routes();
 
 
 Route::get('home', [HomeController::class, 'home']);
-Route::get('admin/home', [HomeController::class, 'adminHome'])->middleware('is_admin');
+//Route::get('adminHome', [LoginController::class, 'adminHome'])->middleware('is_admin');
 
 Route::get('superAdmin/home', [HomeController::class, 'superAdminHome'])->middleware('is_admin');
 Route::get('/', [HomeController::class, 'index'])->middleware('is_admin');
+
+
+
+
+Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
+
+
+
+
+
+
 
 //usa database per memorizzare dati da javascript
 Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
@@ -100,11 +112,14 @@ Route::controller(PdfController::class)->group(function () {
      * stessa cosa per le etichette
      */
     Route::view('bollettini_anno', 'pdf.pdfFiltroBollettini'); // pagina con form richiamati da bottone 'Filtra anno bolettini'
-    Route::view('etichette_anno',  'pdf.PdfFiltroEtichette');
+    Route::get('etichette_anno',  'getFiltroEtichette');
     Route::post('creaBollettini_anno', 'PdfBollettini'); // richiamato dal form filtro anno bollettini
+   
     Route::post('etichette_anno',  'PdfEtichette'); 
     Route::get('bollettini/{tipo}', 'PdfBollettini');//usato da bottone "Bollettini da chckbox" che chiama AJAX poi da success in soci.index.blade.php
     Route::get('etichette/{tipo}',  'PdfEtichette');
+
+   Route::post('param_etichette',  'addParamEtichette'); 
 });
 
 Route::get('/nonAut', function () {
