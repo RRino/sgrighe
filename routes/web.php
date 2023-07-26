@@ -26,20 +26,13 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 
-Route::get('home', [HomeController::class, 'home']);
-//Route::get('adminHome', [LoginController::class, 'adminHome'])->middleware('is_admin');
 
 Route::get('superAdmin/home', [HomeController::class, 'superAdminHome'])->middleware('is_admin');
 Route::get('/', [HomeController::class, 'index'])->middleware('is_admin');
 
 
-
-
+Route::get('home', [HomeController::class, 'home'])->name('home');
 Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
-
-
-
-
 
 
 
