@@ -6,11 +6,14 @@
     height:200px;
     margin:5px;
 }
+.pl{
+    width:100%;
+}
     </style>
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -22,7 +25,7 @@
                     @endif
 
                
-                   <img src="{{ asset('/img/cartelle.png') }}" class="img_fluid">
+                   <img src="{{ asset('/img/palazzo-rossi.jpg') }}" class="pl">
                 </div>
             </div>
         </div>

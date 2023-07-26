@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('Accesso come utente!') }}
+
+                    <a class="btn btn-success btn-sm" href="{{ '/' }}" role="button">Home</a>
                 </div>
             </div>
         </div>
