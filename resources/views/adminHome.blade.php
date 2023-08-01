@@ -8,6 +8,7 @@
                 <div class="card-header">Dashboard</div>
                 <div class="card-body">
                     You are Admin.
+                    <a class="btn btn-success btn-sm" href="{{ '/anagrafiche' }}" role="button">Anagrafica</a>
                 </div>
             </div>
         </div>

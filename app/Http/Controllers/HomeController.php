@@ -1,65 +1,25 @@
 <?php
+    namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        $viewData = [];
+        $viewData["title"] = "Home Page - Online Store";
+        return view('home.index')->with("viewData", $viewData);
     }
-
-      /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function adminHome()
-    {
-        return view('adminHome');
-    }
-
-    public function superAdminHome()
-    {
-        return view('superAdminHome');
-    }
-
-    public function home()
-    {
-        return view('home');
-    }
-
-     public function user()
-    {
-        return view('home');
-    } 
-    
 
     public function about()
     {
         $viewData = [];
-        $viewData["title"] = "About us - 10 Righe APS";
+        $viewData["title"] = "About us - Online Store";
         $viewData["subtitle"] = "About us";
         $viewData["description"] = "This is an about page ...";
         $viewData["author"] = "Developed by: Felipe Alvarez";
         return view('home.about')->with("viewData", $viewData);
     }
 }
-

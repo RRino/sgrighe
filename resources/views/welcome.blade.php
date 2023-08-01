@@ -10,6 +10,23 @@
     width:100%;
 }
     </style>
+
+<style>
+    html, body {
+        background-image: url("/img/palazzo-rossi.jpg");
+        background-position:center;
+             background-repeat:no-repeat;
+             background-size:cover;
+               background-color: #87CEEB;
+               color: #636b6f;
+               /*font-family: 'Raleway', sans-serif;*/
+               font-weight: 100;
+               height: 100vh;
+               margin: 0;
+    }
+
+ </style>
+
 @section('content')
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -23,9 +40,10 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-               
-                   <img src="{{ asset('/img/palazzo-rossi.jpg') }}" class="pl">
+                    
+              
+ 
+                    
                 </div>
             </div>
         </div>

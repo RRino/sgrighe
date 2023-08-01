@@ -22,10 +22,18 @@
                     @endif
 
     
-                    <a class="btn btn-secondary " href="{{ '/consegne' }}" role="button">Consegne</a>
-                    <a class="btn btn-primary " href="{{ '/tipo_socio' }}" role="button">Tipo socio</a>
+                                  
+                    <img src="{{ asset('/img/il-tuo-ente.png') }}" class="img_fluid">
+                    <a href="/anagrafiche"><img src="{{ asset('/img/anagrafiche.png') }}" class="img_fluid"></a>
+                    <a  href="{{ '/list' }}"> <img src="{{ asset('/img/associati.png') }}" class="img_fluid"></a>
+                   
+                    <img src="{{ asset('/img/email.png') }}" class="img_fluid">
+ 
+                    <img src="{{ asset('/img/contabilita.png') }}" class="img_fluid">
+                    <img src="{{ asset('/img/organi-sociali.png') }}" class="img_fluid">
+                    <img src="{{ asset('/img/progetti.png') }}" class="img_fluid">
+                    <img src="{{ asset('/img/cartelle.png') }}" class="img_fluid">
 
-                
                 </div>
             </div>
         </div>

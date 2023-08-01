@@ -17,6 +17,9 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        {{-- dd(if(Auth::user()->is_admin!=null)) --}}
+       
+
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
                 <a class="nav-link active" href="/">Home</a>
@@ -29,6 +32,7 @@
                 @guest
                     <a class="nav-link active" href="{{ route('login') }}">Login</a>
                     <a class="nav-link active" href="{{ route('register') }}">Register</a>
+                    guest
                 @else
                     <a class="nav-link active" href="{{-- route('myaccount.orders') --}}">My Orders</a>
                     <form id="logout" action="{{ route('logout') }}" method="POST">
@@ -36,10 +40,20 @@
                             onclick="document.getElementById('logout').submit();">Logout</a>
                         @csrf
                     </form>
+
                     <div class="nome_user_login">
-                        {{ Auth::user()->name }}
+                        {{-- $user=\App\User::where('email',$request->email)->first() --}}
+                        {{-- dd(Auth::user()->is_admin) --}}
+                        {{-- Auth::user()->name&&$user->user_type==2 --}}
+
                     </div>
                 @endguest
+
+                @if (Auth::user())
+                    0
+                @endif
+
+
             </div>
         </div>
 </nav>

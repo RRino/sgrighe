@@ -194,6 +194,7 @@
 
             </form>
             <br>
+          
             <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
             <a class="btn btn-success btn-sm" href="{{ '/list' }}" role="button">Lista</a>
             <br>

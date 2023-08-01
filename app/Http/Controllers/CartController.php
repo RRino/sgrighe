@@ -48,6 +48,7 @@ class CartController extends Controller
 
     public function purchase(Request $request)
     {
+        
         $productsInSession = $request->session()->get("products");
         if ($productsInSession) {
             $userId = Auth::user()->getId();

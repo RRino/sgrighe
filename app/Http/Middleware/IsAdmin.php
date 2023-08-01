@@ -33,7 +33,7 @@ class IsAdmin
             return $next($request);
         }
    
-        return redirect(‘home’)->with(‘error’,"You don't have admin access.");
+        return redirect('home')->with('error',"You don't have admin access.");
     }
 
     /*

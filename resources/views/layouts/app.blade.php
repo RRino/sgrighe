@@ -110,6 +110,15 @@
                         </div>
                     </div>
 
+                    <!-- footer -->
+    <div class="copyright py-4 text-center text-white">
+        <div class="container"> <small>
+                @yield('footer', 'Footer')
+            </small> </div>
+            <a href="{{ route('admin.home.index') }}" class="btn btn-link">Admin site</a>
+    </div>
+    <!-- footer -->
+    
                     <div class="text-center">
                         @yield('title')
                         <br>
@@ -146,11 +155,9 @@
 
     <script>
         /*  let statox = sessionStorage.getItem("stato");
-                                                                                                        if(statox == 'aperta'){
-                                                                                                            document.getElementById("mySidebar").style.display = "block";
-                                                                                                        }else{
-                                                                                                            document.getElementById("mySidebar").style.display = "none"; 
-                                                                                                        }*/
+           if(statox == 'aperta'     
+             document.getElementById("mySidebar").style.display = "none";   
+                   }*/
     </script>
 
 </body>

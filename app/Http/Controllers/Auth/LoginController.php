@@ -38,6 +38,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
    
+   // non usato in sg
     public function login(Request $request)
     {   
         $input = $request->all();
