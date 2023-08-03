@@ -32,7 +32,6 @@
                 @guest
                     <a class="nav-link active" href="{{ route('login') }}">Login</a>
                     <a class="nav-link active" href="{{ route('register') }}">Register</a>
-                    guest
                 @else
                     <a class="nav-link active" href="{{-- route('myaccount.orders') --}}">My Orders</a>
                     <form id="logout" action="{{ route('logout') }}" method="POST">
@@ -44,14 +43,11 @@
                     <div class="nome_user_login">
                         {{-- $user=\App\User::where('email',$request->email)->first() --}}
                         {{-- dd(Auth::user()->is_admin) --}}
-                        {{-- Auth::user()->name&&$user->user_type==2 --}}
+                        {{  Auth::user()->name }}
 
                     </div>
                 @endguest
 
-                @if (Auth::user())
-                    0
-                @endif
 
 
             </div>

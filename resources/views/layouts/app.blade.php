@@ -51,7 +51,8 @@
     #dropdownMenuButton1 {
         color: black;
     }
-    #mySidebar{
+
+    #mySidebar {
         /*position:absolute !important;*/
     }
 </style>
@@ -60,15 +61,15 @@
 
 <body>
     <div>
- 
 
-        <div >
+
+        <div>
             <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
                 <button class="w3-button w3-teal bchiudi" onclick="w3_close()">Chiudi &times;</button>
-    
+
                 <a href="/products" class="w3-bar-item w3-button">Riviste</a>
                 <a href="/admin/products" class="w3-bar-item w3-button w3-hover-green">Magazzino riviste</a>
-    
+
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="true">
@@ -88,17 +89,17 @@
                         Import Export Excel
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                      
+
                         <li><a class="dropdown-item" href="/formExcel_soci">Soci</a></li>
                         <hr>
-                      
+
                         <li><a class="dropdown-item" href="/formExcel_iscrizioni">Iscrizioni</a></li>
                     </ul>
                 </div>
             </div>
             <div>
                 @include('includes.footer')
-                <div id="main" >
+                <div id="main">
 
                     <div class="w3-teal">
                         <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
@@ -110,15 +111,8 @@
                         </div>
                     </div>
 
-                    <!-- footer -->
-    <div class="copyright py-4 text-center text-white">
-        <div class="container"> <small>
-                @yield('footer', 'Footer')
-            </small> </div>
-            <a href="{{ route('admin.home.index') }}" class="btn btn-link">Admin site</a>
-    </div>
-    <!-- footer -->
-    
+
+
                     <div class="text-center">
                         @yield('title')
                         <br>
@@ -129,7 +123,14 @@
                     </div>
 
                 </div>
-              
+                <!-- footer -->
+             <!--   <div class="copyright py-4 text-center text-white">
+                    <div class="container"> <small>
+                            @yield('footer', 'Footer')
+                        </small> </div>
+                    <a href="{{-- route('admin.home.index') --}}" class="btn btn-link">Admin site</a>
+                </div>-->
+                <!-- footer -->
             </div>
         </div>
 
@@ -155,9 +156,9 @@
 
     <script>
         /*  let statox = sessionStorage.getItem("stato");
-           if(statox == 'aperta'     
-             document.getElementById("mySidebar").style.display = "none";   
-                   }*/
+               if(statox == 'aperta'     
+                 document.getElementById("mySidebar").style.display = "none";   
+                       }*/
     </script>
 
 </body>

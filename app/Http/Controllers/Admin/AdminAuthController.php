@@ -22,7 +22,12 @@ class AdminAuthController extends Controller
         if(auth()->guard('admin')->attempt(['email' => $request->input('email'),  'password' => $request->input('password')])){
             $user = auth()->guard('admin')->user();
             if($user->is_admin == 1){
+                dd('AdminAuthController','$user->is_admin == 1');
                 return redirect()->route('adminDashboard')->with('success','You are Logged in sucessfully.');
+            }
+            if($user->is_admin == 2){
+                dd('AdminAuthController','$user->is_admin == 2');
+                return redirect()->route('adminDashboard')->with('success','You are Logged in sucessfully...');
             }
         }else {
             return back()->with('error','Whoops! invalid email and password.');

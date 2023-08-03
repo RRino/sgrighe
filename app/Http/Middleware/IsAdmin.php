@@ -13,7 +13,7 @@ class IsAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-  /*  public function handle(Request $request, Closure $next): Response
+     public function handle(Request $request, Closure $next): Response
     {
         
         if(auth()->check() && auth()->user()->is_admin == 1){
@@ -25,16 +25,16 @@ class IsAdmin
         }
         //return response('not allowed to take this action', 500);
        return redirect('/nonAut');   
-    }*/
+    } 
 
-    public function handle($request, Closure $next)
+  /*  public function handle($request, Closure $next)
     {
         if(auth()->user()->is_admin == 1){
             return $next($request);
         }
    
         return redirect('home')->with('error',"You don't have admin access.");
-    }
+    }*/
 
     /*
             if (auth()->user()->is_admin == 1) {

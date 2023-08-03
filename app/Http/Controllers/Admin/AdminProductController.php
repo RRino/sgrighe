@@ -20,6 +20,7 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         
+
         Product::validate($request);
 
         $newProduct = new Product();
@@ -32,8 +33,7 @@ class AdminProductController extends Controller
 
         if ($request->hasFile('image')) {
             $imageName = $newProduct->getId().".".$request->file('image')->extension();
-            Storage::disk('public')->put(
-                $imageName,
+            Storage::disk('public')->put($imageName,
                 file_get_contents($request->file('image')->getRealPath())
             );
             $newProduct->setImage($imageName);

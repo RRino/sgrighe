@@ -14,4 +14,12 @@ class AdminHomeController extends Controller
         $viewData["title"] = "Admin Page - Admin - Online Store";
         return view('admin.home.index')->with("viewData", $viewData);
     }
+
+    public function superindex()
+    {
+        $viewData = [];
+        $viewData["title"] = "Admin Page - Admin - Online Store";
+        dd('AdminHomeController','superindex()');
+        return view('admin.super.index')->with("viewData", $viewData);
+    }
 }
