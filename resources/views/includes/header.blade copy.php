@@ -17,7 +17,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-    
        
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -30,27 +29,25 @@
                 </a>
                 <div class="vr bg-white mx-2 d-none d-lg-block"></div>
 
-
-  
-
-                            <!-- ----------------------------->
-            
-                            @guest
-                            <a class="nav-link active" href="{{ route('login') }}">Login</a>
-                            <a class="nav-link active" href="{{ route('register') }}">Register</a>
-                            @else
-                            <div>
-                                <a class="nav-link active" href="{{ route('myaccount.orders') }}">{{ Auth::user()->getName() }}</a>
-                                <a class="nav-link active" href="#" >${{ Auth::user()->getBalance() }}</a>
-                            </div>
-                            <form id="logout" action="{{ route('logout') }}" method="POST">
-                                <a role="button" class="nav-link active"
-                                    onclick="document.getElementById('logout').submit();">Logout</a>
-                                @csrf
-                            </form>
-                        @endguest 
                 
-                   <!--------------->
+                @guest
+                    <a class="nav-link active" href="{{ route('login') }}">Login</a>
+                    <a class="nav-link active" href="{{ route('register') }}">Register</a>
+                @else
+                    <a class="nav-link active" href="{{-- route('myaccount.orders') --}}">My Orders</a>
+                    <form id="logout" action="{{ route('logout') }}" method="POST">
+                        <a role="button" class="nav-link active"
+                            onclick="document.getElementById('logout').submit();">Logout</a>
+                        @csrf
+                    </form>
+
+                    <div class="nome_user_login">
+                        {{-- $user=\App\User::where('email',$request->email)->first() --}}
+                     
+                        {{  Auth::user()->name }}
+
+                    </div>
+                @endguest
 
 
 

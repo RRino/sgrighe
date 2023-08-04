@@ -23,7 +23,7 @@
 
 </head>
 
-{{-- dd($viewData["socis"]->getId()) --}}
+
 
 <div class="container-sm">
 

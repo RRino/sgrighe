@@ -360,7 +360,7 @@ class SociController extends Controller
         $viewData["soci"] = Soci::find($id);
         $viewData["consegnes"] = Consegne::all();
         $viewData["iscriziones"] = Iscrizione::orderBy('anno', 'DESC')->get();
-        // dd($viewData);
+    
         return view('soci.edit')->with("viewData", $viewData);
     }
 

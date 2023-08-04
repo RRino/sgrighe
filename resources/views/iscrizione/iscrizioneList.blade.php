@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="/css/app.css">
 
-    {{-- dd($iscriziones) --}}
+
 
 
 
@@ -16,7 +16,7 @@
 
         <!-- FILE: app/views/main/index.blade.php -->
 
-        {{-- dd($iscriziones) --}}
+ 
 
     @stop
 
@@ -36,7 +36,7 @@
 
         </tr>
          
-            {{-- dd($viewData['iscrizioni']) --}}
+           
         
             @foreach ($viewData['iscrizioni'] as $anag)
             <tr class="colo-list">

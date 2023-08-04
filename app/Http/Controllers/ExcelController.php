@@ -132,8 +132,7 @@ class ExcelController extends Controller
 
             foreach ($row_range as $row) {
                 if ($sheet->getCell('G' . $row)->getValue() == null) {
-                    // dd($sheet->getCell('H' . $row)->getValue(),$sheet->getCell('A' . $row)->getValue());
-                
+                 
                    }else{
                 $iscrizione[] = [
                     //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
@@ -150,7 +149,7 @@ class ExcelController extends Controller
 
             foreach ($row_range as $row) {
                 if ($sheet->getCell('H' . $row)->getValue() == null) {
-                 // dd($sheet->getCell('H' . $row)->getValue(),$sheet->getCell('A' . $row)->getValue());
+            
              
                 }else{
                     $iscrizione2[] = [

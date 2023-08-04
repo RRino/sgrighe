@@ -30,6 +30,7 @@
                     @endforeach
                 </tbody>
             </table>
+    
             <div class="row">
                 <div class="text-end">
                     <a class="btn btn-outline-secondary mb-2"><b>Totale da pagare</b> ${{ $viewData['total'] }}</a>

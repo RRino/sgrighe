@@ -68,9 +68,7 @@ class IscrizioneController extends Controller
         $viewData["socis"] = Soci::find($id);
 
         $viewData["iscrizione"] = Iscrizione::where('socio_id', '=', $id)->get();
-       
-
-        //dd($viewData["socis"]);
+      
         return view('iscrizione.AddIscrizione')->with("viewData", $viewData);
     }
 
@@ -114,7 +112,7 @@ class IscrizioneController extends Controller
     public function editIscrizione(Request $req)
     {
         
-dd('editiscr',$req);
+
         $viewData = [];
         $viewData["title"] = "iscr ";
         $viewData["subtitle"] = "Iscrizioni";
@@ -125,7 +123,6 @@ dd('editiscr',$req);
         $viewData["iscrizioni"]->nome = $req->nome;
         $viewData["iscrizioni"]->cognome = $req->cognome;
         $viewData["iscrizioni"]->description = $req->description;
-        // dd('add',$viewData["iscrizionis"]);
         $viewData["iscrizioni"]->save();
         $viewData["socis"] = Soci::find($id);
 
@@ -140,8 +137,7 @@ dd('editiscr',$req);
      
 
         return view('iscrizione.formFiltraIscritto')->with("viewData", $viewData);;
-       // 
-       // dd($data);
+
     }
 
     public function trovaIscritto(Request $req){

@@ -1,11 +1,11 @@
 <?php
-  
+
 namespace App\Http\Controllers\Auth;
-   
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-   
+
 class LoginController extends Controller
 {
     /*
@@ -17,17 +17,17 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
-  
+     */
+
     use AuthenticatesUsers;
-  
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
     protected $redirectTo = '/home';
-   
+
     /**
      * Create a new controller instance.
      *
@@ -37,30 +37,40 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-   
-   // non usato in sg
+
     public function login(Request $request)
-    {   
+    {
         $input = $request->all();
-   
+
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required',
         ]);
-   
-        if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
-        {
+
+        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            
             if (auth()->user()->is_admin == 1) {
+              
                 return redirect()->route('admin.home');
-            }elseif(auth()->user()->is_admin == 2){
-                return redirect()->route('admin.super');
-            }else{
+
+            } else if (auth()->user()->is_admin == 2) {
+           
+                return redirect()->route('admin.home');
+
+            } else if (auth()->user()->is_admin == 0) {
+                
+                return redirect('/');
+              
+// TODO verificare perche non funziona user al posto di home
+            } else {
+                dd('LoginController','return redirect()->route("home")');
                 return redirect()->route('home');
             }
-        }else{
+        } else {
+           
             return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+                ->with('error', 'Email-Address And Password Are Wrong.');
         }
-          
+
     }
 }

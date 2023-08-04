@@ -33,7 +33,7 @@ class ServizioController extends Controller
     public function salvaSelChck_selSocio(Request $request)
     {
 
-        dd('salvaSelChck_selSocio',$request);
+   
         $ids = $request->ids;
 
         if (Servizio::where('nome', 'check_del')->exists()) {

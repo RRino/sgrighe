@@ -48,7 +48,8 @@ class CartController extends Controller
 
     public function purchase(Request $request)
     {
-        
+     
+
         $productsInSession = $request->session()->get("products");
         if ($productsInSession) {
             $userId = Auth::user()->getId();
@@ -59,6 +60,8 @@ class CartController extends Controller
 
             $total = 0;
             $productsInCart = Product::findMany(array_keys($productsInSession));
+
+ 
 
             foreach ($productsInCart as $product) {
                 $quantity = $productsInSession[$product->getId()];
@@ -72,6 +75,9 @@ class CartController extends Controller
             }
 
             $balance = Auth::user()->getBalance();
+
+            
+            
             if ($total < $balance) {
                 $order->setTotal($total);
                 $order->save();
