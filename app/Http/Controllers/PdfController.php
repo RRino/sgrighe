@@ -279,6 +279,7 @@ class PdfController extends Controller
     public function PdfEtichette(Request $req)
     {
 
+        
      
         $etichetta_nome = $req->etichetta_nome;
 
@@ -296,6 +297,7 @@ class PdfController extends Controller
             $dt = explode(',', $datis->dati);
             $sheet1Data = Soci::find($dt);
 
+
             // cancella i chck selezionati
             /*  $servizio = Servizio::find(1);
         $servizio->nome = 'soci';
@@ -310,7 +312,6 @@ class PdfController extends Controller
                 ->where('iscriziones.anno', $anno)
                 ->get();
         }
-
 
         $pdf = new TCPDF;
 
@@ -367,15 +368,25 @@ class PdfController extends Controller
         // Page number
         //$pdf::Cell(0, 5, 'Pagina ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
 
-       $datiEtichetta = Param_etichette::where('nome', '=', $etichetta_nome)->firstOrFail();
-      
         $incr = 0;
         $nrighe = 0;
+
+if($etichetta_nome == null){
+    // Etichetta standard
+    $spost_destra = -70; // posizione orrizontale nella riga (larghezza etichetta)
+    $spost_vertic = 3; // bordo pagina sopra 
+    $bordo_sopra = 3;
+    $altezza_etic = 36;
+    $n_etic_x_pagina =  24;
+   
+}else{
+       $datiEtichetta = Param_etichette::where('nome', '=', $etichetta_nome)->firstOrFail();
         $spost_destra = -$datiEtichetta->larghezza;//-70; // posizione orrizontale nella riga (larghezza etichetta)
         $spost_vertic = $datiEtichetta->spazio_sopra;//3; // bordo pagina sopra 
         $bordo_sopra = $datiEtichetta->spazio_sopra;//3
         $n_etic_x_pagina = $datiEtichetta->numero_verticale * $datiEtichetta->numero_orrizontale;// 24;
         $altezza_etic = $datiEtichetta->altezza;
+}
         $pagine = (int) ($netichette / $n_etic_x_pagina);
        
         $rig = 8; 

@@ -23,8 +23,8 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto">
                 <a class="nav-link active" href="/">Home</a>
-                <a class="nav-link active" href="{{ route('product.index') }}">Products</a>
-                <a class="nav-link active" href="{{ route('home.about') }}">About</a>
+                <a class="nav-link active" href="{{ route('product.index') }}">Prodotti</a>
+                <a class="nav-link active" href="{{ route('home.about') }}">Chi siamo</a>
                 <a class="nav-link active" href="{{ route('cart.index') }}">
                     <i class="bi bi-cart4"></i>
                 </a>
@@ -37,10 +37,10 @@
             
                             @guest
                             <a class="nav-link active" href="{{ route('login') }}">Login</a>
-                            <a class="nav-link active" href="{{ route('register') }}">Register</a>
+                            <a class="nav-link active" href="{{ route('register') }}">Registrati</a>
                             @else
                             <div>
-                                <a class="nav-link active" href="{{ route('myaccount.orders') }}">{{ Auth::user()->getName() }}</a>
+                                <a class="nav-link active" href="{{ route('myaccount.orders') }}">{{ Auth::user()->getName() }} - Ordini</a>
                                 <a class="nav-link active" href="#" >${{ Auth::user()->getBalance() }}</a>
                             </div>
                             <form id="logout" action="{{ route('logout') }}" method="POST">
