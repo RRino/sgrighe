@@ -10,6 +10,7 @@ use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AnagraficheController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -146,7 +147,8 @@ Route::controller(PdfController::class)->group(function () {
    Route::post('param_etichette',  'addParamEtichette'); 
 });
 
-
+Route::get('posts/create',[PostController::class,'create']);
+Route::post('posts/store',[PostController::class,'store'])->name('posts.store');
     
 Route::get('/', function () {
     return view('welcome');
