@@ -147,9 +147,19 @@ Route::controller(PdfController::class)->group(function () {
    Route::post('param_etichette',  'addParamEtichette'); 
 });
 
-Route::get('posts/create',[PostController::class,'create']);
-Route::post('posts/store',[PostController::class,'store'])->name('posts.store');
-    
+
+
+Route::get('articoli',[PostController::class,'index']);
+Route::get('create',[PostController::class,'create']);
+Route::post('post',[PostController::class,'store']);
+Route::get('show/{id}',[PostController::class,'show']);
+Route::get('edit/{id}',[PostController::class,'edit']);
+Route::post('update/{id}',[PostController::class,'update']);
+Route::get('delete/{id}',[PostController::class,'destroy']);
+
+
+
+
 Route::get('/', function () {
     return view('welcome');
 });

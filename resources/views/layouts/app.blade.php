@@ -69,7 +69,9 @@
 
                 <a href="/products" class="w3-bar-item w3-button">Riviste</a>
                 <a href="/admin/products" class="w3-bar-item w3-button w3-hover-green">Magazzino riviste</a>
-
+                <a class="dropdown-item" href="/anagrafiche">Anagrafiche</a>
+                <a class="dropdown-item" href="/articoli">Articoli</a>
+                
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="true">
@@ -77,9 +79,8 @@
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         <a class="dropdown-item" href="/list">Soci </a>
-                        <a class="dropdown-item" href="/admin/add">Aggiungi socio</a>
-                        <a class="dropdown-item" href="/iscrizione">Iscrizioni </a>
-                        <a class="dropdown-item" href={{ '/showIscrizione' }}>Iscrixxzioni </a>
+                        
+                        <a class="dropdown-item" href="/iscrizione">Iscrizioni </a>              
                     </ul>
                 </div>
                 <br>

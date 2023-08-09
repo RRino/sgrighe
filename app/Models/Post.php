@@ -21,7 +21,7 @@ class Post extends Model
 
     protected $fillable = [
 
-        'title', 'body'
+        'title', 'description'
 
     ];
 
@@ -33,7 +33,7 @@ class Post extends Model
 
      */
 
-    protected function body(): Attribute
+    protected function description(): Attribute
 
     {
 
