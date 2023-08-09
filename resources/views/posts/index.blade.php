@@ -15,17 +15,18 @@
 
   <div class="container p-4 ">
     <div class="text-center">
-      <h1 class="">Summernote Text Editor CRUD and Image Upload in Laravel</h1>
+      <h1 class="">Index</h1>
     </div>
-    <a href="/create" class="btn btn-md btn-primary">Add new Post</a>
+    <a href="/create" class="btn btn-md btn-primary">Nuovo Articolo</a>
+    <a href="/" class="btn btn-md btn-primary">Home</a>
     <hr>
 
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Action</th>
+            <th scope="col">Titolo</th>
+            <th scope="col">Azione</th>
           </tr>
         </thead>
         <tbody>
@@ -36,9 +37,9 @@
                 <th scope="row">{{ $post->id }}</th>
                 <td>{{ $post->title }}</td>
                 <td>
-                    <a href="show/{{ $post->id }}" class="btn btn-success">Show</a>
-                    <a href="edit/{{ $post->id }}" class="btn btn-info">Edit</a>
-                    <a href="delete/{{ $post->id }}" class="btn btn-danger">Delete</a>              
+                    <a href="show/{{ $post->id }}" class="btn btn-success">Mostra</a>
+                    <a href="edit/{{ $post->id }}" class="btn btn-info">Modifica</a>
+                    <a href="delete/{{ $post->id }}" class="btn btn-danger">Cancella</a>              
                 </td>
             </tr>
             @endforeach

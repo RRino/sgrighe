@@ -20,15 +20,17 @@
       <div class="row justify-content-md-center">
         <div class="col-md-12">
           <div class="text-center">
-            <h1 class="">Summernote Text Editor CRUD and Image Upload in Laravel</h1>
+            <h1 class="">Edit</h1>
            </div> 
+           <a href="/articoli" class="btn btn-md btn-primary">Articoli</a>
+           <a href="/" class="btn btn-md btn-primary">Home</a>
           <form action="/update/{{ $post->id }}" method="post">
               @csrf
-              <label for="">Title:</label>
+              <label for="">Titolo:</label>
               <input type="text" class="form-control" name="title" value="{{ $post->title }}">
-              <label for="">Description:</label>
+              <label for="">Descrizione:</label>
               <textarea name="description" id="description" cols="30" rows="10">{{ $post->description }}</textarea>
-              <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+              <button type="submit" class="btn btn-lg btn-primary">Invia</button>
             </form>
 
           </div>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Summernote Text Editor CRUD and Image Upload in Laravel</title>
+  <title>Edit Articoli</title>
      <!-- include libraries(jQuery, bootstrap) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -20,15 +20,15 @@
       <div class="row justify-content-md-center">
         <div class="col-md-12">
           <div class="text-center">
-            <h1 class="">Summernote Text Editor CRUD and Image Upload in Laravel</h1>
+            <h1 class="">Creare</h1>
            </div> 
           <form action="/post" method="post">
               @csrf
-              <label for="">Title:</label>
+              <label for="">Titolo:</label>
               <input type="text" class="form-control" name="title">
-              <label for="">Description:</label>
+              <label for="">Descrizione:</label>
               <textarea name="description" id="description" cols="30" rows="10"></textarea>
-              <button type="submit" class="btn btn-lg btn-primary">Submit</button>
+              <button type="submit" class="btn btn-lg btn-primary">Invia</button>
             </form>
 
           </div>
