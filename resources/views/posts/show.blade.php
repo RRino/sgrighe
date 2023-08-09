@@ -19,7 +19,7 @@
             <hr>
           </div>
           <a href="/articoli" class="btn btn-md btn-primary">Articoli</a>
-          <a href="/" class="btn btn-md btn-primary">Home</a>
+          <a href="/" class="btn btn-md btn-success">Home</a>
           <br>
             <h3 class="text-center">{{ $post->title }}</h3>
 

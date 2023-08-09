@@ -23,7 +23,7 @@
             <h1 class="">Edit</h1>
            </div> 
            <a href="/articoli" class="btn btn-md btn-primary">Articoli</a>
-           <a href="/" class="btn btn-md btn-primary">Home</a>
+           <a href="/" class="btn btn-md btn-success">Home</a>
           <form action="/update/{{ $post->id }}" method="post">
               @csrf
               <label for="">Titolo:</label>

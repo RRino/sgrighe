@@ -18,7 +18,7 @@
       <h1 class="">Index</h1>
     </div>
     <a href="/create" class="btn btn-md btn-primary">Nuovo Articolo</a>
-    <a href="/" class="btn btn-md btn-primary">Home</a>
+    <a href="/" class="btn btn-md btn-success">Home</a>
     <hr>
 
       <table class="table table-striped">
