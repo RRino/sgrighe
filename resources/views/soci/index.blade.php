@@ -174,6 +174,7 @@
                             <th scope="col"><a href="/list/comune">Comune</a></th>
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
                             <th scope="col">Consegne</th>
+                            <th scope="col">Tipo socio</th>
                             <th scope="col">Pubblicato</th>
 
                         </tr>
@@ -195,14 +196,26 @@
                                 <td>{{ $soci->getComune() }}</td>
                                 <td>{{ $soci->getSigla_provincia() }}</td>
                                 <td>{{ $soci->getConsegna() }}</td>
-                                @if ($soci->getPublished() == 'Abilitato')
+
+                                @if ($soci->getTipo_socio() == 1)
+                                  <td>Ordinario</td>
+                                @elseif($soci->getTipo_socio() == 2) 
+                                  <td>Famigliare</td>
+                                @elseif($soci->getTipo_socio() == 3) 
+                                  <td>Società</td>
+                                  @else
+                                  <td>x</td>
+                                @endif
+
+                                @if ($soci->getPublished() == true)
                                     <td><a style="color:green"
-                                            href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                            href="/changeStatus/{{ $soci->getId() }}"> Abilitato </a>
                                     @else
                                     <td><a style="color:red"
-                                            href="/changeStatus/{{ $soci->getId() }}">{{ $soci->getPublished() }}</a>
+                                            href="/changeStatus/{{ $soci->getId() }}"> Sospeso </a>
                                 @endif
                                 </td>
+
                                 <td>{{ $soci->iscrizione_anno }}</td>
                             </tr>
                         @endforeach

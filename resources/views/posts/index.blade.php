@@ -38,7 +38,7 @@
                 <td>{{ $post->title }}</td>
                 <td>
                     <a href="show/{{ $post->id }}" class="btn btn-success">Mostra</a>
-                    <a href="edit/{{ $post->id }}" class="btn btn-info">Modifica</a>
+                    <a href="editPost/{{ $post->id }}" class="btn btn-info">Modifica</a>
                     <a href="delete/{{ $post->id }}" class="btn btn-danger">Cancella</a>              
                 </td>
             </tr>
