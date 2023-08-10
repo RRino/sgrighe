@@ -101,17 +101,7 @@
 
     <div class="singolo">
         <label class="slabel" for="pwd">Tipo Socio:</label>
-
-        @if ($viewData['socis']->getTipo_socio()  == 1)
-        <td>Ordinario</td>
-      @elseif($viewData['socis']->getTipo_socio()  == 2) 
-        <td>Famigliare</td>
-      @elseif($viewData['socis']->getTipo_socio()  == 3) 
-        <td>Società</td>
-        @else
-        <td>x</td>
-      @endif
-
+        <td>{{ $viewData['socis']->getTipo_socio() }}</td>
 
     </div>
 

@@ -41,7 +41,7 @@
     <div class="container-fluid">
         <div class="card mb-4">
             <div class="card-header">
-              
+
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
 
@@ -90,7 +90,7 @@
                                         @csrf
                                         <div class="row">
                                             <div class="input-group">
-                                                
+
                                                 <input type="text" class="form-control te " id="nom" name="rows"
                                                     value="{{ session('pag') }}" placeholder="N. righe visualizzate">
                                                 <button type="submit" class="btn btn-success bt-sm te">N.Righe</button>
@@ -182,7 +182,6 @@
                     <tbody>
 
                         @foreach ($viewData['socis'] as $soci)
-                           
                             <tr>
                                 <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
 
@@ -197,22 +196,12 @@
                                 <td>{{ $soci->getSigla_provincia() }}</td>
                                 <td>{{ $soci->getConsegna() }}</td>
 
-                                @if ($soci->getTipo_socio() == 1)
-                                  <td>Ordinario</td>
-                                @elseif($soci->getTipo_socio() == 2) 
-                                  <td>Famigliare</td>
-                                @elseif($soci->getTipo_socio() == 3) 
-                                  <td>Società</td>
-                                  @else
-                                  <td>x</td>
-                                @endif
+                                <td>{{ $soci->getTipo_socio() }}</td>
 
                                 @if ($soci->getPublished() == true)
-                                    <td><a style="color:green"
-                                            href="/changeStatus/{{ $soci->getId() }}"> Abilitato </a>
+                                    <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Abilitato </a>
                                     @else
-                                    <td><a style="color:red"
-                                            href="/changeStatus/{{ $soci->getId() }}"> Sospeso </a>
+                                    <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> Sospeso </a>
                                 @endif
                                 </td>
 

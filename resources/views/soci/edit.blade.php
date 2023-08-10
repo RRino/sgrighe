@@ -143,15 +143,9 @@
                             <div class="col-lg-10 col-md-6 col-sm-12">
 
                                 <select name="tipo_socio" id="tso" class="form-control imp">
-                                   @if($viewData['soci']->getTipo_socio() == 1)
-                                    <option value="1" selected>Ordinario</option>
-                                   @elseif($viewData['soci']->getTipo_socio() == 2)
-                                   <option value="2" selected>Famigliare</option>
-                                   @elseif ($viewData['soci']->getTipo_socio() == 3)
-                                   <option value="3" selected>Società</option>
-                                   @else
-                                   <option value="0">Error</option>
-                                   @endif
+                                   
+                                    <option value="1" selected>{{ $viewData['soci']->getTipo_socio() }}</option>
+                          
                                     <option value="1">ordinario</option>
                                     <option value="2">Famigliare</option>
                                     <option value="3">societa</option>
