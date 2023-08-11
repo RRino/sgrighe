@@ -175,7 +175,7 @@
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
                             <th scope="col">Consegne</th>
                             <th scope="col">Tipo socio</th>
-                            <th scope="col">Pubblicato</th>
+                            <th scope="col">Attivo</th>
 
                         </tr>
                     </thead>
@@ -198,10 +198,10 @@
 
                                 <td>{{ $soci->getTipo_socio() }}</td>
 
-                                @if ($soci->getPublished() == true)
-                                    <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Abilitato </a>
+                                @if ($soci->getPublished() == "Si")
+                                    <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Si </a>
                                     @else
-                                    <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> Sospeso </a>
+                                    <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> No </a>
                                 @endif
                                 </td>
 

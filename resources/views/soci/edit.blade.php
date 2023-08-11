@@ -140,9 +140,9 @@
 
                         <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tipo socio:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
 
-                                <select name="tipo_socio" id="tso" class="form-control imp">
+                                <select name="tipo_socio" id="tso" class="form-select" aria-label="Tipo socio">
                                    
                                     <option value="1" selected>{{ $viewData['soci']->getTipo_socio() }}</option>
                           
@@ -156,8 +156,8 @@
 
                         <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Pubblicato:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <select name="published" id="tso" class="form-control imp">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <select name="published" id="tso" class="form-select" aria-label="Pubblicato">
                                    @if ($viewData['soci']->getPublished() == true)
                                    <option value="1" selected>{{ $viewData['soci']->getPublished() }} </option>
                                     @else
@@ -172,8 +172,8 @@
 
                         <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Consegna:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <select name="consegna" id="tso" class="form-control imp">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <select name="consegna" id="tso" class="form-select" aria-label="Default select example">
                                     <option selected="selected">Seleziona Consegna</option>
                                     @foreach ($viewData['consegnes'] as $consegna)
                                         <option value="{{ $consegna->nome }}">{{ $consegna->nome }}</option>

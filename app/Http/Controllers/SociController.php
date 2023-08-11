@@ -220,10 +220,10 @@ class SociController extends Controller
         $soci = Soci::find($id);
         $stato = $soci->getPublished();
 
-        if ($stato == "Abilitato") {
-            $soci->published = "Sospeso";
+        if ($stato == "Si") {
+            $soci->setPublished('No');
         } else {
-            $soci->published = "Abilitato";
+            $soci->setPublished('Si');
         }
 
         $soci->save();

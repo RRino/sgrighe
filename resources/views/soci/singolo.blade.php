@@ -1,6 +1,6 @@
 @include('layouts.app')
 <br>
-<h1 class="tit-add">Dati Socio (soci.singolo.blade)</h1>
+<h1 class="tit-add">Dati Socio</h1>
 
 <style>
     .iscrizione {
