@@ -41,7 +41,8 @@
     <div class="container-fluid">
         <div class="card mb-4">
             <div class="card-header">
-
+                
+                <a class="btn btn-primary btn-sm adds" href="{{ '/formExcel_soci' }}" role="button">Excel</a>
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
 
@@ -174,8 +175,8 @@
                             <th scope="col"><a href="/list/comune">Comune</a></th>
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
                             <th scope="col">Consegne</th>
-                            <th scope="col">Tipo socio</th>
-                            <th scope="col">Attivo</th>
+                            <th scope="col">Socio</th>
+                            <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
 
                         </tr>
                     </thead>
@@ -197,13 +198,16 @@
                                 <td>{{ $soci->getConsegna() }}</td>
 
                                 <td>{{ $soci->getTipo_socio() }}</td>
-
+                                 
+                                <!-- non usato per ora -->
+                              <?php /*
                                 @if ($soci->getPublished() == "Si")
                                     <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Si </a>
                                     @else
                                     <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> No </a>
-                                @endif
+                                @endif 
                                 </td>
+                               */ ?>
 
                                 <td>{{ $soci->iscrizione_anno }}</td>
                             </tr>

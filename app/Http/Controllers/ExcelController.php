@@ -97,33 +97,45 @@ class ExcelController extends Controller
             $sheet = $spreadsheet->getActiveSheet();
             $row_limit = $sheet->getHighestDataRow();
             $column_limit = $sheet->getHighestDataColumn();
-            $row_range = range(3, $row_limit);
-            $column_range = range('V', $column_limit);
-            $startcount = 2;
+            $row_range = range(2, $row_limit);
+            $column_range = range('Z', $column_limit);
+            $startcount = 0;
             $data = array();
 
             foreach ($row_range as $row) {
+
+                $cons = $sheet->getCell('J' . $row)->getValue();
+                if(strlen($cons) == 2){
+                    $cons = $sheet->getCell('J' . $row)->getValue();
+                 }else{
+                    $cons = ''; 
+                 }
+
                 $data[] = [
                     'id' => $sheet->getCell('X' . $row)->getValue(),
-                    'nome' => $sheet->getCell('B' . $row)->getValue(),
                     'cognome' => $sheet->getCell('A' . $row)->getValue(),
-                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),
-                    'consegna' => $sheet->getCell('P' . $row)->getValue(),
+                    'nome' => $sheet->getCell('B' . $row)->getValue(),
+                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),           
                     'cap' => $sheet->getCell('D' . $row)->getValue(),
                     'localita' => $sheet->getCell('E' . $row)->getValue(),
                     'comune' => $sheet->getCell('E' . $row)->getValue(),
                     'sigla_provincia' => $sheet->getCell('F' . $row)->getValue(),
-                    'ultimo' => $sheet->getCell('H' . $row)->getValue(),
-                    'penultimo' => $sheet->getCell('G' . $row)->getValue(),
+                    'ultimo' => $sheet->getCell('G' . $row)->getValue(),
+                    'penultimo' => $sheet->getCell('H' . $row)->getValue(),
+                    
+                    'consegna' =>$cons,
+                   
+
                     'email' => $sheet->getCell('L' . $row)->getValue(),
+                    'telefono' => $sheet->getCell('M' . $row)->getValue(),
+                    'cellulare' => $sheet->getCell('M' . $row)->getValue(),
+                    'description' => $sheet->getCell('N' . $row)->getValue(),
+                    'tipo_socio' =>1,//$sheet->getCell( 'O' . $row )->getValue(),
+
                     'pec' => $sheet->getCell('Q' . $row)->getValue(),
                     'codice_fiscale' => $sheet->getCell('R' . $row)->getValue(),
                     'partita_iva' => $sheet->getCell('S' . $row)->getValue(),
-                    'telefono' => $sheet->getCell('T' . $row)->getValue(),
-                    'cellulare' => $sheet->getCell('M' . $row)->getValue(),
-                    // 'tipo_socio' =>$sheet->getCell( 'O' . $row )->getValue(),
                     'published' => 1,
-                    'description' => $sheet->getCell('N' . $row)->getValue(),
                     'created_at' => $sheet->getCell('U' . $row)->getValue(),
                     'updated_at' => $sheet->getCell('V' . $row)->getValue(),
                 ];
@@ -159,7 +171,6 @@ class ExcelController extends Controller
                         'socio_id' => $sheet->getCell('X' . $row)->getValue(),
                         'anno' => $sheet->getCell('H' . $row)->getValue(),
                         'description' => $sheet->getCell('N' . $row)->getValue(),
-
                     ];
                 }
                 $startcount++;
@@ -174,12 +185,12 @@ class ExcelController extends Controller
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::table('iscriziones')->truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            DB::table('iscriziones')->insert($iscrizione);
+             DB::table('iscriziones')->insert($iscrizione);
 
             //-------------------------- Iscrizion2 -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            DB::table('iscriziones')->insert($iscrizione2);
+             DB::table('iscriziones')->insert($iscrizione2);
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];

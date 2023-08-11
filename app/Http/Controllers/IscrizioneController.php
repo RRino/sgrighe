@@ -28,6 +28,8 @@ class IscrizioneController extends Controller
         $viewData["iscrizioni"] = Iscrizione::join('socis', 'socis.id', '=', 'iscriziones.socio_id')->orderBy('iscriziones.socio_id', 'ASC')
         ->get(['iscriziones.id as idi','iscriziones.anno','iscriziones.socio_id', 'socis.*']);
 
+
+
         return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
     }
 

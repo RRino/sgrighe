@@ -18,7 +18,7 @@
                     <div class="card">
 
                         <div class="card-header bgsize-primary-4 white card-header">
-                            <h4 class="card-title">Importa Iscrizione in Excel</h4>
+                            <h4 class="card-title">Importa Iscrizione da Excel</h4>
                         </div>
 
                         <div class="card-body">
