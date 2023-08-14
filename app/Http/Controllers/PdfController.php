@@ -41,9 +41,16 @@ class PdfController extends Controller
          * legge unione tra soci e iscrizione select iscrizione.anno
          */
         if ($tip == 3) {
-            $data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-                ->where('iscriziones.anno', $anno)
+             /*$data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')            
+                ->where('iscriziones.anno','!=', 2023)
+                ->where('iscriziones.anno','!=', 2021)
+                ->where('iscriziones.anno','!=', 2020)
                 ->paginate(session('pag'));
+                dd($data); */
+             
+                $data = DB::table('socis')->where('penultimo','=', $anno)->where('ultimo','=',$anno-1)->get();
+               
+                
         }
 
         $pdf = new TCPDF;
@@ -166,7 +173,22 @@ class PdfController extends Controller
 &nbsp;&nbsp;importo in euro &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; numero conto &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  tipo documento &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </div>';
             $htmlcodicefondo = '<div style="font-size:18px;font-weight:900;text-align:right;">  &nbsp;&nbsp;123 ></div>';
 
-            $nperpagina = 2;
+$taglio =' <br><br>  ---- taglio ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------';
+$altri_pagamenti = '<div style="font-size:14px;font-weight:800;"><br><br><br><b>Caro socia/socio.</b><br>
+Ti abbiamo spedito la rivista "al sas" n. 47 anche se non hai rinnovato l\'iscrizione perchè pensiamo ad una dimenticanza, nel caso che tu non voglia rinnovare l\'iscrizione non  effettuare il pagamento.<br>
+<div style="font-size:14px;"><b>Come effettuare o rinnovare l’iscrizione</b><br>
+Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diritto a ricevere a domicilio i due  numeri della rivista semestrale di un anno con solo Euro 20,00. 
+<br><br>E’ possibile:<br>
+1) utilizzare il bolettino stampato sopra per l\'ufficio postale<br>
+2) effettuare un bonifico sul nostro conto presso EMILBANCA con codice IBAN: IT74 Z070 7237 10000000 0024 254 e con causale
+  “iscrizione anno 2023 con due riviste”.<br>Per prima iscrizione aggiungere:
+   nome, cognome, data di nascita, indirizzo, n.telefono, email(opzionale)<br>
+3) versare la quota presso l’Ufficio Turistico “InfoSasso” - Piazza dei Martiri, via Porrettana 312, Sasso Marconi.
+<brt> - Ufficio Informazioni Turistiche Sasso Marconi:
+    051 6758409 - 334 8334945 Apertura: martedì – venerdì 9.30-13.00 e 15.00-19.00; sabato 09.30-13.00; lunedì, domenica e festivi chiuso.';
+
+
+            $nperpagina = 1;
             $hbo = $inc * 100;
             //$nbol2--;
             if ($inc == $nperpagina) {
@@ -256,7 +278,9 @@ class PdfController extends Controller
             $pdf::writeHTMLCell(50, 4, 138, 78 + $hbo, $htmlbollino, 0, 0, 0, true, '', true);
             $pdf::writeHTMLCell(289, 4, 5, 81 + $hbo, $htmlnotefondo, 0, 0, 0, true, '', true);
             $pdf::writeHTMLCell(285, 4, 5, 90 + $hbo, $htmlcodicefondo, 0, 0, 0, true, '', true);
-
+            $pdf::writeHTMLCell(285, 4, 5, 90 + $hbo,  $taglio, 0, 0, 0, true, '', true);
+            $pdf::writeHTMLCell(285, 4, 5, 90 + $hbo,  $altri_pagamenti, 0, 0, 0, true, '', true);
+           
 // $pdf::writeHTMLCell(289, 4, 5, 96+$hbo, $htmlvuota, 0, 0, 0, true, '', true);
             $pdf::writeHTMLCell(2, 4, 135, 5 + $hbo, $riga_vert, 0, 0, 0, true, '', true);
             $pdf::Ln(0);
@@ -283,6 +307,11 @@ class PdfController extends Controller
      
         $etichetta_nome = $req->etichetta_nome;
 
+        if($etichetta_nome  == 'Seleziona Tipo etichetta'){         
+            return redirect('/etichette_anno');
+        }
+     
+        
         $anno = $req->etichette_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
         // window.location.href = "/etichette/1";
@@ -374,7 +403,7 @@ class PdfController extends Controller
 if($etichetta_nome == null){
     // Etichetta standard
     $spost_destra = -70; // posizione orrizontale nella riga (larghezza etichetta)
-    $spost_vertic = 3; // bordo pagina sopra 
+    $spost_vertic = 4; // bordo pagina sopra 
     $bordo_sopra = 3;
     $altezza_etic = 36;
     $n_etic_x_pagina =  24;
@@ -386,7 +415,9 @@ if($etichetta_nome == null){
         $bordo_sopra = $datiEtichetta->spazio_sopra;//3
         $n_etic_x_pagina = $datiEtichetta->numero_verticale * $datiEtichetta->numero_orrizontale;// 24;
         $altezza_etic = $datiEtichetta->altezza;
+        $spost_riga = 3;
 }
+
         $pagine = (int) ($netichette / $n_etic_x_pagina);
        
         $rig = 8; 
@@ -397,7 +428,9 @@ if($etichetta_nome == null){
                 if ($spost_destra > 140) {
                     $spost_destra = 0;
                     $spost_vertic = $spost_vertic +  $altezza_etic; // posizione verticale della riga
+                    $spost_riga = $spost_vertic +  35; // posizione verticale della riga
                     $nrighe++;
+                    $spost_vertic= $spost_vertic+0.5;
  
                 }
 
@@ -406,22 +439,22 @@ if($etichetta_nome == null){
                     $spost_vertic = $bordo_sopra;
                     $pdf::AddPage('P', 'A4');
                 }
-
+$riga = "--------";
                 $xx = 'xx';
                 if (isset($sheet1Data[$re]->nome)) {
-                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;' . $sheet1Data[$re]->nome . '&nbsp;&nbsp;' . $sheet1Data[$re]->cognome . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->indirizzo . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->cap . '&nbsp;&nbsp;' . $sheet1Data[$re]->localita . '
-                    <br>&nbsp;&nbsp;' . $sheet1Data[$re]->sigla_provincia . '
+                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;' . $sheet1Data[$re]->nome . '&nbsp;&nbsp;' . $sheet1Data[$re]->cognome . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $sheet1Data[$re]->indirizzo . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $sheet1Data[$re]->cap . '&nbsp;&nbsp;' . $sheet1Data[$re]->localita . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $sheet1Data[$re]->sigla_provincia . '
                     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span style="font-size:8px">' . $sheet1Data[$re]->consegna . '</span>
                      </div>';
                 } else {
-                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
-                    <br>&nbsp;&nbsp;' . $xx . '
-                    <br>&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
-                    <br>&nbsp;&nbsp;' . $xx . '
+                    $htmlx = '<div style="font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $xx . '&nbsp;&nbsp;' . $xx . '
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;' . $xx . '
                     <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span style="font-size:8px">' . $xx . '</span>
@@ -429,7 +462,7 @@ if($etichetta_nome == null){
                 }
 
                 $pdf::writeHTMLCell(70, 36, $spost_destra, $spost_vertic, $htmlx, 0, 0, 0, true, '', true);
-                
+                //$pdf::writeHTMLCell(70, 36, $spost_destra, $spost_riga, $riga, 0, 0, 0, true, '', true);
   
             }
 

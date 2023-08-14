@@ -32,7 +32,8 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
      <br>
      <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br>
-     <form action="etichette_anno" class="form" method="POST">
+     <!--<form method="post" id="myForm" onsubmit="return submitForm()">-->
+      <form action="etichette_anno" class="form" method="POST"> 
          @csrf
          <div class="form-group">
              <label for="usr">Anno ultima iscrizione:</label>
@@ -44,13 +45,16 @@
 
                  <select name="etichetta_nome" id="tso" class="form-control imp">
                     <option>Seleziona Tipo etichetta</option>
+                    
                     @foreach ($viewData["TipoEtichette"] as $tipo)
                     <option value="{{ $tipo->getNome() }}">{{ $tipo->getNome() }}</option>
                     @endforeach
 
                 </select>
+                
              <input type="hidden" class="form-control" id="nom" name="tipo" value="2">
          </div><br>
+         Prima seleziona Etichetta tipo:<br>
          <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF etichette</button>
      </form>
      <br><br><br><br><br><br>
@@ -58,7 +62,8 @@
 
 <!-- Form aggiunta modifica parametri costruzione etichette -->
       <div class="details" style="display:none">
-         <form action="param_etichette" class="form" method="POST">
+      
+        <form action="param_etichette" class="form" method="POST">
             @csrf
              <div class="form-group">
                  <label for="usr">Nome</label>
@@ -81,15 +86,8 @@
 
      <br>
      <br>
-
-
-
-
-
-
-
-
-
+     <br>
+     <br>
 
      <div class="parametri">
          <a id="more" href="#"

@@ -39,49 +39,20 @@
 
 
 
-        @php
-        
-            $x = 0;
-            $co = count($viewData['iscrizioni']);
-            session(['primo' => $viewData['iscrizioni'][0]->socio_id]);
-            session(['secondo' => $viewData['iscrizioni'][1]->socio_id]);
-        @endphp
 
         @foreach ($viewData['iscrizioni'] as $anag)
             <tr class="colo-list">
-                 {{-- 'pr'.session('primo').'sec'.session('secondo').'tr'.session('terzo') --}} 
-                @php
-                    if ($x < $co - 2) {
-                        $x++;
-                    }
-                @endphp
-
-                @if ( (session('secondo')  == session('primo')) || session('primo') == session('terzo'))
                 <td style="background:#fff;">{{ $anag['socio_id'] }}</td>
- 
-                @else
-                    <td style="background:#ccc;">{{ $anag['socio_id'] }}</td>
-     
-                @endif
-
                 <td>{{ $anag['nome'] }}</td>
                 <td>{{ $anag['cognome'] }}</td>
                 <td>{{ $anag['anno'] }}</td>
-
-
 
                 <td><a href={{ '/editIscrizione/' . $anag->idi }}>Edit/Aggiungi</a></td>
                 <td><a href={{ '/deleteIscrizione/' . $anag->idi }} onclick="return confirm('Sei sicuro?')">Cancella</a>
                 </td>
             </tr>
 
-            @php
-            session(['terzo' => $viewData['iscrizioni'][$x-1]->socio_id]);
-            session(['primo' => $viewData['iscrizioni'][$x]->socio_id]);
-            session(['secondo' => $viewData['iscrizioni'][$x+1]->socio_id]);
-        @endphp
-
-        @endforeach
+          @endforeach
     </table>
 
 

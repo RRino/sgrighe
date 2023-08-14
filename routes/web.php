@@ -153,7 +153,7 @@ Route::get('articoli',[PostController::class,'index']);
 Route::get('create',[PostController::class,'create']);
 Route::post('post',[PostController::class,'store']);
 Route::get('show/{id}',[PostController::class,'show']);
-Route::get('editPost/{id}',[PostController::class,'edit']);
+Route::get('editPost/{id}',[PostController::class,'editPost']);
 Route::post('update/{id}',[PostController::class,'update']);
 Route::get('delete/{id}',[PostController::class,'destroy']);
 

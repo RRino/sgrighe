@@ -9,6 +9,9 @@
         padding: 5px;
         width: 380px;
     }
+    .slabelb{
+        font-weight: 700;
+    }
 </style>
 
 <head>
@@ -27,6 +30,17 @@
 
 <div class="container-sm">
 
+    <form method="POST" action="{{ '/deleteSocio/' . $viewData['socis']->getId() }}">
+        @csrf
+        <input name="_method" type="hidden" value="DELETE">
+        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip"
+            title='Delete'>Cancella</button>
+        <a class="btn btn-primary b-list" href={{ '/edit/' . $viewData['socis']->getId() }} role="button">Modifica</a>
+        <a class="btn btn-primary b-list" href={{ '/showIscrizione/' . $viewData['socis']->getId() }}>Add iscrizione</a>
+        <a class="btn btn-success b-list" href="{{ '/list' }}" role="button">Lista soci</a>
+        <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Lista iscrizioni</a>
+    </form>
+    <br>
     @csrf
     <div class="singolo">
         <label class="slabel" for="usr">Id:</label>{{ $viewData['socis']->getId() }}
@@ -34,12 +48,12 @@
 
     <div class="singolo">
         <label class="slabel" for="usr">Nome:</label>
-        {{ $viewData['socis']->getNome() }}
+        <span class="slabelb">{{ $viewData['socis']->getNome() }}</span>
     </div>
 
     <div class="singolo">
         <label class="slabel" for="pwd">Cognome:</label>
-        {{ $viewData['socis']->getCognome() }}
+        <span class="slabelb">{{ $viewData['socis']->getCognome() }}</span>
     </div>
 
     <div class="singolo">
@@ -136,16 +150,7 @@
         @endforeach
     @endif
 
-    <form method="POST" action="{{ '/deleteSocio/' . $viewData['socis']->getId() }}">
-        @csrf
-        <input name="_method" type="hidden" value="DELETE">
-        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip"
-            title='Delete'>Delete</button>
-        <a class="btn btn-primary b-list" href={{ '/edit/' . $viewData['socis']->getId() }} role="button">Modifica</a>
-        <a class="btn btn-primary b-list" href={{ '/showIscrizione/' . $viewData['socis']->getId() }}>Add iscrizione</a>
-        <a class="btn btn-success b-list" href="{{ '/list' }}" role="button">Lista soci</a>
-        <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Lista iscrizioni</a>
-    </form>
+
     <br>
     <br>
     <br>
