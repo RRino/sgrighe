@@ -12,6 +12,21 @@ use Symfony\Component\Console\Helper\TableStyle;
 
 class IscrizioneController extends Controller
 {
+
+/*AGGIUNGE COLONNA
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+      $type = 'string';
+        $length = 20;
+        $fieldName = 'car_tyer';
+
+        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+            $table->$type($fieldName, $length);
+        });
+*/
+
+
+
 /*2 Tabelle
 
      $users = User::join('posts', 'users.id', '=', 'posts.user_id')

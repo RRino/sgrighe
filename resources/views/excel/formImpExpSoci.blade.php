@@ -49,12 +49,37 @@
 
                                         <div class="input-group-append" id="button-addon2">
                                             <button class="btn btn-primary square btn-sm cae" type="submit"><i
-                                                    class="ft-upload mr-1"></i> Carica Soci Excel</button>
+                                                    class="ft-upload mr-1"></i> Carica Soci Excel esportati</button>
                                         </div>
                                     </div>
                                 </fieldset>
                             </form>
 
+                            <!-- da cancellare dopo utilizzato la nuova versione di excel -->
+                            <form action="{{ url('importSoci_old') }}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <fieldset>
+                                    <label>Segliere il file Soci da caricare <small
+                                            class="warning text-muted">{{ __('Please upload only Excel (.xlsx or .xls) files') }}</small></label>
+                                    <div class="minput-group">
+                                        <input type="file" required class="form-control" name="uploaded_file"
+                                            id="uploaded_file">
+                                        @if ($errors->has('uploaded_file'))
+                                            <p class="text-right mb-0">
+                                                <small class="danger text-muted"
+                                                    id="file-error">{{ $errors->first('uploaded_file') }}</small>
+                                            </p>
+                                        @endif
+
+                                        <div class="input-group-append" id="button-addon2">
+                                            <button class="btn btn-primary square btn-sm cae" type="submit"><i
+                                                    class="ft-upload mr-1"></i> Carica Soci Excel old</button>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                            <!-- /cancellare -->
+                            
                         </div>
                     </div>
                 </div>
@@ -67,21 +92,20 @@
                         <div class="pull-right--">
                             <form method="POST" action="/exportSoci" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-3 row">
-                                    <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Anno iscriz:</label>
-                                    <div class="col-lg-10 col-md-6 col-sm-12">
-                                        <input name="anno" value="" type="text" class="form-control">
-                                        <button type="submit" class="btn btn-primary btn-sm">Esporta Soci anno</button>
-                                    </div>
-                                </div>
+                                <!--<div class="mb-3 row">
+                                        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Anno iscriz:</label>
+                                        <div class="col-lg-10 col-md-6 col-sm-12">
+                                            <input name="anno" value="" type="text" class="form-control">
+                                            <button type="submit" class="btn btn-primary btn-sm">Esporta Soci anno</button>
+                                        </div>
+                                    </div>-->
 
 
                                 <div class="mb-3 row">
                                     <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tutti:</label>
                                     <div class="col-lg-10 col-md-6 col-sm-12">
                                         <a class="col-lg-6 col-md-6 col-sm-12  btn btn-primary btn-sm"
-                                            href="{{ '/exportSociTutti' }}" role="button">Esporta soci
-                                            tutti</a>
+                                            href="{{ '/exportSociTutti' }}" role="button">Esporta soci</a>
                                     </div>
                                 </div>
                             </form>

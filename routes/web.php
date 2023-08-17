@@ -86,6 +86,7 @@ Route::controller(AnagraficheController::class)->group(function () {
 Route::controller(ExcelController::class)->group(function () {
     Route::get('/formExcel_soci', 'index_soci');//->middleware('is_admin'); // da menu sidebar richiama form per importare excel
     Route::post('/importSoci', 'importSoci');
+    Route::post('/importSoci_old', 'importSoci_old');
     Route::post('/exportSoci', 'exportSoci');
 
     Route::get('/exportSociTutti', 'exportSociTutti');

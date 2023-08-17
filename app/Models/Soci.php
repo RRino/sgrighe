@@ -32,6 +32,7 @@ class Soci extends Model
         "description" => "nullable",
         "ultimo" => "nullable",
         "penultimo" => "nullable",
+        "terultimo" => "nullable",
         ]);
     }
 
@@ -287,28 +288,7 @@ public function iscrizione()
     }
 
 
-    public function getUltimo()
-    {
-        return $this->attributes['ultimo'];
-    }
-    public function setUltimo($ultimo)
-    {
-        $this->attributes['ultimo'] = $ultimo;
-    }
-
-
-    public function getPenltimo()
-    {
-        return $this->attributes['penultimo'];
-    }
-    public function setPenultimo($penultimo)
-    {
-        $this->attributes['penultimo'] = $penultimo;
-    }
-
-
-   
-    
+ 
   
  
 }

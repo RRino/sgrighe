@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Iscrizione;
 use App\Models\Soci;
+use Carbon\Carbon;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -102,35 +105,125 @@ class ExcelController extends Controller
             $startcount = 0;
             $data = array();
 
+            $anno = Carbon::now()->format('Y');
+
             foreach ($row_range as $row) {
 
-                $cons = $sheet->getCell('J' . $row)->getValue();
-                if(strlen($cons) == 2){
-                    $cons = $sheet->getCell('J' . $row)->getValue();
-                 }else{
-                    $cons = ''; 
-                 }
+                $cons = $sheet->getCell('K' . $row)->getValue();
+                if (strlen($cons) == 2) {
+                    $cons = $sheet->getCell('K' . $row)->getValue();
+                } else {
+                    $cons = '';
+                }
+
+                if ($sheet->getCell('H' . $row)->getValue() == 'Si') {
+                    $ultimo = $anno;
+                } else {
+                    $ultimo = 'No';
+                }
+
+                if ($sheet->getCell('I' . $row)->getValue() == 'Si') {
+                    $penultimo = $anno - 1;
+                } else {
+                    $penultimo = 'No';
+                }
+
+                if ($sheet->getCell('J' . $row)->getValue() == 'Si') {
+                    $terultimo = $anno - 2;
+                } else {
+                    $terultimo = 'No';
+                }
 
                 $data[] = [
                     'id' => $sheet->getCell('X' . $row)->getValue(),
                     'cognome' => $sheet->getCell('A' . $row)->getValue(),
                     'nome' => $sheet->getCell('B' . $row)->getValue(),
-                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),           
+                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),
+                    'cap' => $sheet->getCell('D' . $row)->getValue(),
+                    'localita' => $sheet->getCell('E' . $row)->getValue(),
+                    'comune' => $sheet->getCell('F' . $row)->getValue(),
+                    'sigla_provincia' => $sheet->getCell('G' . $row)->getValue(),
+
+                    'consegna' => $cons,
+                    'email' => $sheet->getCell('M' . $row)->getValue(),
+                    'telefono' => $sheet->getCell('N' . $row)->getValue(),
+                    'cellulare' => $sheet->getCell('O' . $row)->getValue(),
+                    'tipo_socio' => $sheet->getCell('S' . $row)->getValue(),
+                    'pec' => $sheet->getCell('P' . $row)->getValue(),
+                    'codice_fiscale' => $sheet->getCell('Q' . $row)->getValue(),
+                    'partita_iva' => $sheet->getCell('R' . $row)->getValue(),
+                    'description' => $sheet->getCell('T' . $row)->getValue(),
+                    'published' => 1,
+                    'created_at' => $sheet->getCell('U' . $row)->getValue(),
+                    'updated_at' => $sheet->getCell('V' . $row)->getValue(),
+                ];
+                $startcount++;
+            }
+
+//-------------------------- Soci -----------------------------------
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            DB::table('socis')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            DB::table('socis')->insert($data);
+
+        } catch (Exception $e) {
+            // $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        return back()->withSuccess('I dati sono stati caricati.');
+    }
+
+    public function importSoci_old(Request $request)
+    {
+
+        /**
+         *   Route::post('/importSoci', 'importSoci');
+         *  Importa i dati da file excel
+         *
+         */
+        $this->validate($request, [
+            'uploaded_file' => 'required|file|mimes:xls,xlsx',
+        ]);
+        $the_file = $request->file('uploaded_file');
+        try {
+
+            $spreadsheet = IOFactory::load($the_file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $row_limit = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range = range(2, $row_limit);
+            $column_range = range('Z', $column_limit);
+            $startcount = 0;
+            $data = array();
+
+            $anno = Carbon::now()->format('Y');
+
+            // ------------ SOCI ------------
+            foreach ($row_range as $row) {
+
+                $cons = $sheet->getCell('J' . $row)->getValue();
+                if (strlen($cons) == 2) {
+                    $cons = $sheet->getCell('J' . $row)->getValue();
+                } else {
+                    $cons = '';
+                }
+
+
+                $data[] = [
+                    'id' => $sheet->getCell('X' . $row)->getValue(),
+                    'cognome' => $sheet->getCell('A' . $row)->getValue(),
+                    'nome' => $sheet->getCell('B' . $row)->getValue(),
+                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),
                     'cap' => $sheet->getCell('D' . $row)->getValue(),
                     'localita' => $sheet->getCell('E' . $row)->getValue(),
                     'comune' => $sheet->getCell('E' . $row)->getValue(),
                     'sigla_provincia' => $sheet->getCell('F' . $row)->getValue(),
-                    'ultimo' => $sheet->getCell('G' . $row)->getValue(),
-                    'penultimo' => $sheet->getCell('H' . $row)->getValue(),
-                    
-                    'consegna' =>$cons,
-                   
-
+                    'consegna' => $cons,
                     'email' => $sheet->getCell('L' . $row)->getValue(),
                     'telefono' => $sheet->getCell('M' . $row)->getValue(),
                     'cellulare' => $sheet->getCell('M' . $row)->getValue(),
                     'description' => $sheet->getCell('N' . $row)->getValue(),
-                    'tipo_socio' =>1,//$sheet->getCell( 'O' . $row )->getValue(),
+                    'tipo_socio' => 1, //$sheet->getCell( 'O' . $row )->getValue(),
 
                     'pec' => $sheet->getCell('Q' . $row)->getValue(),
                     'codice_fiscale' => $sheet->getCell('R' . $row)->getValue(),
@@ -142,39 +235,78 @@ class ExcelController extends Controller
                 $startcount++;
             }
 
+            // ------------- ISCRIZIONI -----------
             foreach ($row_range as $row) {
-                if ($sheet->getCell('G' . $row)->getValue() == null) {
-                 
-                   }else{
+             // --- ultimo ---
+                if ($sheet->getCell('G' . $row)->getValue() == $anno) {
+                    if (Schema::hasColumn('iscriziones', $anno)) {
+                        $esite = 1;
+                    } else {
+                        $type = 'string';
+                        $length = 20;
+                        $fieldName = $anno;
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
+                        });
+                    };
+
+                    $vanno1 = $anno;
+                } else {
+                    $vanno1 = 'No';
+                }
+
+                  // --- Penultimo ---
+                if ($sheet->getCell('H' . $row)->getValue() == $anno - 1) {
+                    if (Schema::hasColumn('iscriziones', $anno - 1)) {
+                        $esite = 1;
+                    } else {
+                        $type = 'string';
+                        $length = 20;
+                        $fieldName = $anno - 1;
+
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
+                        });
+                    };
+                    $vanno2 = $anno - 1;
+                } else {
+                    $vanno2 = 'No';
+                }
+               
+                  // --- terzultimo ---
+                if ($sheet->getCell('G' . $row)->getValue() == $anno - 2) {
+                    if (Schema::hasColumn('iscriziones', $anno - 2)) {
+                        $esite = 1;
+                    } else {
+                        $type = 'string';
+                        $length = 20;
+                        $fieldName = $anno - 2;
+
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
+                        });
+                    };
+                    $vanno3 = $anno - 2;
+                } else {
+                    $vanno3 = 'No';
+                }
+
+
                 $iscrizione[] = [
-                    //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
                     'nome' => $sheet->getCell('B' . $row)->getValue(),
                     'cognome' => $sheet->getCell('A' . $row)->getValue(),
                     'socio_id' => $sheet->getCell('X' . $row)->getValue(),
-                    'anno' => $sheet->getCell('G' . $row)->getValue(),
+                    $anno => $vanno1,
+                    $anno-1 => $vanno2,
+                    $anno-2 => $vanno3,
                     'description' => $sheet->getCell('N' . $row)->getValue(),
-
                 ];
-               }
+
                 $startcount++;
             }
 
-            foreach ($row_range as $row) {
-                if ($sheet->getCell('H' . $row)->getValue() == null) {
             
-             
-                }else{
-                    $iscrizione2[] = [
-                        //'id' =>$sheet->getCell( 'A' . $row )->getValue(),
-                        'nome' => $sheet->getCell('B' . $row)->getValue(),
-                        'cognome' => $sheet->getCell('A' . $row)->getValue(),
-                        'socio_id' => $sheet->getCell('X' . $row)->getValue(),
-                        'anno' => $sheet->getCell('H' . $row)->getValue(),
-                        'description' => $sheet->getCell('N' . $row)->getValue(),
-                    ];
-                }
-                $startcount++;
-            }
+
 //-------------------------- Soci -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::table('socis')->truncate();
@@ -182,19 +314,16 @@ class ExcelController extends Controller
             DB::table('socis')->insert($data);
 
 //-------------------------- Iscrizione -----------------------------------
+
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
             DB::table('iscriziones')->truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-             DB::table('iscriziones')->insert($iscrizione);
+            DB::table('iscriziones')->insert($iscrizione);
 
-            //-------------------------- Iscrizion2 -----------------------------------
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-             DB::table('iscriziones')->insert($iscrizione2);
+  
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
-
             return back()->withErrors('There was a problem uploading the data!');
         }
         return back()->withSuccess('I dati sono stati caricati.');
@@ -211,30 +340,48 @@ class ExcelController extends Controller
     public function exportSoci(Request $req)
     {
 
-        $anno = $req->anno;
+        $annoAttuale = Carbon::now()->format('Y');
 
-        // TODO prova salva soci xx
+        $anno = $req->anno;
         /**
          *  Route::get('/exportSoci', 'exportSoci');
          * Prepara i dati da esportare in excel con
          *  $this->ExportExcel($data_array);
          */
-        // $data = DB::table('socis')->orderBy('id', 'DESC')->get();
+        if ($anno == $annoAttuale) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->get();
+        } elseif ($anno == $annoAttuale - 1) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->where('socis.penultimo', '=', $anno)
+                ->get();
+        } elseif ($anno == $annoAttuale - 2) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->where('socis.terultimo', '=', $anno)
+                ->get();
+        }
 
-        $data = DB::table('socis')
-            ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-            ->where('iscriziones.anno', $anno)
+        /* $data = DB::table('socis')
+        ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+        ->where('iscriziones.anno', '=', $anno)
         //->orWhere('iscriziones.anno',null)
-            ->get();
+        ->get();*/
 
         // $socir = DB::table('socis')
         //        ->rightJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
         //       ->get();
 
-        $data_array[] = array("id", "nome", "cognome", "indirizzo", "consegna", "cap", "localita", "comune", "sigla_provincia", "ultimo", "penultimo", "email"
-            , "pec", "codice_fiscale", "partita_iva", "telefono", "cellulare", "tipo_socio", "published", "description", "created_at", "updated_at");
+        $data_array[] = array("id", "nome", "cognome", "indirizzo", "consegna", "cap", "localita", "comune",
+            "sigla_provincia", "Anno-" . $anno, "Anno-" . $anno - 1, "Anno-" . $anno - 2, "email"
+            , "pec", "codice_fiscale", "partita_iva", "telefono", "cellulare",
+            "tipo_socio", "published", "description", "created_at", "updated_at");
 
         foreach ($data as $data_item) {
+
+            //if ($data_item->ultimo == $anno) {
 
             $data_array[] = array(
 
@@ -247,8 +394,9 @@ class ExcelController extends Controller
                 'localita' => $data_item->localita,
                 'comune' => $data_item->comune,
                 'sigla_provincia' => $data_item->sigla_provincia,
-                'ultimo' => $data_item->anno,
-                'penultimo' => $data_item->penultimo,
+                'Anno-' . $anno => 'Si',
+                'Anno-' . $anno - 1 => '',
+                'Anno-' . $anno - 2 => '',
                 'email' => $data_item->email,
                 'pec' => $data_item->pec,
                 'codice_fiscale' => $data_item->codice_fiscale,
@@ -262,6 +410,7 @@ class ExcelController extends Controller
                 'updated_at' => $data_item->updated_at,
 
             );
+            // }
         }
 
         $this->ExportExcel($data_array);
@@ -277,49 +426,75 @@ class ExcelController extends Controller
          */
         // $data = DB::table('socis')->orderBy('id', 'DESC')->get();
 
+        $anno = Carbon::now()->format('Y');
+
+        /*  $data = DB::table('socis')
+        ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+        ->orWhere('iscriziones.anno', null)
+        ->orWhereNotNull('iscriziones.anno')
+        ->get();
+         */
+
         $data = DB::table('socis')
-            ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-            ->orWhere('iscriziones.anno', null)
-            ->orWhereNotNull('iscriziones.anno')
+            ->orderBy('cognome', 'ASC')
             ->get();
 
         // $socir = DB::table('socis')
         //        ->rightJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
         //       ->get();
 
-        $data_array[] = array("id", "nome", "cognome", "indirizzo", "consegna", "cap", "localita", "comune", "sigla_provincia", "ultimo", "penultimo", "email"
-            , "pec", "codice_fiscale", "partita_iva", "telefono", "cellulare", "tipo_socio", "published", "description", "created_at", "updated_at");
+        $data_array[] = array("cognome", "nome", "indirizzo", "cap", "localita",
+            "comune", "sigla_provincia", "Anno-" . $anno, "Anno-" . $anno - 1, "Anno-" . $anno - 2,
+            "consegna", "data-iscriz", "email", "telefono", "cellulare", "pec", "codice_fiscale",
+            "partita_iva", "tipo_socio", "description");
 
         foreach ($data as $data_item) {
 
-            $data_array[] = array(
+            if ($data_item->ultimo == $anno) {
+                $ultimo = 'Si';
+            } else {
+                $ultimo = 'No';
+            }
 
-                'id' => $data_item->id,
-                'nome' => $data_item->nome,
+            if ($data_item->penultimo == $anno - 1) {
+                $penultimo = 'Si';
+            } else {
+                $penultimo = 'No';
+            }
+
+            if ($data_item->terultimo == $anno - 2) {
+                $terultimo = 'Si';
+            } else {
+                $terultimo = 'No';
+            }
+            $data_array[] = array(
                 'cognome' => $data_item->cognome,
+                'nome' => $data_item->nome,
                 'indirizzo' => $data_item->indirizzo,
-                'consegna' => $data_item->consegna,
                 'cap' => $data_item->cap,
                 'localita' => $data_item->localita,
                 'comune' => $data_item->comune,
                 'sigla_provincia' => $data_item->sigla_provincia,
-                'ultimo' => $data_item->anno,
-                'penultimo' => $data_item->penultimo,
+                'Anno-' . $anno => $ultimo,
+                'Anno-' . $anno - 1 => $penultimo,
+                'Anno-' . $anno - 2 => $terultimo,
+                'consegna' => $data_item->consegna,
+                'data-iscriz' => '',
                 'email' => $data_item->email,
+                'telefono' => $data_item->telefono,
+                'cellulare' => $data_item->cellulare,
                 'pec' => $data_item->pec,
                 'codice_fiscale' => $data_item->codice_fiscale,
                 'partita_iva' => $data_item->partita_iva,
-                'telefono' => $data_item->telefono,
-                'cellulare' => $data_item->cellulare,
                 'tipo_socio' => $data_item->tipo_socio,
-                'published' => $data_item->published,
                 'description' => $data_item->description,
-                'created_at' => $data_item->created_at,
-                'updated_at' => $data_item->updated_at,
+                // 'published' => $data_item->published,
+                // 'created_at' => $data_item->created_at,
+                // 'updated_at' => $data_item->updated_at,
 
             );
-        }
 
+        }
         $this->ExportExcel($data_array);
 
     }
@@ -347,64 +522,67 @@ class ExcelController extends Controller
          *  Route::get('/exportIscrizione', 'exportIscrizione');
          * prepara i dati da esportare in excel
          */
-        $data = DB::table('iscriziones')->orderBy('socio_id', 'DESC')->get();
-        $data_array[] = array("id", "anno", "socio_id", "created_at", "updated_at");
 
-        foreach ($data as $data_item) {
-            $data_array[] = array(
+        /*    $data = DB::table('iscriziones')->orderBy('socio_id', 'DESC')->get();
+    $data_array[] = array("id", "anno", "socio_id", "created_at", "updated_at");
 
-                'id' => $data_item->id,
-                'anno' => $data_item->anno,
-                'socio_id' => $data_item->socio_id,
-                'created_at' => $data_item->created_at,
-                'updated_at' => $data_item->updated_at,
+    foreach ($data as $data_item) {
+    $data_array[] = array(
 
-            );
-        }
-        $this->ExportExcel($data_array);
+    'id' => $data_item->id,
+    'anno' => $data_item->anno,
+    'socio_id' => $data_item->socio_id,
+    'created_at' => $data_item->created_at,
+    'updated_at' => $data_item->updated_at,
+
+    );
+    }
+    $this->ExportExcel($data_array);
+     */
     }
 
     public function importIscrizione(Request $request)
     {
+        /*
+    $this->validate($request, [
+    'uploaded_file' => 'required|file|mimes:xls,xlsx',
+    ]);
+    $the_file = $request->file('uploaded_file');
+    try {
 
-        $this->validate($request, [
-            'uploaded_file' => 'required|file|mimes:xls,xlsx',
-        ]);
-        $the_file = $request->file('uploaded_file');
-        try {
+    $spreadsheet = IOFactory::load($the_file->getRealPath());
+    $sheet = $spreadsheet->getActiveSheet();
+    $row_limit = $sheet->getHighestDataRow();
+    $column_limit = $sheet->getHighestDataColumn();
+    $row_range = range(3, $row_limit);
+    $column_range = range('V', $column_limit);
+    $startcount = 2;
+    $data = array();
 
-            $spreadsheet = IOFactory::load($the_file->getRealPath());
-            $sheet = $spreadsheet->getActiveSheet();
-            $row_limit = $sheet->getHighestDataRow();
-            $column_limit = $sheet->getHighestDataColumn();
-            $row_range = range(3, $row_limit);
-            $column_range = range('V', $column_limit);
-            $startcount = 2;
-            $data = array();
+    foreach ($row_range as $row) {
+    $data[] = [
+    'id' => $sheet->getCell('A' . $row)->getValue(),
+    'anno' => $sheet->getCell('B' . $row)->getValue(),
+    'socio_id' => $sheet->getCell('C' . $row)->getValue(),
+    'created_at' => $sheet->getCell('D' . $row)->getValue(),
+    'updated_at' => $sheet->getCell('E' . $row)->getValue(),
+    ];
+    $startcount++;
+    }
 
-            foreach ($row_range as $row) {
-                $data[] = [
-                    'id' => $sheet->getCell('A' . $row)->getValue(),
-                    'anno' => $sheet->getCell('B' . $row)->getValue(),
-                    'socio_id' => $sheet->getCell('C' . $row)->getValue(),
-                    'created_at' => $sheet->getCell('D' . $row)->getValue(),
-                    'updated_at' => $sheet->getCell('E' . $row)->getValue(),
-                ];
-                $startcount++;
-            }
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    DB::table('iscriziones')->truncate();
 
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('iscriziones')->truncate();
+    DB::table('iscriziones')->insert($data);
+    } catch (Exception $e) {
+    // $error_code = $e->errorInfo[1];
 
-            DB::table('iscriziones')->insert($data);
-        } catch (Exception $e) {
-            // $error_code = $e->errorInfo[1];
+    return back()->withErrors('There was a problem uploading the data!');
+    }
 
-            return back()->withErrors('There was a problem uploading the data!');
-        }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        return back()->withSuccess('I dati sono stati caricati.');
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    return back()->withSuccess('I dati sono stati caricati.');
+     */
     }
     // ----------------------------------------------------------------
 }

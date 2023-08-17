@@ -10,10 +10,151 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class SociController extends Controller
 {
     public function index()
+    {
+        /**
+         * Visualizza lista soci
+         *  Route::get('/list', 'index')->name('soci.index')->middleware('is_admin');
+         */
+        $anno = Carbon::now()->format('Y');
+
+        if ((session('asc_desc') == null)) {
+            session(['asc_desc' => 'ASC']);
+        }
+
+        if ((session('colOrd') == null)) {
+            session(['colOrd' => 'cognome']);
+        }
+
+        if ((session('anno') == null)) {
+            session(['anno' => 'tutti']);
+        }
+
+        $viewData = [];
+        $viewData["title"] = "Lista soci - Anagrafica";
+
+        Paginator::useBootstrap();
+// -------------------------------------------------------------------------------------
+
+        $a2023 = session('anno');
+        $a2022 = (int) $a2023 - 1;
+        $a2022 = "" . $a2022;
+        $a2021 = (int) $a2023 - 2;
+        $a2021 = "" . $a2021;
+        $viewData["anno"] = session('anno');
+
+// ----------------------- Visualizza tutti i soci---------------------------------------------------
+
+        if (session('anno') == 'tutti' && session('cognome') == null)  {
+            $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+                    'socis.email',
+                    'socis.pec',
+                    'socis.codice_fiscale',
+                    'socis.partita_iva',
+                    'socis.telefono',
+                    'socis.cellulare',
+                    'socis.tipo_socio',
+                    'socis.published',
+                    'socis.created_at',
+                    'socis.updated_at',
+                    'iscriziones.'.$anno.' as a'.$anno,
+                    'iscriziones.'.($anno-1).' as a'.($anno-1),
+                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                )
+                ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+                ->paginate(session('pag'));
+
+            session(['anno' => null]);
+            
+            $numsel = $viewData["socis"]->total();
+
+// ------------------- Seleziona anno ------------------------------
+
+        } elseif (session('anno') != 'tutti' && session('cognome') == null) {
+            $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+                    'socis.email',
+                    'socis.pec',
+                    'socis.codice_fiscale',
+                    'socis.partita_iva',
+                    'socis.telefono',
+                    'socis.cellulare',
+                    'socis.tipo_socio',
+                    'socis.published',
+                    'socis.created_at',
+                    'socis.updated_at',
+                    'iscriziones.'.$anno.' as a'.$anno,
+                    'iscriziones.'.($anno-1).' as a'.($anno-1),
+                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                )
+                ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+                ->where('iscriziones.' . session('anno'), '=', session('anno'))
+                ->paginate(session('pag'));
+
+           // ------- conta totale selezionati --------------
+            $numsel = $viewData["socis"]->total();
+
+          // ---------------- selziona cognome -------------------
+        } elseif (session('cognome') != null) {
+            $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+                    'socis.email',
+                    'socis.pec',
+                    'socis.codice_fiscale',
+                    'socis.partita_iva',
+                    'socis.telefono',
+                    'socis.cellulare',
+                    'socis.tipo_socio',
+                    'socis.published',
+                    'socis.created_at',
+                    'socis.updated_at',
+                    'iscriziones.'.$anno.' as a'.$anno,
+                    'iscriziones.'.($anno-1).' as a'.($anno-1),
+                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                )
+                ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+                ->where('socis.cognome', '=', session('cognome'))
+                ->paginate(session('pag'));
+          
+                session(['cognome' => null]);
+                $numsel = $viewData["socis"]->total();
+        }
+
+        $viewData["servizio"] = $numsel;
+
+        return view('soci.index')->with("viewData", $viewData);
+    }
+
+    public function index_old()
     {
         /**
          * Visualizza lista soci
@@ -31,13 +172,11 @@ class SociController extends Controller
             session(['anno' => 'tutti']);
         }
 
-      
         $viewData = [];
         $viewData["title"] = "Lista soci - Anagrafica";
 
         Paginator::useBootstrap();
         // $viewData["socis"] = Soci::orderBy('cognome')->paginate(session('pag'));
-
 
 // -------------------------------------------------------------------------------------
         /* per contare i record selezionati da anno */
@@ -83,52 +222,18 @@ class SociController extends Controller
                 'socis.published',
                 'socis.created_at',
                 'socis.updated_at',
-                'socis.ultimo',
-                'socis.penultimo',
-                'iscriziones.anno as iscrizione_anno',
+
                 'iscriziones.socio_id',
             )
                 ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('iscriziones.anno', '=', session('anno'))
-                //->where('socis.cognome', '=', session('cognome'))
+            //->where('socis.cognome', '=', session('cognome'))
             // ->orWhere('iscriziones.anno', '=', null)
                 ->paginate(session('pag'));
-                session(['anno' =>null]);
+            session(['anno' => null]);
 
-        } elseif(session('cognome') != null){
-            $viewData["socis"] = Soci::select('socis.id',
-            'socis.nome',
-            'socis.cognome',
-            'socis.indirizzo',
-            'socis.consegna',
-            'socis.cap',
-            'socis.localita',
-            'socis.comune',
-            'socis.sigla_provincia',
-            'socis.email',
-            'socis.pec',
-            'socis.codice_fiscale',
-            'socis.partita_iva',
-            'socis.telefono',
-            'socis.cellulare',
-            'socis.tipo_socio',
-            'socis.published',
-            'socis.created_at',
-            'socis.updated_at',
-            'socis.ultimo',
-            'socis.penultimo',
-            'iscriziones.anno as iscrizione_anno',
-            'iscriziones.socio_id',
-        )
-            ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
-            ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
-            ->where('socis.cognome', '=', session('cognome'))
-        // ->orWhere('iscriziones.anno', '=', null)
-            ->paginate(session('pag'));
-
-            session(['cognome' =>null]);
-        }else {
+        } elseif (session('cognome') != null) {
             $viewData["socis"] = Soci::select('socis.id',
                 'socis.nome',
                 'socis.cognome',
@@ -148,14 +253,40 @@ class SociController extends Controller
                 'socis.published',
                 'socis.created_at',
                 'socis.updated_at',
-                'socis.ultimo',
-                'socis.penultimo',
-                'iscriziones.anno as iscrizione_anno',
+                'iscriziones.socio_id',
+            )
+                ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
+                ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
+                ->where('socis.cognome', '=', session('cognome'))
+            // ->orWhere('iscriziones.anno', '=', null)
+                ->paginate(session('pag'));
+
+            session(['cognome' => null]);
+        } else {
+            $viewData["socis"] = Soci::select('socis.id',
+                'socis.nome',
+                'socis.cognome',
+                'socis.indirizzo',
+                'socis.consegna',
+                'socis.cap',
+                'socis.localita',
+                'socis.comune',
+                'socis.sigla_provincia',
+                'socis.email',
+                'socis.pec',
+                'socis.codice_fiscale',
+                'socis.partita_iva',
+                'socis.telefono',
+                'socis.cellulare',
+                'socis.tipo_socio',
+                'socis.published',
+                'socis.created_at',
+                'socis.updated_at',
                 'iscriziones.socio_id',
             )
                 ->leftJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
-                //->where('socis.cognome', '=', session('cognome'))
+            //->where('socis.cognome', '=', session('cognome'))
                 ->paginate(session('pag'));
 
         }
@@ -202,8 +333,6 @@ class SociController extends Controller
          */
         session(['cognome' => '']);
         session(['cognome' => $req->cognome]);
-
- 
 
         return redirect('/list');
     }
@@ -360,7 +489,7 @@ class SociController extends Controller
         $viewData["soci"] = Soci::find($id);
         $viewData["consegnes"] = Consegne::all();
         $viewData["iscriziones"] = Iscrizione::orderBy('anno', 'DESC')->get();
-    
+
         return view('soci.edit')->with("viewData", $viewData);
     }
 
@@ -427,17 +556,17 @@ class SociController extends Controller
     public function anno(Request $req)
     {
 
-        $viewData = [];
-        $viewData["title"] = "Anno ";
-        $viewData["subtitle"] = "Iscrizioni";
+        /* $viewData = [];
+    $viewData["title"] = "Anno ";
+    $viewData["subtitle"] = "Iscrizioni";
 
-        $anno = $req->ultimo_anno;
-        \Illuminate\Pagination\Paginator::useBootstrap();
-        $$viewData = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->paginate(session('pag'));
+    $anno = $req->ultimo_anno;
+    \Illuminate\Pagination\Paginator::useBootstrap();
+    $$viewData = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->paginate(session('pag'));
 
-        $viewData["iscrizionis"] = Iscrizione::all();
-        return view('soci.singolo')->with("viewData", $viewData);
-
+    $viewData["iscrizionis"] = Iscrizione::all();
+    return view('soci.singolo')->with("viewData", $viewData);
+     */
     }
 
     public function sociCancella(Request $requ)

@@ -41,7 +41,7 @@
     <div class="container-fluid">
         <div class="card mb-4">
             <div class="card-header">
-                
+
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formExcel_soci' }}" role="button">Excel</a>
                 <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
 
@@ -91,7 +91,11 @@
                                         @csrf
                                         <div class="row">
                                             <div class="input-group">
-
+                                                @php
+                                                    if (session('pag') == null) {
+                                                        session(['pag' => 25]);
+                                                    }
+                                                @endphp
                                                 <input type="text" class="form-control te " id="nom" name="rows"
                                                     value="{{ session('pag') }}" placeholder="N. righe visualizzate">
                                                 <button type="submit" class="btn btn-success bt-sm te">N.Righe</button>
@@ -155,7 +159,10 @@
         </div>
         <div class="colo">
 
-
+            @php
+                use Carbon\Carbon;
+                $anno = Carbon::now()->format('Y');
+            @endphp
 
             <div class="card-body">
                 {{ 'Selezionati: ' . $viewData['servizio'] }}.<span
@@ -176,12 +183,15 @@
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
                             <th scope="col">Consegne</th>
                             <th scope="col">Socio</th>
+                            <th scope="col">{{ $anno }}</th>
+                            <th scope="col">{{ $anno - 1 }}</th>
+                            <th scope="col">{{ $anno - 2 }}</th>
                             <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
 
                         </tr>
                     </thead>
                     <tbody>
-
+                        {{-- dd($viewData) --}}
                         @foreach ($viewData['socis'] as $soci)
                             <tr>
                                 <td><input type="checkbox" class="checkbox" data-id="{{ $soci->getId() }}"></td>
@@ -198,16 +208,19 @@
                                 <td>{{ $soci->getConsegna() }}</td>
 
                                 <td>{{ $soci->getTipo_socio() }}</td>
-                                 
+                                <td>{{ $soci->a2023 }}</td>
+                                <td>{{ $soci->a2022 }}</td>
+                                <td>{{ $soci->a2021 }}</td>
                                 <!-- non usato per ora -->
-                              <?php /*
+                                <?php /*
                                 @if ($soci->getPublished() == "Si")
                                     <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Si </a>
                                     @else
                                     <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> No </a>
                                 @endif 
                                 </td>
-                               */ ?>
+                               */
+                                ?>
 
                                 <td>{{ $soci->iscrizione_anno }}</td>
                             </tr>
@@ -217,6 +230,7 @@
             </div>
             {{ $viewData['socis']->links() }}
         </div>
+        <br><br><br>
     @endsection
     <br>
     <br>
