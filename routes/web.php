@@ -71,6 +71,7 @@ Route::get('admin/super', [HomeController::class, 'adminHome'])->name('admin.sup
 //usa database per memorizzare dati da javascript
 Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
 Route::post('salvaChck_del', [ServizioController::class, 'salvaSelChck_selSocio']);
+Route::get('preferenze', [ServizioController::class, 'preferenze']);
 
 Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/anagrafiche', 'home')->middleware('is_admin');;

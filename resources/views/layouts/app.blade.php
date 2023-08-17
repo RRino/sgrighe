@@ -71,6 +71,7 @@
                 <a href="/admin/products" class="w3-bar-item w3-button w3-hover-green">Magazzino riviste</a>
                 <a class="dropdown-item" href="/anagrafiche">Anagrafiche</a>
                 <a class="dropdown-item" href="/articoli">Articoli</a>
+                <a class="dropdown-item" href="/preferenze">Preferenze</a>
                 
                 <div class="dropdown">
                     <button class="btn btn-link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"

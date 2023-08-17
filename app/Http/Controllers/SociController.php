@@ -40,11 +40,6 @@ class SociController extends Controller
         Paginator::useBootstrap();
 // -------------------------------------------------------------------------------------
 
-        $a2023 = session('anno');
-        $a2022 = (int) $a2023 - 1;
-        $a2022 = "" . $a2022;
-        $a2021 = (int) $a2023 - 2;
-        $a2021 = "" . $a2021;
         $viewData["anno"] = session('anno');
 
 // ----------------------- Visualizza tutti i soci---------------------------------------------------

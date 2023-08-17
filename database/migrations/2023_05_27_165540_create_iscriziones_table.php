@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('iscriziones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('socio_id')->nullable();;
-            $table->string('nome')->nullable();
-            $table->string('cognome')->nullable();
-            $table->integer('anno')->nullable();;
-            $table->string('description')->nullable();
+            //$table->string('nome')->nullable();
+           // $table->string('cognome')->nullable();
+            //$table->integer('anno')->nullable();;
+            //$table->string('description')->nullable();
             $table->timestamps();
-           // $table->foreign('socio_id')->references('id')->on('socis')->onDelete('cascade');
             $table->foreign('socio_id')->references('id')->on('socis')->onUpdate('cascade')->onDelete('cascade');
-            //->onUpdate('cascade') ->onDelete('cascade');
-           // $table->foreign('socio_id')->references('id')->on('iscriziones')->onDelete('cascade');
+    
             });
     }
 

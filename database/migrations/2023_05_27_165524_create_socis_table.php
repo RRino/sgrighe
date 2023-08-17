@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('localita',255)->nullable();
             $table->string('comune',255)->nullable();
             $table->string('sigla_provincia',25)->nullable();
-            $table->string('ultimo',55)->nullable();
-            $table->string('penultimo',55)->nullable();
+           // $table->string('ultimo',55)->nullable();
+           // $table->string('penultimo',55)->nullable();
             $table->string('email',255)->nullable();
             $table->string('pec',55)->nullable();
             $table->string('codice_fiscale',55)->nullable();

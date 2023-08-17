@@ -34,6 +34,7 @@ class IscrizioneController extends Controller
 
         $viewData["iscrizioni"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
                 ->select('socis.id',
+                    'iscriziones.socio_id',
                     'socis.nome',
                     'socis.cognome',
                     'iscriziones.'.$anno.' AS  a'.$anno,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Iscrizione;
 use App\Models\Param_etichette;
 use App\Models\Soci;
+use Carbon\Carbon;
 use Elibyy\TCPDF\Facades\TCPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,10 @@ class PdfController extends Controller
          */
 
         $anno = $req->bollettini_anno;
+        if ($anno == null) {
+            $anno = Carbon::now()->format('Y');
+        }
+
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
         // window.location.href = "/bollettini/1";
         $tip = $req->tipo;
@@ -34,6 +39,9 @@ class PdfController extends Controller
         if ($tip == 1) {
             //  $datis = Servizio::find(1);
             $datis = DB::table('servizios')->where('nome', 'check')->first();
+            $causale = DB::table('servizios')->where('nome', 'causale')->first();
+
+            $causale = $causale->dati . ' - anno: ' . (string) $anno;
             $dt = explode(',', $datis->dati);
             $data = Soci::find($dt);
         }
@@ -43,54 +51,24 @@ class PdfController extends Controller
          */
         if ($tip == 3) {
 
-            /*     i Author::leftJoin('posts', 'posts.author_id', '=', 'authors.id')
-            ->select('authors.*')
-            ->where('authors.status', 'active')
-            ->where('authors.subscription', 'active')
-            ->get();
-
-            $this->data = \DB::table('months')->select(DB::raw("months.id, COUNT(clients.id) as total"))
-            ->leftJoin('clients','months.id','=','MONTH(clients.created_at)')
-            ->groupBy('months.id')
-            ->first();
-             */
-            //get users that have status $users1 = DB::table('users')->leftjoin('result', 'users.id', '=', 'result.user_id')->where('users.active', '=', '1')->where('result.identity', '=', '1')->select('users., 'result.status')->orderBy(users.name', asc'); //get the rest of users and union the rest ;) $users2 = DB::table('users')->whereNOT('id', 'status.user_id')->select('users.', , DB::raw('0 as status')])->union($users1)->get();
-//---------------------------------
-
-          /*  $data = DB::table('iscriziones')->select('socio_id', DB::raw('MAX(anno) as ultimo_anno'))
-                ->groupBy('socio_id')
-                ->havingRaw('MAX(anno) = ?', [$anno])
+            $data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+            
+                    'iscriziones.' . $anno . ' as a' . $anno,
+           
+                )
+                ->orderBy('socis.cognome', 'ASC')
+                ->where('iscriziones.' . $anno, '=', $anno)
                 ->get();
 
-            $data = \DB::table('socis')->select(DB::raw("iscriziones.socio_id, MAX(iscriziones.anno) as max_anno"))
-                ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-                ->groupBy('iscriziones.socio_id')
-                ->get();*/
-
-              /*  dd($data);
-
-                $data = DB::table('socis AS g')
-                ->leftJoin('iscriziones AS s', 'g.id', '=', 's.socio_id')
-                ->select('s.socio_id', DB::raw('MAX(s.anno) AS subscriptions'))
-                ->groupBy('s.id')
-                ->orderBy('anno', 'DESC')
-                ->get();
-
-            dd($data);
-
-            $data1 = DB::table('socis')
-                ->whereIn('id', $data->socio_id)
-                ->get();
-
-            dd($data1);
-            // $data = DB::table('socis')->where('penultimo','=', $anno)->where('ultimo','=',$anno-1)->get();
-
-            $data = DB::table('iscriziones')
-                ->select(DB::raw('count(*) as iscri_count, anno'))
-                ->where('anno', '=', $anno)
-                ->groupBy('anno')
-                ->get();*/
-                $data = DB::table('socis')->where('penultimo','=', $anno)->where('ultimo','=',$anno-1)->get();
         }
 
         $pdf = new TCPDF;
@@ -362,19 +340,31 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
             $dt = explode(',', $datis->dati);
             $sheet1Data = Soci::find($dt);
 
-            // cancella i chck selezionati
-            /*  $servizio = Servizio::find(1);
-        $servizio->nome = 'soci';
-        $servizio->uso = 'selChck';
-        $servizio->dati = '';
-        $servizio->save();*/
         }
 
         if ($tip == 2) {
             // $sheet1Data = DB::table('socis')->where('socis.anno', $anno)->orderBy('id', 'DESC')->get();
+            //  $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            //   ->where('iscriziones.anno', $anno)
+            //   ->get();
+
             $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-                ->where('iscriziones.anno', $anno)
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+                    'iscriziones.' . $anno . ' as a' . $anno,
+          
+                )
+                ->orderBy('socis.cognome', 'ASC')
+                ->where('iscriziones.' . $anno, '=', $anno)
                 ->get();
+
         }
 
         $pdf = new TCPDF;

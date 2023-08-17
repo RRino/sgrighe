@@ -52,4 +52,10 @@ class ServizioController extends Controller
         }
 
     }
+
+
+    public function preferenze()
+    {
+        return view('servizio.preferenze');
+    }
 }
