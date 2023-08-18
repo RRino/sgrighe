@@ -72,6 +72,8 @@ Route::get('admin/super', [HomeController::class, 'adminHome'])->name('admin.sup
 Route::post('salvaChck', [ServizioController::class, 'salvaSelChck']);
 Route::post('salvaChck_del', [ServizioController::class, 'salvaSelChck_selSocio']);
 Route::get('preferenze', [ServizioController::class, 'preferenze']);
+Route::post('pref_bollettini', [ServizioController::class, 'pref_bollettini']);
+
 
 Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/anagrafiche', 'home')->middleware('is_admin');;
