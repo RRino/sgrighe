@@ -34,7 +34,7 @@ Route::get('/nonAut', function () {
 });
 
 
-// -------------------- Route Libro -------------------------
+// -------------------- Route Libro Laravel-------------------------
     Route::get('/index', 'App\Http\Controllers\HomeController@index')->name("home.index");
     Route::get('/about', 'App\Http\Controllers\HomeController@about')->name("home.about");
     Route::get('/products', 'App\Http\Controllers\ProductController@index')->name("product.index");
@@ -75,11 +75,9 @@ Route::get('preferenze', [ServizioController::class, 'preferenze']);
 
 Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/anagrafiche', 'home')->middleware('is_admin');;
-
     Route::get('/consegne', 'consegne');
     Route::get('/formConsegne', 'formAddConsegne');
     Route::POST('addConsegne', 'store');
-
     Route::get('/deleteConsegne/{id}', 'delete');
     Route::post('editConsegne', 'edit');
 });
