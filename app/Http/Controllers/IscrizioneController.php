@@ -7,7 +7,6 @@ use App\Models\Soci;
 use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 
@@ -20,31 +19,8 @@ class IscrizioneController extends Controller
          * Route::get('iscrizione', 'iscrizioneList');
          * // Lista iscrizioni con edit e ricerca
          */
-        // TODO sistemare ricerca
 
-       /* Paginator::useBootstrap();
-        $viewData = [];
-        $viewData["title"] = "iscr ";
-        $viewData["subtitle"] = "Iscrizioni";
-
-        //$viewData["iscrizioni"] = Iscrizione::all();
-        $anno = Carbon::now()->format('Y');
-        $viewData["anno"] = $anno;
-
-        $viewData["iscrizioni"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-            ->select('socis.id',
-                'iscriziones.socio_id',
-                'socis.nome',
-                'socis.cognome',
-                'iscriziones.' . $anno . ' AS  a' . $anno,
-                'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
-                'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
-            )
-            ->orderBy('socis.cognome', 'ASC')
-            ->paginate(session('pag'));
-*/
-
-            $viewData =  iscri_leftJoin();
+        $viewData = iscri_leftJoin();
 
         return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
     }
@@ -136,8 +112,7 @@ class IscrizioneController extends Controller
         $viewData["iscrizioni"]->$anno = $req->anno;
         $viewData["iscrizioni"]->description = $req->description;
         $viewData["iscrizioni"]->save();
-        //$viewData["socis"] = Soci::find($id);
-
+       
         return redirect('/list');
 
     }
@@ -165,15 +140,15 @@ class IscrizioneController extends Controller
         $iscrizioni = Iscrizione::find($id);
         $iscrizioni->socio_id = $req->socio_id;
         $iscrizioni[$anno] = $req[$anno];
-        $iscrizioni[$anno-1] = $req[$anno-1];
-        $iscrizioni[$anno-2] = $req[$anno-2];
-     
+        $iscrizioni[$anno - 1] = $req[$anno - 1];
+        $iscrizioni[$anno - 2] = $req[$anno - 2];
+
         $iscrizioni['nome'] = $req['nome'];
         $iscrizioni['cognome'] = $req['cognome'];
         $iscrizioni['description'] = $req['description'];
- 
+
         $iscrizioni->save();
-      
+
         $viewData["iscrizioni"] = Iscrizione::all();
 
         return redirect('/iscrizione');
@@ -182,6 +157,7 @@ class IscrizioneController extends Controller
 
     public function filtraIscritto()
     {
+     
 
         $viewData = [];
         $viewData["title"] = "Filtra Iscritto";
@@ -193,15 +169,20 @@ class IscrizioneController extends Controller
     public function trovaIscritto(Request $req)
     {
 
+       
         $viewData = [];
 
+        Iscrizione::validate($req);
         $data = Soci::where('cognome', '=', $req->cognome)->get();
+       
         if (isset($data[0]->id)) {
             $id = $data[0]->id;
 
             $viewData["iscrizioni"] = Iscrizione::rightJoin('socis', 'socis.id', '=', 'iscriziones.socio_id')->orderBy('iscriziones.socio_id', 'DESC')
                 ->where('socio_id', '=', $id)
                 ->get(['iscriziones.*', 'iscriziones.socio_id', 'socis.*']);
+
+               // TODO qui 
             return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
         } else {
             $viewData["title"] = "Cognome non trovato";

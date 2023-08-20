@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="/css/app.css">
 
     @php
-    $anno = $viewData["anno"];
+    use Carbon\Carbon;
+    $anno = Carbon::now()->format('Y');
+   // $anno = $viewData["anno"];
     $anno0 = 'a'.$anno;
     $anno1 = 'a'.$anno-1;
     $anno2 = 'a'.$anno-2;
@@ -36,9 +38,6 @@
 
 
 {{-- dd($viewData['iscrizioni'][1]) --}}
-@php
-    $anno = $viewData["anno"] ;
-@endphp
 
         @foreach ($viewData['iscrizioni'] as $anag)
             <tr class="colo-list">

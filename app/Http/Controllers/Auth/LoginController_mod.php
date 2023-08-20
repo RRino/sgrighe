@@ -61,7 +61,7 @@ class LoginController extends Controller
                 
                 return redirect('/');
               
-// TODO verificare perche non funziona user al posto di home
+
             } else {
                 dd('LoginController','return redirect()->route("home")');
                 return redirect()->route('home');

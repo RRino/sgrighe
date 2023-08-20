@@ -168,7 +168,7 @@ class ServizioController extends Controller
          * //  aggiunge anno iscrizione
          *
          */
-// TODO Da fare
+// TODO multiple etichette Da fare non usdato per ora
         $viewData = [];
         $viewData["title"] = "etichette ";
         $viewData["subtitle"] = "Parametri etichette";

@@ -402,12 +402,12 @@ class SociController extends Controller
          * usato in filtroAanno.blade
          *
          */
+
         $anno = $req->anno;
 
         $viewData = [];
         $viewData["title"] = "Filtro anno";
-        //$viewData["socis"] = Soci::all();
-
+        
         $viewData["soci"] = Soci::join('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
             ->where('iscriziones.anno', '=', $anno)
             ->orderBy('socis.cognome', 'DESC')
@@ -464,7 +464,6 @@ class SociController extends Controller
 
         $newsoci->save();
 
-        //return back();
         return view('soci.formAdd', ['name' => 'James']);
 
     }
@@ -528,7 +527,7 @@ class SociController extends Controller
 
         $soci->save();
         return redirect('/list');
-        //return view('soci.index')->with("viewData", $viewData);
+     
     }
 
     public function singolo(Request $req)
@@ -554,21 +553,7 @@ class SociController extends Controller
         return view('soci.singolo')->with("viewData", $viewData);
     }
 
-    public function anno(Request $req)
-    {
 
-        /* $viewData = [];
-    $viewData["title"] = "Anno ";
-    $viewData["subtitle"] = "Iscrizioni";
-
-    $anno = $req->ultimo_anno;
-    \Illuminate\Pagination\Paginator::useBootstrap();
-    $$viewData = DB::table('socis')->where('socis.ultimo', $anno)->orderBy('id', 'DESC')->paginate(session('pag'));
-
-    $viewData["iscrizionis"] = Iscrizione::all();
-    return view('soci.singolo')->with("viewData", $viewData);
-     */
-    }
 
     public function sociCancella(Request $requ)
     {
