@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Consegne;
 use App\Models\Iscrizione;
 use App\Models\Soci;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
 
 class SociController extends Controller
 {
@@ -45,7 +45,7 @@ class SociController extends Controller
 
 // ----------------------- Visualizza tutti i soci---------------------------------------------------
 
-        if (session('anno') == 'tutti' && session('cognome') == null)  {
+        if (session('anno') == 'tutti' && session('cognome') == null) {
             $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
                 ->select('socis.id',
                     'socis.nome',
@@ -66,15 +66,15 @@ class SociController extends Controller
                     'socis.published',
                     'socis.created_at',
                     'socis.updated_at',
-                    'iscriziones.'.$anno.' as a'.$anno,
-                    'iscriziones.'.($anno-1).' as a'.($anno-1),
-                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                    'iscriziones.' . $anno . ' as a' . $anno,
+                    'iscriziones.' . ($anno - 1) . ' as a' . ($anno - 1),
+                    'iscriziones.' . ($anno - 2) . ' as a' . ($anno - 2),
                 )
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->paginate(session('pag'));
 
             session(['anno' => null]);
-            
+
             $numsel = $viewData["socis"]->total();
 
 // ------------------- Seleziona anno ------------------------------
@@ -100,18 +100,18 @@ class SociController extends Controller
                     'socis.published',
                     'socis.created_at',
                     'socis.updated_at',
-                    'iscriziones.'.$anno.' as a'.$anno,
-                    'iscriziones.'.($anno-1).' as a'.($anno-1),
-                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                    'iscriziones.' . $anno . ' as a' . $anno,
+                    'iscriziones.' . ($anno - 1) . ' as a' . ($anno - 1),
+                    'iscriziones.' . ($anno - 2) . ' as a' . ($anno - 2),
                 )
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('iscriziones.' . session('anno'), '=', session('anno'))
                 ->paginate(session('pag'));
 
-           // ------- conta totale selezionati --------------
+            // ------- conta totale selezionati --------------
             $numsel = $viewData["socis"]->total();
 
-          // ---------------- selziona cognome -------------------
+            // ---------------- selziona cognome -------------------
         } elseif (session('cognome') != null) {
             $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
                 ->select('socis.id',
@@ -133,21 +133,20 @@ class SociController extends Controller
                     'socis.published',
                     'socis.created_at',
                     'socis.updated_at',
-                    'iscriziones.'.$anno.' as a'.$anno,
-                    'iscriziones.'.($anno-1).' as a'.($anno-1),
-                    'iscriziones.'.($anno-2).' as a'.($anno-2),
+                    'iscriziones.' . $anno . ' as a' . $anno,
+                    'iscriziones.' . ($anno - 1) . ' as a' . ($anno - 1),
+                    'iscriziones.' . ($anno - 2) . ' as a' . ($anno - 2),
                 )
                 ->orderBy('socis.' . session('colOrd'), session('asc_desc'))
                 ->where('socis.cognome', '=', session('cognome'))
                 ->paginate(session('pag'));
-          
-                session(['cognome' => null]);
-                $numsel = $viewData["socis"]->total();
+
+            session(['cognome' => null]);
+            $numsel = $viewData["socis"]->total();
         }
 
-        
         $viewData["servizio"] = $numsel;
-        
+
         return view('soci.index')->with("viewData", $viewData);
     }
 
@@ -336,7 +335,7 @@ class SociController extends Controller
 
     public function changeStatus($id)
     {
-
+// TODO  non usato
         /**
          * Cambia lo stato Ablilitato/sospeso del socio
          *Route::get('changeStatus/{id}', 'changeStatus');
@@ -384,7 +383,7 @@ class SociController extends Controller
             //$viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
             session(['asc_desc' => 'DESC']);
         } else {
-           // $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));
+            // $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));
             session(['asc_desc' => 'ASC']);
         }
 
@@ -485,10 +484,10 @@ class SociController extends Controller
     {
 
         $viewData = [];
-        $viewData["title"] = "Admin Page - Edit soci ";
-        $viewData["soci"] = Soci::find($id);
+        // da helpers
+        $viewData = select_sociRightjoin_singolo($id);
+        $viewData["title"] = "Edit socio ";
         $viewData["consegnes"] = Consegne::all();
-        $viewData["iscriziones"] = Iscrizione::orderBy('anno', 'DESC')->get();
 
         return view('soci.edit')->with("viewData", $viewData);
     }
@@ -503,6 +502,7 @@ class SociController extends Controller
          *
          *
          */
+
 
         Soci::validate($request);
         $viewData["title"] = "- soci - ";
@@ -525,8 +525,7 @@ class SociController extends Controller
         $soci->setCellulare($request->input('cellulare'));
         $soci->setPublished($request->get('published'));
         $soci->setDescription($request->input('description'));
-        //$soci->setUltimo($request->input('ultimo'));
-        //$soci->setPenultimo($request->input('penultimo'));
+
         $soci->save();
         return redirect('/list');
         //return view('soci.index')->with("viewData", $viewData);
@@ -542,13 +541,15 @@ class SociController extends Controller
          * richiamato da click sul cognome da lista soci
          *
          */
+
         $id = $req->id;
 
         $viewData = [];
         $viewData["title"] = "Socio ";
         $viewData["subtitle"] = "Singolo";
-        $viewData["socis"] = Soci::find($id);
-        $viewData["iscriziones"] = Iscrizione::select('id', 'anno', 'description')->where('socio_id', $id)->get();
+
+        // da helpers
+        $viewData = select_sociRightjoin_singolo($id);
 
         return view('soci.singolo')->with("viewData", $viewData);
     }

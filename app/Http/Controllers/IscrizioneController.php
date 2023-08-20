@@ -22,7 +22,7 @@ class IscrizioneController extends Controller
          */
         // TODO sistemare ricerca
 
-        Paginator::useBootstrap();
+       /* Paginator::useBootstrap();
         $viewData = [];
         $viewData["title"] = "iscr ";
         $viewData["subtitle"] = "Iscrizioni";
@@ -42,6 +42,9 @@ class IscrizioneController extends Controller
             )
             ->orderBy('socis.cognome', 'ASC')
             ->paginate(session('pag'));
+*/
+
+            $viewData =  iscri_leftJoin();
 
         return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
     }

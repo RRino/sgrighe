@@ -30,7 +30,7 @@
             <td>{{ $anno-1 }}</td>
             <td>{{ $anno-2 }}</td>
             <td>Modifica/Aggiungi</td>
-            <td>Cancella</td>
+           <!-- <td>Cancella</td>-->
 
         </tr>
 
@@ -50,7 +50,9 @@
                 <td>{{ $anag->$anno2 }}</td>
 
                 <td><a href={{ '/editIscrizione/' . $anag->id }}>Edit/Aggiungi</a></td>
-                <td><a href={{ '/deleteIscrizione/' . $anag->id }} onclick="return confirm('Sei sicuro?')">Cancella</a>
+
+               <!-- <td><a href={{-- '/deleteIscrizione/'.$anag->id --}} onclick="return confirm('Sei sicuro?')">Cancella</a>-->
+                    
                 </td>
             </tr>
 

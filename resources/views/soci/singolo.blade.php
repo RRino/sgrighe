@@ -9,7 +9,8 @@
         padding: 5px;
         width: 380px;
     }
-    .slabelb{
+
+    .slabelb {
         font-weight: 700;
     }
 </style>
@@ -29,128 +30,120 @@
 
 
 <div class="container-sm">
-
-    <form method="POST" action="{{ '/deleteSocio/' . $viewData['socis']->getId() }}">
+    @foreach ($viewData['socis'] as $dati)
+        <form method="POST" action="{{ '/deleteSocio/' . $dati->getId() }}">
+            @csrf
+            <input name="_method" type="hidden" value="DELETE">
+            <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip"
+                title='Delete'>Cancella</button>
+            <a class="btn btn-primary b-list" href={{ '/edit/' . $dati->getId() }} role="button">Modifica</a>
+            <a class="btn btn-primary b-list" href={{ '/showIscrizione/' . $dati->getId() }}>Add iscrizione</a>
+            <a class="btn btn-success b-list" href="{{ '/list' }}" role="button">Lista soci</a>
+            <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Lista iscrizioni</a>
+        </form>
+        <br>
         @csrf
-        <input name="_method" type="hidden" value="DELETE">
-        <button type="submit" class="btn btn-xs btn-danger btn-flat show_confirm" data-toggle="tooltip"
-            title='Delete'>Cancella</button>
-        <a class="btn btn-primary b-list" href={{ '/edit/' . $viewData['socis']->getId() }} role="button">Modifica</a>
-        <a class="btn btn-primary b-list" href={{ '/showIscrizione/' . $viewData['socis']->getId() }}>Add iscrizione</a>
-        <a class="btn btn-success b-list" href="{{ '/list' }}" role="button">Lista soci</a>
-        <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Lista iscrizioni</a>
-    </form>
-    <br>
-    @csrf
-    <div class="singolo">
-        <label class="slabel" for="usr">Id:</label>{{ $viewData['socis']->getId() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="usr">Id:</label>{{ $dati->getId() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="usr">Nome:</label>
-        <span class="slabelb">{{ $viewData['socis']->getNome() }}</span>
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="usr">Nome:</label>
+            <span class="slabelb">{{ $dati->getNome() }}</span>
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Cognome:</label>
-        <span class="slabelb">{{ $viewData['socis']->getCognome() }}</span>
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Cognome:</label>
+            <span class="slabelb">{{ $dati->getCognome() }}</span>
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Indirizzo:</label>
-        {{ $viewData['socis']->getIndirizzo() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Indirizzo:</label>
+            {{ $dati->getIndirizzo() }}
+        </div>
 
 
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">CAP:</label>
-        {{ $viewData['socis']->getCap() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">CAP:</label>
+            {{ $dati->getCap() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Località:</label>
-        {{ $viewData['socis']->getLocalita() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Località:</label>
+            {{ $dati->getLocalita() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Comune:</label>
-        {{ $viewData['socis']->getComune() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Comune:</label>
+            {{ $dati->getComune() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Sigla Prov.:</label>
-        {{ $viewData['socis']->getSigla_provincia() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Sigla Prov.:</label>
+            {{ $dati->getSigla_provincia() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Email:</label>
-        {{ $viewData['socis']->getEmail() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Email:</label>
+            {{ $dati->getEmail() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">PEC:</label>
-        {{ $viewData['socis']->getPec() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">PEC:</label>
+            {{ $dati->getPec() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">C.F:</label>
-        {{ $viewData['socis']->getCodice_fiscale() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">C.F:</label>
+            {{ $dati->getCodice_fiscale() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">P.Iva:</label>
-        {{ $viewData['socis']->getPartita_iva() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">P.Iva:</label>
+            {{ $dati->getPartita_iva() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Telefono:</label>
-        {{ $viewData['socis']->getTelefono() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Telefono:</label>
+            {{ $dati->getTelefono() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Cell.:</label>
-        {{ $viewData['socis']->getCellulare() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Cell.:</label>
+            {{ $dati->getCellulare() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Tipo Socio:</label>
-        <td>{{ $viewData['socis']->getTipo_socio() }}</td>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Tipo Socio:</label>
+            <td>{{ $dati->getTipo_socio() }}</td>
 
-    </div>
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Pubblicato:</label>
-        {{ $viewData['socis']->getPublished() }}
-        @if ($viewData['socis']->getPublished() == false)
-            Sospeso
-        @endif
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Pubblicato:</label>
+            {{ $dati->getPublished() }}
+            @if ($dati->getPublished() == false)
+                Sospeso
+            @endif
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Consegna:</label>
-        {{ $viewData['socis']->getConsegna() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Consegna:</label>
+            {{ $dati->getConsegna() }}
+        </div>
 
-    <div class="singolo">
-        <label class="slabel" for="pwd">Note:</label>
-        {{ $viewData['socis']->getDescription() }}
-    </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">Note:</label>
+            {{ $dati->getDescription() }}
+        </div>
 
-    <div class="iscrizione">
-        <label class="slabel" for="pwd">Iscrizioni:</label>
-    </div>
+        <div class="iscrizione">
+            <label class="slabel" for="pwd">Iscrizioni:</label>
+        </div>
 
-    @if (isset($viewData['iscriziones']))
-            @foreach ($viewData['iscriziones'] as $view)
-            <div class="iscrizione">
-                {{ $view->getAnno().'- ' . $view->getDescription() }}
-              
-            </div>
-        @endforeach
-    @endif
-
-
+  
+    @endforeach
     <br>
     <br>
     <br>

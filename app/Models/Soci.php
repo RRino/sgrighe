@@ -30,9 +30,6 @@ class Soci extends Model
         "tipo_socio" => "required",
         "published" => "required|boolean",
         "description" => "nullable",
-        "ultimo" => "nullable",
-        "penultimo" => "nullable",
-        "terultimo" => "nullable",
         ]);
     }
 
