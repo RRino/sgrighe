@@ -14,8 +14,8 @@ class Param_bollettini extends Model
     {
       
         $request->validate([
-        "causale" => "required|max:255",
-        "prezzo" => "required|max:25",
+        "causale" => "required",
+        "prezzo" => "required",
         "description" => "nullable",
         ]);
     }

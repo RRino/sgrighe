@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Servizio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Param_etichette;
+use App\Models\Param_bollettini;
 
 class ServizioController extends Controller
 {
@@ -21,8 +23,8 @@ class ServizioController extends Controller
             $servizio->dati = $ids;
             // $servizio->save();
             $affected = DB::table('servizios')
-            ->where('nome', 'check')
-            ->update(['dati' => $ids]);
+                ->where('nome', 'check')
+                ->update(['dati' => $ids]);
         } else {
             // The record does not exist
             DB::insert('insert into servizios (nome,uso,dati) values (?, ?,?)', ['check', 'check', $ids]);
@@ -33,7 +35,6 @@ class ServizioController extends Controller
     public function salvaSelChck_selSocio(Request $request)
     {
 
-   
         $ids = $request->ids;
 
         if (Servizio::where('nome', 'check_del')->exists()) {
@@ -44,8 +45,8 @@ class ServizioController extends Controller
             $servizio->dati = $ids;
             // $servizio->save();
             $affected = DB::table('servizios')
-            ->where('nome', 'check')
-            ->update(['dati' => $ids]);
+                ->where('nome', 'check')
+                ->update(['dati' => $ids]);
         } else {
             // The record does not exist
             DB::insert('insert into servizios (nome,uso,dati) values (?, ?,?)', ['check', 'check', $ids]);
@@ -53,70 +54,139 @@ class ServizioController extends Controller
 
     }
 
-
-    public function preferenze()
+    public function preferenze_etichette()
     {
-
 
         $viewData = [];
         $viewData["title"] = "Parametri";
         $viewData["subtitle"] = "Iscrizioni";
-   
 
+        
         // verifica se esistono i valori di default del database servizios altrimenti li crea
         $servizio = DB::table('servizios')->where('nome', 'check')->first();
-        if($servizio == null){
-            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check','check']);
+        if ($servizio == null) {
+            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check', 'check']);
         }
 
         $servizio = DB::table('servizios')->where('nome', 'check_del')->first();
-        if($servizio == null){
-            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check_del','cancella socio da check']);
+        if ($servizio == null) {
+            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check_del', 'cancella socio da check']);
+        }
+
+
+        $servizio = DB::table('param_etichettes')
+            ->whereNotNull('nome')
+            ->get();
+        if ($servizio == null) {
+            DB::insert('insert into param_etichettes (nome,spazio_sopra,larghezza ,altezza ,numero_verticale, numero_orrizontale,description )
+            values (?,?,?,?,?,?,?)', ['Etic_70x36' . '6', '70', '36', '8', '3', 'default']);
+        }
+        $viewData['etichettes'] = DB::table('param_etichettes')->get();
+
+        return view('servizio.preferenze_etichette')->with("viewData", $viewData);
+    }
+
+
+    public function preferenze_bollettini()
+    {
+
+        $viewData = [];
+        $viewData["title"] = "Parametri";
+        $viewData["subtitle"] = "Iscrizioni";
+
+        // verifica se esistono i valori di default del database servizios altrimenti li crea
+        $servizio = DB::table('servizios')->where('nome', 'check')->first();
+        if ($servizio == null) {
+            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check', 'check']);
+        }
+
+        $servizio = DB::table('servizios')->where('nome', 'check_del')->first();
+        if ($servizio == null) {
+            DB::insert('insert into servizios (nome,uso) values (?,?)', ['check_del', 'cancella socio da check']);
         }
 
         $servizio = DB::table('param_bollettinis')
-        ->whereNotNull('causale')
-        ->get();
-        if($servizio == null){
-            DB::insert('insert into param_bollettinis (causale,prezzo) values (?,?)', ['ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste ','20']);
+            ->whereNotNull('causale')
+            ->get();
+        if ($servizio == null) {
+            DB::insert('insert into param_bollettinis (causale,prezzo) values (?,?)', ['ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste ', '20']);
         }
         $viewData['bollettinis'] = DB::table('param_bollettinis')->get();
 
 
-        $servizio = DB::table('param_etichettes')
-        ->whereNotNull('nome')
-        ->get();
-        if($servizio == null){
-            DB::insert('insert into param_etichettes (nome,spazio_sopra,larghezza ,altezza ,numero_verticale, numero_orrizontale,description ) 
-            values (?,?,?,?,?,?,?)', ['Etic_70x36'.'6','70','36','8','3','default']);
-        }
-        $viewData['etichettes'] = DB::table('param_etichettes')->get();
-
-        return view('servizio.preferenze')->with("viewData", $viewData);
+        return view('servizio.preferenze_bollettini')->with("viewData", $viewData);
     }
 
 
-    public function pref_bollettini(Request $request)
+    
+    public function editParamBollettini(Request $request)
     {
 
-   
+        $id = $request->id;
+     
+        Param_bollettini::validate($request);
+        $viewData["title"] = "- Param bollettini - ";
+        $bollettini = Param_bollettini::find($id);     
+        $bollettini->setCausale($request->input('causale'));
+        $bollettini->setDescription($request->input('description'));
 
-         /**
-         *  Route::post(' ', ' ');
-         * // ok Aggiorna  
-         * usato in  
+        $bollettini->save();
+
+        $viewData["bollettinis"] = Param_bollettini::all();
+
+        return view('servizio.preferenze_bollettini')->with("viewData", $viewData);;
+    }
+
+    public function editParamEtichette(Request $request)
+    {
+
+       
+        $viewData = [];
+        $viewData["title"] = "Admin Page - Edit soci ";
+        $param_etichette = Param_etichette::find($request->id);
+     
+        $param_etichette->setNome($request->input('nome'));
+        $param_etichette->setLarghezza($request->input('larghezza'));
+        $param_etichette->setAltezza($request->input('altezza'));
+        $param_etichette->setNumero_verticale($request->input('numero_verticale'));
+        $param_etichette->setNumero_orrizontale($request->input('numero_orrizontale'));
+        $param_etichette->setDescription($request->input('description'));
+        $param_etichette->save();
+        
+        $viewData["etichettes"] = Param_etichette::all();
+     
+
+        return view('servizio.preferenze_etichette')->with("viewData", $viewData);
+    }
+
+    public function addParamEtichette(Request $req)
+    {
+
+        /**
          *
+         *  Route::POST('addIscrizione', 'AddIscrizione');
+         * //  aggiunge anno iscrizione
          *
          */
+// TODO Da fare
+        $viewData = [];
+        $viewData["title"] = "etichette ";
+        $viewData["subtitle"] = "Parametri etichette";
 
-         Param_bollettini::validate($request);
-         $viewData["title"] = "- Param bollettini - ";
-         $bollettini = Param_bollettini::findOrFail($request->nome);
-         $viewData["bollettinis"] = Param_bollettini::all();
-         $bollettini->setCausale($request->input('causale'));
-         $bollettini->setDescription($request->input('description'));
+        $viewData["param_etichette"] = new Param_etichette;
+        $viewData["param_etichette"]->nome = $req->nome;
+        $viewData["param_etichette"]->spazio_sopra = $req->spazio_sopra;
+        $viewData["param_etichette"]->altezza = $req->altezza;
+        $viewData["param_etichette"]->larghezza = $req->larghezza;
+        $viewData["param_etichette"]->numero_verticale = $req->numero_verticale;
+        $viewData["param_etichette"]->numero_orrizontale = $req->numero_orrizontale;
+        $viewData["param_etichette"]->description = $req->description;
+        $viewData["param_etichette"]->save();
+        //$viewData["socis"] = Soci::find($id);
 
-         $bollettini->save();
-        return view('servizio.preferenze');
+       // return redirect('/etichette_anno');
+
     }
+
+
 }

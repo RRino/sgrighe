@@ -1,5 +1,7 @@
 @include('layouts.app')
 
+
+
 <div class="container">
     <br>
     <h1 class='tit-add'>Lista iscrizioni</h1>
@@ -55,5 +57,6 @@
           @endforeach
     </table>
 
-
+    {{ $viewData['iscrizioni']->links() }}
+    <br>
 </div>

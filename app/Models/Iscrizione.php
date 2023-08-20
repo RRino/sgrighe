@@ -14,7 +14,6 @@ class Iscrizione extends Model
     {
         $request->validate([
      
-        "anno" => "required:date",
         "nome" => "nullable",
         "cognome" => "nullable",
         ]);
@@ -36,7 +35,7 @@ class Iscrizione extends Model
 
      */
 
-    
+     public $timestamps = false;
 
     //------------- attributi ------------
     public function getId()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Iscrizione;
+use App\Models\Param_bollettini;
 use App\Models\Param_etichette;
 use App\Models\Soci;
 use Carbon\Carbon;
@@ -31,8 +32,10 @@ class PdfController extends Controller
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
         // window.location.href = "/bollettini/1";
         $tip = $req->tipo;
-        $causale = $req->causale;
-
+        //$causale = $req->causale;
+        $parametri_bollettini = Param_bollettini::all();
+        $causale = $parametri_bollettini[0]->causale;
+        $prezzo = $parametri_bollettini[0]->prezzo;
         /**
          * legge tabella database dove ajax ha memorizzato i check selezionati
          */
@@ -61,9 +64,9 @@ class PdfController extends Controller
                     'socis.localita',
                     'socis.comune',
                     'socis.sigla_provincia',
-            
+
                     'iscriziones.' . $anno . ' as a' . $anno,
-           
+
                 )
                 ->orderBy('socis.cognome', 'ASC')
                 ->where('iscriziones.' . $anno, '=', $anno)
@@ -78,7 +81,7 @@ class PdfController extends Controller
         $nbol = 1;
         $anno = date('Y');
         $inizio = '01-01-' . $anno;
-        $costo = 20;
+        $costo = $prezzo; // dal database parm_bollettini
 
         // $causale = "ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste";
         if (strlen($causale) < 3) {
@@ -320,11 +323,11 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
     public function PdfEtichette(Request $req)
     {
 
-        $etichetta_nome = $req->etichetta_nome;
+        // $etichetta_nome = $req->etichetta_nome;
 
-        if ($etichetta_nome == 'Seleziona Tipo etichetta') {
-            return redirect('/etichette_anno');
-        }
+        //  if ($etichetta_nome == 'Seleziona Tipo etichetta') {
+        //     return redirect('/etichette_anno');
+        // }
 
         $anno = $req->etichette_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
@@ -359,7 +362,7 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
                     'socis.comune',
                     'socis.sigla_provincia',
                     'iscriziones.' . $anno . ' as a' . $anno,
-          
+
                 )
                 ->orderBy('socis.cognome', 'ASC')
                 ->where('iscriziones.' . $anno, '=', $anno)
@@ -425,25 +428,13 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
         $incr = 0;
         $nrighe = 0;
 
-        if ($etichetta_nome == null) {
-            // Etichetta standard
-            $spost_destra = -70; // posizione orrizontale nella riga (larghezza etichetta)
-            $spost_vertic = 4; // bordo pagina sopra
-            $bordo_sopra = 3;
-            $altezza_etic = 36;
-            $n_etic_x_pagina = 24;
-
-        } else {
-            $datiEtichetta = Param_etichette::where('nome', '=', $etichetta_nome)->firstOrFail();
-            $spost_destra = -$datiEtichetta->larghezza; //-70; // posizione orrizontale nella riga (larghezza etichetta)
-            $spost_vertic = $datiEtichetta->spazio_sopra; //3; // bordo pagina sopra
-            $bordo_sopra = $datiEtichetta->spazio_sopra; //3
-            $n_etic_x_pagina = $datiEtichetta->numero_verticale * $datiEtichetta->numero_orrizontale; // 24;
-            $altezza_etic = $datiEtichetta->altezza;
-            $spost_riga = 3;
-        }
-
-        $pagine = (int) ($netichette / $n_etic_x_pagina);
+        $datiEtichetta = Param_etichette::all();
+        $spost_destra = -$datiEtichetta[0]->larghezza; //-70; // posizione orrizontale nella riga (larghezza etichetta)
+        $spost_vertic = $datiEtichetta[0]->spazio_sopra; //3; // bordo pagina sopra
+        $bordo_sopra = $datiEtichetta[0]->spazio_sopra; //3
+        $n_etic_x_pagina = $datiEtichetta[0]->numero_verticale * $datiEtichetta[0]->numero_orrizontale; // 24;
+        $altezza_etic = $datiEtichetta[0]->altezza;
+        $spost_riga = 3;
 
         $rig = 8;
 
@@ -518,32 +509,4 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
 
     }
 
-    public function addParamEtichette(Request $req)
-    {
-
-        /**
-         *
-         *  Route::POST('addIscrizione', 'AddIscrizione');
-         * //  aggiunge anno iscrizione
-         *
-         */
-
-        $viewData = [];
-        $viewData["title"] = "etichette ";
-        $viewData["subtitle"] = "Parametri etichette";
-
-        $viewData["param_etichette"] = new Param_etichette;
-        $viewData["param_etichette"]->nome = $req->nome;
-        $viewData["param_etichette"]->spazio_sopra = $req->spazio_sopra;
-        $viewData["param_etichette"]->altezza = $req->altezza;
-        $viewData["param_etichette"]->larghezza = $req->larghezza;
-        $viewData["param_etichette"]->numero_verticale = $req->numero_verticale;
-        $viewData["param_etichette"]->numero_orrizontale = $req->numero_orrizontale;
-        $viewData["param_etichette"]->description = $req->description;
-        $viewData["param_etichette"]->save();
-        //$viewData["socis"] = Soci::find($id);
-
-        return redirect('/etichette_anno');
-
-    }
 }

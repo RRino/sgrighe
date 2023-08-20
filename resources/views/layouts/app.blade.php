@@ -78,7 +78,6 @@
                     Preferenze
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <a class="dropdown-item" href="/preferenze">Preferenze</a>
                     <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
                     <a href="/pref_etichette" class="dropdown-item">Etichette</a>           
                 </ul>

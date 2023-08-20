@@ -41,6 +41,7 @@ class SociController extends Controller
 // -------------------------------------------------------------------------------------
 
         $viewData["anno"] = session('anno');
+        $viewData["servizio"] = '';
 
 // ----------------------- Visualizza tutti i soci---------------------------------------------------
 
@@ -144,8 +145,9 @@ class SociController extends Controller
                 $numsel = $viewData["socis"]->total();
         }
 
+        
         $viewData["servizio"] = $numsel;
-
+        
         return view('soci.index')->with("viewData", $viewData);
     }
 
@@ -379,14 +381,17 @@ class SociController extends Controller
 
         Paginator::useBootstrap();
         if (session('ord') == 1) {
-            $viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
+            //$viewData["socis"] = Soci::orderBy($ord, 'DESC')->paginate(session('pag'));
             session(['asc_desc' => 'DESC']);
         } else {
-            $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));
+           // $viewData["socis"] = Soci::orderBy($ord, 'ASC')->paginate(session('pag'));
             session(['asc_desc' => 'ASC']);
         }
 
-        return view('soci.index')->with("viewData", $viewData);
+        $viewData["servizio"] = '';
+        $viewData["anno"] = '';
+
+        return redirect('/list');
     }
 
     public function indexFiltro(Request $req)

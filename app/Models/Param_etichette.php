@@ -105,11 +105,6 @@ class Param_etichette extends Model
     }
 
 
-
-
-
-
-
     public function getDescription()
     {
         return $this->attributes['description'];

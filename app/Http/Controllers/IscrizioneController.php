@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Iscrizione;
 use App\Models\Soci;
+use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
-use Carbon\Carbon;
 
 class IscrizioneController extends Controller
 {
@@ -30,20 +30,18 @@ class IscrizioneController extends Controller
         //$viewData["iscrizioni"] = Iscrizione::all();
         $anno = Carbon::now()->format('Y');
         $viewData["anno"] = $anno;
-   
 
         $viewData["iscrizioni"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-                ->select('socis.id',
-                    'iscriziones.socio_id',
-                    'socis.nome',
-                    'socis.cognome',
-                    'iscriziones.'.$anno.' AS  a'.$anno,
-                    'iscriziones.'.($anno-1).' AS  a'.($anno-1),
-                    'iscriziones.'.($anno-2).' AS  a'.($anno-2),
-                )
-                ->orderBy('socis.cognome','ASC')
-                ->paginate(session('pag'));
-
+            ->select('socis.id',
+                'iscriziones.socio_id',
+                'socis.nome',
+                'socis.cognome',
+                'iscriziones.' . $anno . ' AS  a' . $anno,
+                'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
+                'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+            )
+            ->orderBy('socis.cognome', 'ASC')
+            ->paginate(session('pag'));
 
         return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
     }
@@ -53,7 +51,7 @@ class IscrizioneController extends Controller
 
         /**
          *  Route::get('editIscrizione/{id}', 'showData');
-         * 
+         *
          * // edit iscrizione
          *  usato in formEditConsegne.blade -- // TODO formEditConsegnen ?-- IscrizioneList.blade
          *
@@ -65,22 +63,19 @@ class IscrizioneController extends Controller
         $viewData["subtitle"] = "Iscrizioni";
         $anno = Carbon::now()->format('Y');
         $viewData["anno"] = $anno;
-        
 
-            $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
-                ->select('socis.id as ids',
-                    'socis.nome',
-                    'socis.cognome',
-                    'socis.description',
-                    'iscriziones.socio_id',
-                    'iscriziones.'.$anno.' AS  a'.$anno,
-                    'iscriziones.'.($anno-1).' AS  a'.($anno-1),
-                    'iscriziones.'.($anno-2).' AS  a'.($anno-2),
-                  
-                )
-                ->where('iscriziones.id','=',$id)->get();
-
- 
+        $viewData["socis"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+            ->select('socis.id as ids',
+                'socis.nome',
+                'socis.cognome',
+                'socis.description',
+                'iscriziones.id',
+                'iscriziones.socio_id',
+                'iscriziones.' . $anno . ' AS  a' . $anno,
+                'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
+                'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+            )
+            ->where('iscriziones.id', '=', $id)->get();
 
         return view('iscrizione.EditIscrizione')->with("viewData", $viewData);
     }
@@ -155,18 +150,28 @@ class IscrizioneController extends Controller
     public function editIscrizione(Request $req)
     {
 
+        $anno = Carbon::now()->format('Y');
+        $id = $req->id;
+
         $viewData = [];
         $viewData["title"] = "iscr ";
         $viewData["subtitle"] = "Iscrizioni";
+        $viewData["anno"] = $anno;
 
-        $viewData["iscrizioni"] = new Iscrizione;
-        $viewData["iscrizioni"]->socio_id = $id;
-        $viewData["iscrizioni"]->anno = $req->anno;
-        $viewData["iscrizioni"]->nome = $req->nome;
-        $viewData["iscrizioni"]->cognome = $req->cognome;
-        $viewData["iscrizioni"]->description = $req->description;
-        $viewData["iscrizioni"]->save();
-        $viewData["socis"] = Soci::find($id);
+        Iscrizione::validate($req);
+        $iscrizioni = Iscrizione::find($id);
+        $iscrizioni->socio_id = $req->socio_id;
+        $iscrizioni[$anno] = $req[$anno];
+        $iscrizioni[$anno-1] = $req[$anno-1];
+        $iscrizioni[$anno-2] = $req[$anno-2];
+     
+        $iscrizioni['nome'] = $req['nome'];
+        $iscrizioni['cognome'] = $req['cognome'];
+        $iscrizioni['description'] = $req['description'];
+ 
+        $iscrizioni->save();
+      
+        $viewData["iscrizioni"] = Iscrizione::all();
 
         return redirect('/iscrizione');
 
