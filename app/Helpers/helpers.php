@@ -33,7 +33,7 @@ function index(Request $request)
     var_dump($userEmail);
 }
 
-  
+
   function iscri_leftJoin(){
  
     Paginator::useBootstrap();
@@ -41,7 +41,7 @@ function index(Request $request)
     $viewData["title"] = "iscr ";
     $viewData["subtitle"] = "Iscrizioni";
 
-    //$viewData["iscrizioni"] = Iscrizione::all();
+ 
     $anno = Carbon::now()->format('Y');
     $viewData["anno"] = $anno;
 
@@ -60,7 +60,34 @@ function index(Request $request)
         return $viewData;
   }
  
+  function iscri_leftJoinId($id){
+
+    $anno = Carbon::now()->format('Y');
+    $viewData["anno"] = $anno;
+
+    $viewData["iscrizioni"] = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+    ->select('socis.id as ids',
+        'iscriziones.socio_id',
+        'socis.nome',
+        'iscriziones.id',
+        'socis.cognome',
+        'iscriziones.' . $anno . ' AS  a' . $anno,
+        'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
+        'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+    )
+    ->where('socis.id', $id)
+    ->orderBy('socis.cognome', 'ASC')
+    ->paginate(session('pag'));
+
+    return $viewData["iscrizioni"];
+  }
+
+  
+
   function select_sociRightjoin_singolo($id){
+
+    $anno = Carbon::now()->format('Y');
+    $viewData["anno"] = $anno;
 
     $viewData["socis"] = Soci::select('socis.id',
     'socis.nome',
@@ -83,6 +110,9 @@ function index(Request $request)
     'socis.created_at',
     'socis.updated_at',
     'iscriziones.socio_id',
+    'iscriziones.' . $anno . ' AS  a' . $anno,
+    'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
+    'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
 )
     ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
     ->where('socis.id', $id)->get();

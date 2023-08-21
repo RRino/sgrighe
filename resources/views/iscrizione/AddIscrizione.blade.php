@@ -80,7 +80,7 @@
                                  </thead>
                                  <tbody>
                                      <tr>
-                                         <td>{{ $iscrizione->getAnno() }}</td>
+                                         <td>{{-- $iscrizione->getAnno() --}}</td>
                                          <td>{{ $iscrizione->getDescription() }}</td>
                                      </tr>
                                  </tbody>

@@ -3,7 +3,7 @@
 <h1 class="tit-add">Modifica Iscrizione</h1>
 <link rel="stylesheet" href="/css/app.css">
 
-{{-- dd($viewData["socis"][0]) --}}
+
 @php
 use Carbon\Carbon;
 $anno = Carbon::now()->format('Y');
@@ -15,7 +15,6 @@ $anno2 = 'a'.$anno-2;
 <div class="container-sm">
     <form action="/editIscrizione" method="POST">
         @csrf
-
 
         <table class="table table-bordered table-striped">
             <thead>

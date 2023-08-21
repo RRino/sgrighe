@@ -27,7 +27,13 @@
 
 </head>
 
-
+@php
+    use Carbon\Carbon;
+    $anno = Carbon::now()->format('Y');
+    $anno0 = 'a' . $anno;
+    $anno1 = 'a' . $anno - 1;
+    $anno2 = 'a' . $anno - 2;
+@endphp
 
 <div class="container-sm">
     @foreach ($viewData['socis'] as $dati)
@@ -132,17 +138,25 @@
             <label class="slabel" for="pwd">Consegna:</label>
             {{ $dati->getConsegna() }}
         </div>
+        Iscrizioni
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno }}:</label>
+            {{ $dati[$anno0] }}
+        </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
+            {{ $dati[$anno1] }}
+        </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
+            {{ $dati[$anno2] }}
+        </div>
 
         <div class="singolo">
             <label class="slabel" for="pwd">Note:</label>
             {{ $dati->getDescription() }}
         </div>
-
-        <div class="iscrizione">
-            <label class="slabel" for="pwd">Iscrizioni:</label>
-        </div>
-
-  
+        <br>
     @endforeach
     <br>
     <br>

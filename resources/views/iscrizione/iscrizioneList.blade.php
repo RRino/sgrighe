@@ -37,9 +37,10 @@
         </tr>
 
 
-{{-- dd($viewData['iscrizioni'][1]) --}}
+
 
         @foreach ($viewData['iscrizioni'] as $anag)
+      
             <tr class="colo-list">
                 <td style="background:#fff;">{{ $anag->socio_id }}</td>
                 <td>{{ $anag['nome'] }}</td>

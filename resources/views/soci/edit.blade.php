@@ -4,7 +4,13 @@
 @section('title', $viewData['title'])
 
 
-
+@php
+use Carbon\Carbon;
+$anno = Carbon::now()->format('Y');
+$anno0 = 'a'.$anno;
+$anno1 = 'a'.$anno-1;
+$anno2 = 'a'.$anno-2;
+@endphp
 
 @section('content')
     <div class="card mb-4">
@@ -194,10 +200,30 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Iscrizioni</label>
+                        <label class="form-label">-- Iscrizioni --</label>
 
-
-
+                        <div class="mb-3 row">
+                            <label class="slabel" for="pwd">{{ $anno }}:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name=" {{ $dati[$anno0] }}" value="{{ $dati[$anno0] }}" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name=" {{ $dati[$anno1] }}" value="{{ $dati[$anno1] }}" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
+                            <div class="col-lg-10 col-md-6 col-sm-12">
+                                <input name=" {{ $dati[$anno2] }}" value="{{ $dati[$anno2] }}" type="text"
+                                    class="form-control">
+                            </div>
+                        </div>
+  
 
 
                     </div>

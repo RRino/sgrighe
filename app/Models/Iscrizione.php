@@ -89,7 +89,7 @@ class Iscrizione extends Model
         $this->attributes['nome'] = $cognome;
     }
  
-
+/*
     public function getAnno()
     {
         return $this->attributes['anno'];
@@ -99,7 +99,7 @@ class Iscrizione extends Model
     {
         $this->attributes['anno'] = $anno;
     }
-
+*/
  
     public function socis()
     {

@@ -70,8 +70,6 @@ class Soci extends Model
     }
 
 */
-
-
   
 public function iscrizione()
 {

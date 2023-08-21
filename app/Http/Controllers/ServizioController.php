@@ -162,12 +162,7 @@ class ServizioController extends Controller
     public function addParamEtichette(Request $req)
     {
 
-        /**
-         *
-         *  Route::POST('addIscrizione', 'AddIscrizione');
-         * //  aggiunge anno iscrizione
-         *
-         */
+      
 // TODO multiple etichette Da fare non usdato per ora
         $viewData = [];
         $viewData["title"] = "etichette ";

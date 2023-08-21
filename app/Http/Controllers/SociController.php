@@ -503,10 +503,20 @@ class SociController extends Controller
          */
 
 
+         $anno = Carbon::now()->format('Y');
+         $id = $request->id;
+ 
+         $viewData = [];
+         $viewData["title"] = "iscr ";
+         $viewData["subtitle"] = "Iscrizioni";
+         $viewData["anno"] = $anno;
+ 
+     
+
         Soci::validate($request);
         $viewData["title"] = "- soci - ";
-        $soci = Soci::findOrFail($request->id);
-        $viewData["socis"] = Soci::all();
+        $soci = Soci::find($id);
+  
         $soci->setNome($request->input('nome'));
         $soci->setCognome($request->input('cognome'));
         $soci->setIndirizzo($request->input('indirizzo'));
@@ -524,8 +534,22 @@ class SociController extends Controller
         $soci->setCellulare($request->input('cellulare'));
         $soci->setPublished($request->get('published'));
         $soci->setDescription($request->input('description'));
-
+// salva soci
         $soci->save();
+
+        Iscrizione::validate($request);
+        $idi = select_sociRightjoin_singolo($id);
+        $id_iscrizioni = $idi['socis'][0]->socio_id;
+
+        $iscrizioni = Iscrizione::find($id_iscrizioni);
+        $iscrizioni[$anno] = $request[$anno];
+        $iscrizioni[$anno - 1] = $request[$anno - 1];
+        $iscrizioni[$anno - 2] = $request[$anno - 2];
+
+// salva iscrizioni
+        $iscrizioni->save();
+
+
         return redirect('/list');
      
     }
