@@ -208,7 +208,6 @@ class ExcelController extends Controller
                     $cons = '';
                 }
 
-
                 $data[] = [
                     'id' => $sheet->getCell('X' . $row)->getValue(),
                     'cognome' => $sheet->getCell('A' . $row)->getValue(),
@@ -237,7 +236,7 @@ class ExcelController extends Controller
 
             // ------------- ISCRIZIONI -----------
             foreach ($row_range as $row) {
-             // --- ultimo ---
+                // --- ultimo ---
                 if ($sheet->getCell('G' . $row)->getValue() == $anno) {
                     if (Schema::hasColumn('iscriziones', $anno)) {
                         $esite = 1;
@@ -246,7 +245,7 @@ class ExcelController extends Controller
                         $length = 20;
                         $fieldName = $anno;
                         Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                            $table->string($fieldName, 20)->nullable();
                         });
                     };
 
@@ -255,7 +254,7 @@ class ExcelController extends Controller
                     $vanno1 = 'No';
                 }
 
-                  // --- Penultimo ---
+                // --- Penultimo ---
                 if ($sheet->getCell('H' . $row)->getValue() == $anno - 1) {
                     if (Schema::hasColumn('iscriziones', $anno - 1)) {
                         $esite = 1;
@@ -265,15 +264,15 @@ class ExcelController extends Controller
                         $fieldName = $anno - 1;
 
                         Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                            $table->string($fieldName, 20)->nullable();
                         });
                     };
                     $vanno2 = $anno - 1;
                 } else {
                     $vanno2 = 'No';
                 }
-               
-                  // --- terzultimo ---
+
+                // --- terzultimo ---
                 if ($sheet->getCell('G' . $row)->getValue() == $anno - 2) {
                     if (Schema::hasColumn('iscriziones', $anno - 2)) {
                         $esite = 1;
@@ -283,7 +282,7 @@ class ExcelController extends Controller
                         $fieldName = $anno - 2;
 
                         Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                            $table->string($fieldName, 20)->nullable();
                         });
                     };
                     $vanno3 = $anno - 2;
@@ -291,21 +290,18 @@ class ExcelController extends Controller
                     $vanno3 = 'No';
                 }
 
-
                 $iscrizione[] = [
                     'nome' => $sheet->getCell('B' . $row)->getValue(),
                     'cognome' => $sheet->getCell('A' . $row)->getValue(),
                     'socio_id' => $sheet->getCell('X' . $row)->getValue(),
                     $anno => $vanno1,
-                    $anno-1 => $vanno2,
-                    $anno-2 => $vanno3,
+                    $anno - 1 => $vanno2,
+                    $anno - 2 => $vanno3,
                     'description' => $sheet->getCell('N' . $row)->getValue(),
                 ];
 
                 $startcount++;
             }
-
-            
 
 //-------------------------- Soci -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -319,8 +315,6 @@ class ExcelController extends Controller
             DB::table('iscriziones')->truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
             DB::table('iscriziones')->insert($iscrizione);
-
-  
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
@@ -337,7 +331,6 @@ class ExcelController extends Controller
 
      */
 
-
     public function exportSociTutti()
     {
         /**
@@ -345,18 +338,29 @@ class ExcelController extends Controller
          * Prepara i dati da esportare in excel con
          *  $this->ExportExcel($data_array);
          */
-       
-        $anno = Carbon::now()->format('Y');  
-     
-        $soci =   exportSoci_IscrittiTutti();
-        
+
+        $anno = Carbon::now()->format('Y');
+
+        $soci = exportSoci_IscrittiTutti();
+
+        $anno0 = 'Anno_' . $anno;
+        $anno1 = 'Anno_' . $anno - 1;
+        $anno2 = 'Anno_' . $anno - 2;
+        $anno3 = 'Anno_' . $anno + 1;
+
+        $anno0i = $anno;
+        $anno1i = $anno - 1;
+        $anno2i = $anno - 2;
+        $anno3i = $anno + 1;
+
+
         $data_array[] = array("cognome", "nome", "indirizzo", "cap", "localita",
-            "comune", "sigla_provincia", "Anno-" . $anno+1,"Anno-" . $anno, "Anno-" . $anno - 1, "Anno-" . $anno - 2,
+            "comune", "sigla_provincia", $anno3, $anno0, $anno1, $anno2,
             "consegna", "data-iscriz", "email", "telefono", "cellulare", "pec", "codice_fiscale",
             "partita_iva", "tipo_socio", "description");
 
         foreach ($soci as $data_item) {
-      
+          
             $data_array[] = array(
                 'cognome' => $data_item->cognome,
                 'nome' => $data_item->nome,
@@ -365,10 +369,11 @@ class ExcelController extends Controller
                 'localita' => $data_item->localita,
                 'comune' => $data_item->comune,
                 'sigla_provincia' => $data_item->sigla_provincia,
-                'Anno-' . $anno+1 => $anno+1,
-                'Anno-' . $anno => $anno,
-                'Anno-' . $anno - 1 => $anno-1,
-                'Anno-' . $anno - 2 => $anno-2,
+                 $anno3 => $data_item->$anno3i,
+                 $anno0 => $data_item->$anno0i,
+                 $anno1 => $data_item->$anno1i,
+                 $anno2 => $data_item->$anno2i,
+                
                 'consegna' => $data_item->consegna,
                 'data-iscriz' => '',
                 'email' => $data_item->email,

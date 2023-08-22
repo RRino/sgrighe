@@ -340,6 +340,7 @@ class ExcelController extends Controller
     public function exportSoci(Request $req)
     {
 
+        dd('esportasoci');
         $annoAttuale = Carbon::now()->format('Y');
 
         $anno = $req->anno;
@@ -416,6 +417,7 @@ class ExcelController extends Controller
          * Prepara i dati da esportare in excel con
          *  $this->ExportExcel($data_array);
          */
+       dd('esportasocitutti');
        
         $anno = Carbon::now()->format('Y');  
      
