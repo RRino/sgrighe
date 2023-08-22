@@ -10,6 +10,7 @@ $anno = Carbon::now()->format('Y');
 $anno0 = 'a'.$anno;
 $anno1 = 'a'.$anno-1;
 $anno2 = 'a'.$anno-2;
+$anno3 = 'a'.$anno+1;
 @endphp
 
 <div class="container-sm">
@@ -24,6 +25,7 @@ $anno2 = 'a'.$anno-2;
                     <th scope="col">Socio_id</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Cognome</th>
+                    <th scope="col">{{ $anno+1 }}</th>
                     <th scope="col">{{ $anno }}</th>
                     <th scope="col">{{ $anno-1 }}</th>
                     <th scope="col">{{ $anno-2 }}</th>
@@ -45,6 +47,9 @@ $anno2 = 'a'.$anno-2;
                     <td>
                         <input type="text" class="form-control" id="nom" name="cognome"
                             value="{{ $viewData['socis'][0]->getCognome()  }}">
+                    </td>
+                    <td>   <input type="text" class="form-control" id="nom" name="{{ $anno+1 }}"
+                        value="{{ $viewData['socis'][0]->$anno3 }}">
                     </td>
                     <td>   <input type="text" class="form-control" id="nom" name="{{ $anno }}"
                         value="{{ $viewData['socis'][0]->$anno0 }}">

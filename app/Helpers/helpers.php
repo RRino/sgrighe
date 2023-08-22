@@ -53,6 +53,7 @@ function index(Request $request)
             'iscriziones.' . $anno . ' AS  a' . $anno,
             'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
             'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+            'iscriziones.' . ($anno+1) . ' AS  a' . ($anno+1),
         )
         ->orderBy('socis.cognome', 'ASC')
         ->paginate(session('pag'));
@@ -74,6 +75,7 @@ function index(Request $request)
         'iscriziones.' . $anno . ' AS  a' . $anno,
         'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
         'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+        'iscriziones.' . ($anno+1) . ' AS  a' . ($anno+1),
     )
     ->where('socis.id', $id)
     ->orderBy('socis.cognome', 'ASC')
@@ -113,6 +115,7 @@ function index(Request $request)
     'iscriziones.' . $anno . ' AS  a' . $anno,
     'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
     'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+    'iscriziones.' . ($anno+1) . ' AS  a' . ($anno+1),
 )
     ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
     ->where('socis.id', $id)->get();
@@ -121,6 +124,21 @@ function index(Request $request)
     return $viewData;
   }
  
+
+  function  exportSoci_IscrittiTutti(){
+
+    $anno = Carbon::now()->format('Y');
+    $viewData["anno"] = $anno;
+
+    $viewData = DB::table('socis')
+    ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+    ->get();// joining the posts table , where user_id and posts_user_id are same
+
+
+
+        return $viewData;
+  }
+
   function allUpper($str){
     return strtoupper($str);
   }

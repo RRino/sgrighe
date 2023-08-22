@@ -83,8 +83,8 @@ Route::controller(ExcelController::class)->group(function () {
     Route::post('/importSoci', 'importSoci');
     Route::post('/importSoci_old', 'importSoci_old');
     Route::post('/exportSoci', 'exportSoci');
-
     Route::get('/exportSociTutti', 'exportSociTutti');
+    
     Route::get('/formExcel_iscrizioni', 'index_iscrizioni'); // da menu sidebar richiama form per importare excel
     Route::post('/importIscrizione', 'importIscrizione');
     Route::get('/exportIscrizione', 'exportIscrizione');

@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="/css/app.css">
     @section('content')
 
-
-
         <div class="container" style="border:1px solid #cecece;padding:20px;border-radius:5px;">
             <div class="row">
                 <div class="col-sm">

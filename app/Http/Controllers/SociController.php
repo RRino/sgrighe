@@ -541,14 +541,15 @@ class SociController extends Controller
         $idi = select_sociRightjoin_singolo($id);
         $id_iscrizioni = $idi['socis'][0]->socio_id;
 
-        $iscrizioni = Iscrizione::find($id_iscrizioni);
+       /* $iscrizioni = Iscrizione::find($id_iscrizioni);
+        $iscrizioni[$anno] = $request[$anno+1];
         $iscrizioni[$anno] = $request[$anno];
         $iscrizioni[$anno - 1] = $request[$anno - 1];
         $iscrizioni[$anno - 2] = $request[$anno - 2];
 
-// salva iscrizioni
+// salva
         $iscrizioni->save();
-
+*/
 
         return redirect('/list');
      

@@ -245,8 +245,8 @@ class ExcelController extends Controller
                         $type = 'string';
                         $length = 20;
                         $fieldName = $anno;
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
                         });
                     };
 
@@ -264,8 +264,8 @@ class ExcelController extends Controller
                         $length = 20;
                         $fieldName = $anno - 1;
 
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
                         });
                     };
                     $vanno2 = $anno - 1;
@@ -282,8 +282,8 @@ class ExcelController extends Controller
                         $length = 20;
                         $fieldName = $anno - 2;
 
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName,20)->nullable();
+                        Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
+                            $table->$type($fieldName, $length);
                         });
                     };
                     $vanno3 = $anno - 2;
@@ -337,6 +337,77 @@ class ExcelController extends Controller
 
      */
 
+    public function exportSoci(Request $req)
+    {
+
+        $annoAttuale = Carbon::now()->format('Y');
+
+        $anno = $req->anno;
+        /**
+         *  Route::get('/exportSoci', 'exportSoci');
+         * Prepara i dati da esportare in excel con
+         *  $this->ExportExcel($data_array);
+         */
+        if ($anno == $annoAttuale) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->get();
+        } elseif ($anno == $annoAttuale - 1) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->where('socis.penultimo', '=', $anno)
+                ->get();
+        } elseif ($anno == $annoAttuale - 2) {
+            $data = DB::table('socis')
+                ->orderBy('id', 'DESC')
+                ->where('socis.terultimo', '=', $anno)
+                ->get();
+        }
+
+   
+
+        $data_array[] = array("id", "nome", "cognome", "indirizzo", "consegna", "cap", "localita", "comune",
+            "sigla_provincia", "Anno-" . $anno, "Anno-" . $anno - 1, "Anno-" . $anno - 2, "email"
+            , "pec", "codice_fiscale", "partita_iva", "telefono", "cellulare",
+            "tipo_socio", "published", "description", "created_at", "updated_at");
+
+        foreach ($data as $data_item) {
+
+            //if ($data_item->ultimo == $anno) {
+
+            $data_array[] = array(
+
+                'id' => $data_item->id,
+                'nome' => $data_item->nome,
+                'cognome' => $data_item->cognome,
+                'indirizzo' => $data_item->indirizzo,
+                'consegna' => $data_item->consegna,
+                'cap' => $data_item->cap,
+                'localita' => $data_item->localita,
+                'comune' => $data_item->comune,
+                'sigla_provincia' => $data_item->sigla_provincia,
+                'Anno-' . $anno => 'Si',
+                'Anno-' . $anno - 1 => '',
+                'Anno-' . $anno - 2 => '',
+                'email' => $data_item->email,
+                'pec' => $data_item->pec,
+                'codice_fiscale' => $data_item->codice_fiscale,
+                'partita_iva' => $data_item->partita_iva,
+                'telefono' => $data_item->telefono,
+                'cellulare' => $data_item->cellulare,
+                'tipo_socio' => $data_item->tipo_socio,
+                'published' => $data_item->published,
+                'description' => $data_item->description,
+                'created_at' => $data_item->created_at,
+                'updated_at' => $data_item->updated_at,
+
+            );
+            // }
+        }
+
+        $this->ExportExcel($data_array);
+
+    }
 
     public function exportSociTutti()
     {

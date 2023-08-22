@@ -33,6 +33,7 @@
     $anno0 = 'a' . $anno;
     $anno1 = 'a' . $anno - 1;
     $anno2 = 'a' . $anno - 2;
+    $anno3 = 'a' . $anno +1;
 @endphp
 
 <div class="container-sm">
@@ -139,6 +140,10 @@
             {{ $dati->getConsegna() }}
         </div>
         Iscrizioni
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno +1 }}:</label>
+            {{ $dati[$anno3] }}
+        </div>
         <div class="singolo">
             <label class="slabel" for="pwd">{{ $anno }}:</label>
             {{ $dati[$anno0] }}

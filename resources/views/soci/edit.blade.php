@@ -4,12 +4,18 @@
 @section('title', $viewData['title'])
 
 
+<a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+<a class="btn btn-success btn-sm" href="{{ '/list' }}" role="button">Lista</a>
+<br><br>
+
+
 @php
-use Carbon\Carbon;
-$anno = Carbon::now()->format('Y');
-$anno0 = 'a'.$anno;
-$anno1 = 'a'.$anno-1;
-$anno2 = 'a'.$anno-2;
+    use Carbon\Carbon;
+    $anno = Carbon::now()->format('Y');
+    $anno0 = 'a' . $anno;
+    $anno1 = 'a' . $anno - 1;
+    $anno2 = 'a' . $anno - 2;
+    $anno3 = 'a' . $anno +1;
 @endphp
 
 @section('content')
@@ -200,30 +206,26 @@ $anno2 = 'a'.$anno-2;
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">-- Iscrizioni --</label>
-
-                        <div class="mb-3 row">
-                            <label class="slabel" for="pwd">{{ $anno }}:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name=" {{ $dati[$anno0] }}" value="{{ $dati[$anno0] }}" type="text"
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name=" {{ $dati[$anno1] }}" value="{{ $dati[$anno1] }}" type="text"
-                                    class="form-control">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name=" {{ $dati[$anno2] }}" value="{{ $dati[$anno2] }}" type="text"
-                                    class="form-control">
-                            </div>
-                        </div>
-  
+                        <label class="form-label">Iscrizioni</label>
+        <br>
+        <a class="btn btn-success btn-sm" href="{{ '/editIscrizione/'.$dati->getId() }}" role="button">Edit Iscrizioni</a>
+        <br>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno+1 }}:</label>
+            {{ $dati[$anno3] }}
+        </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno }}:</label>
+            {{ $dati[$anno0] }}
+        </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
+            {{ $dati[$anno1] }}
+        </div>
+        <div class="singolo">
+            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
+            {{ $dati[$anno2] }}
+        </div>
 
 
                     </div>
@@ -236,8 +238,7 @@ $anno2 = 'a'.$anno-2;
                 </form>
                 <br>
             @endforeach
-            <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
-            <a class="btn btn-success btn-sm" href="{{ '/list' }}" role="button">Lista</a>
+ 
             <br>
         </div>
     </div>

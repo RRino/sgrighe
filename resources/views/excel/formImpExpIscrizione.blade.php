@@ -64,24 +64,24 @@
                     </div>
 
                     <div class="card-body">
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert"></button>
+                            <strong>{{ $message }}</strong>
+                        </div>
+
+                        <br>
+                    @endif
                         <div class="pull-right--">
                             <form method="POST" action="/exportIscrizione" enctype="multipart/form-data">
                                 @csrf
-                                <div class="mb-3 row">
-                                    <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Anno iscriz:</label>
-                                    <div class="col-lg-10 col-md-6 col-sm-12">
-                                        <input name="anno" value="" type="text" class="form-control">
-                                        <button type="submit" class="btn btn-primary btn-sm">Esporta Iscrizione anno</button>
-                                    </div>
-                                </div>
-
 
                                 <div class="mb-3 row">
                                     <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tutti:</label>
                                     <div class="col-lg-10 col-md-6 col-sm-12">
                                         <a class="col-lg-6 col-md-6 col-sm-12  btn btn-primary btn-sm"
-                                            href="{{ '/exportIscrizioneTutti' }}" role="button">Esporta Iscrizione
-                                            tutti</a>
+                                            href="{{ '/exportIscrizioneTutti' }}" role="button">Esporta Iscrizioni
+                                            </a>
                                     </div>
                                 </div>
                             </form>

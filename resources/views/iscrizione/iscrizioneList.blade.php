@@ -12,9 +12,11 @@
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
    // $anno = $viewData["anno"];
+   
     $anno0 = 'a'.$anno;
     $anno1 = 'a'.$anno-1;
     $anno2 = 'a'.$anno-2;
+    $anno3 = 'a'.$anno+1;
 @endphp
 
     <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista Soci</a><br><br>
@@ -28,9 +30,11 @@
             <td>socio_id</td>
             <td>Nome</td>
             <td>Cognome</td>
+            <td>{{ $anno+1 }}</td>
             <td>{{ $anno }}</td>
             <td>{{ $anno-1 }}</td>
             <td>{{ $anno-2 }}</td>
+           
             <td>Modifica/Aggiungi</td>
            <!-- <td>Cancella</td>-->
 
@@ -45,9 +49,11 @@
                 <td style="background:#fff;">{{ $anag->socio_id }}</td>
                 <td>{{ $anag['nome'] }}</td>
                 <td>{{ $anag['cognome'] }}</td>
+                <td>{{ $anag->$anno3 }}</td>
                 <td>{{ $anag->$anno0 }}</td>
                 <td>{{ $anag->$anno1 }}</td>
                 <td>{{ $anag->$anno2 }}</td>
+                
 
                 <td><a href={{ '/editIscrizione/' . $anag->id }}>Edit/Aggiungi</a></td>
 

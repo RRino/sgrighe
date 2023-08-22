@@ -72,21 +72,20 @@ class IscrizioneController extends Controller
          *
          */
         
-//  TODO  QUI 
+//  TODO  QUI Richiesta creare colonna
 
         $anno = $req->anno; //Carbon::now()->format('Y');
 
         if (Schema::hasColumn('iscriziones', $anno)) {
             $esite = 1;
         } else {
-            $type = 'string';
-            $length = 20;
             $fieldName = $anno;
 
-            Schema::table('iscriziones', function (Blueprint $table) use ($type, $length, $fieldName) {
-                $table->$type($fieldName, $length);
+            Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
+                $table->string($fieldName,20)->nullable();
             });
         };
+
 
         $id = $req->socio_id;
 
@@ -94,10 +93,11 @@ class IscrizioneController extends Controller
         $viewData["title"] = "iscr ";
         $viewData["subtitle"] = "Iscrizioni";
 
-        $viewData["iscrizioni"] = new Iscrizione;
+        $viewData["iscrizioni"] = Iscrizione::find($id);
         $viewData["iscrizioni"]->socio_id = $id;
         $viewData["iscrizioni"]->$anno = $req->anno;
         $viewData["iscrizioni"]->description = $req->description;
+
         $viewData["iscrizioni"]->save();
 
         return redirect('/list');
@@ -129,6 +129,7 @@ class IscrizioneController extends Controller
         $iscrizioni[$anno] = $req[$anno];
         $iscrizioni[$anno - 1] = $req[$anno - 1];
         $iscrizioni[$anno - 2] = $req[$anno - 2];
+        $iscrizioni[$anno +1] = $req[$anno+1];
 
         $iscrizioni['nome'] = $req['nome'];
         $iscrizioni['cognome'] = $req['cognome'];
