@@ -343,11 +343,12 @@ class ExcelController extends Controller
 
         $soci = exportSoci_IscrittiTutti();
 
+        // nome colonna
         $anno0 = 'Anno_' . $anno;
         $anno1 = 'Anno_' . $anno - 1;
         $anno2 = 'Anno_' . $anno - 2;
         $anno3 = 'Anno_' . $anno + 1;
-
+       // data_item valore
         $anno0i = $anno;
         $anno1i = $anno - 1;
         $anno2i = $anno - 2;
