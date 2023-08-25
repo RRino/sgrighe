@@ -236,7 +236,20 @@ class ExcelController extends Controller
 
             // ------------- ISCRIZIONI -----------
             foreach ($row_range as $row) {
+//postultimo
+                if (Schema::hasColumn('iscriziones', $anno + 1)) {
+                    $esite = 1;
+                } else {
+                    $type = 'string';
+                    $length = 20;
+                    $fieldName = $anno + 1;
+                    Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
+                        $table->string($fieldName, 20)->nullable();
+                    });
+                };
+
                 // --- ultimo ---
+
                 if ($sheet->getCell('G' . $row)->getValue() == $anno) {
                     if (Schema::hasColumn('iscriziones', $anno)) {
                         $esite = 1;
@@ -291,13 +304,13 @@ class ExcelController extends Controller
                 }
 
                 $iscrizione[] = [
-                    'nome' => $sheet->getCell('B' . $row)->getValue(),
-                    'cognome' => $sheet->getCell('A' . $row)->getValue(),
+                    // 'nome' => $sheet->getCell('B' . $row)->getValue(),
+                    // 'cognome' => $sheet->getCell('A' . $row)->getValue(),
                     'socio_id' => $sheet->getCell('X' . $row)->getValue(),
                     $anno => $vanno1,
                     $anno - 1 => $vanno2,
                     $anno - 2 => $vanno3,
-                    'description' => $sheet->getCell('N' . $row)->getValue(),
+                    // 'description' => $sheet->getCell('N' . $row)->getValue(),
                 ];
 
                 $startcount++;
@@ -348,12 +361,11 @@ class ExcelController extends Controller
         $anno1 = 'Anno_' . $anno - 1;
         $anno2 = 'Anno_' . $anno - 2;
         $anno3 = 'Anno_' . $anno + 1;
-       // data_item valore
+        // data_item valore
         $anno0i = $anno;
         $anno1i = $anno - 1;
         $anno2i = $anno - 2;
         $anno3i = $anno + 1;
-
 
         $data_array[] = array("cognome", "nome", "indirizzo", "cap", "localita",
             "comune", "sigla_provincia", $anno3, $anno0, $anno1, $anno2,
@@ -361,7 +373,7 @@ class ExcelController extends Controller
             "partita_iva", "tipo_socio", "description");
 
         foreach ($soci as $data_item) {
-          
+
             $data_array[] = array(
                 'cognome' => $data_item->cognome,
                 'nome' => $data_item->nome,
@@ -370,11 +382,11 @@ class ExcelController extends Controller
                 'localita' => $data_item->localita,
                 'comune' => $data_item->comune,
                 'sigla_provincia' => $data_item->sigla_provincia,
-                 $anno3 => $data_item->$anno3i,
-                 $anno0 => $data_item->$anno0i,
-                 $anno1 => $data_item->$anno1i,
-                 $anno2 => $data_item->$anno2i,
-                
+                $anno3 => $data_item->$anno3i,
+                $anno0 => $data_item->$anno0i,
+                $anno1 => $data_item->$anno1i,
+                $anno2 => $data_item->$anno2i,
+
                 'consegna' => $data_item->consegna,
                 'data-iscriz' => '',
                 'email' => $data_item->email,

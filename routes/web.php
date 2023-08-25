@@ -155,3 +155,6 @@ Route::get('delete/{id}', [PostController::class, 'destroy']);
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
