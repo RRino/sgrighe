@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('consegnes', function (Blueprint $table) {
             $table->id();
-            $table->string('nome',100)->nullable();
-            $table->string('sigla',20)->nullable();
+            $table->string('nome')->default('posta');
+            $table->string('sigla')->default('pos');
+            $table->unsignedBigInteger('socio_id'); 
             $table->timestamps();
+
+            $table->foreign('socio_id')->references('id')->on('socis');
         });
     }
 
