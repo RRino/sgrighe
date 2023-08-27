@@ -14,7 +14,7 @@
                 
                 <a class="btn btn-primary " href="{{ '/etichette_anno' }}" role="button">Etichette</a>
                 <a class="btn btn-primary " href="{{ '/bollettini_anno' }}" role="button">Bollettini</a>
-                <a class="btn btn-success " href="{{ '/list' }}" role="button">Ritorno a lista</a>
+                <a class="btn btn-success " href="{{ '/list' }}" role="button">Lista soci</a>
             </div>
             <div class="card-body">
                 @if ($errors->any())

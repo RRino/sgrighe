@@ -37,8 +37,7 @@
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary btn-block">Aggiungi</button>
                             </form>
-                            <a class="btn btn-success b-list" href="{{ '/anagrafiche.consegne' }}" role="button">Ritorno alla
-                                lista</a>
+                            <a class="btn btn-success b-list" href="{{ '/anagrafiche.consegne' }}" role="button">Consegne</a>
                         </div>
                     </div>
                 </div>

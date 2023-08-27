@@ -74,5 +74,5 @@ $anno3 = 'a'.$anno+1;
 
     <a class="btn btn-success b-list" href="/showIscrizione/{{ $viewData['socis'][0]->socio_id }}">Aggiungi
         iscrizione</a>
-    <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Ritorno a lista</a>
+    <a class="btn btn-success b-list" href="{{ '/iscrizione' }}" role="button">Lista iscrizioni</a>
 </div>
