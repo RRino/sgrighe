@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome')->default('posta');
             $table->string('sigla')->default('pos');
-            $table->unsignedBigInteger('socio_id'); 
+            $table->unsignedBigInteger('socio_id')->nullable(); 
             $table->timestamps();
 
             $table->foreign('socio_id')->references('id')->on('socis');
