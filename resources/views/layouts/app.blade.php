@@ -79,7 +79,8 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
-                    <a href="/pref_etichette" class="dropdown-item">Etichette</a>           
+                    <a href="/pref_etichette" class="dropdown-item">Etichette</a>  
+                    <a href="/consegne" class="dropdown-item">Consegne</a>           
                 </ul>
                 </div>
 

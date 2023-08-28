@@ -23,7 +23,7 @@
             <div class="card-header">
                 
                 <a class="btn btn-primary " href="{{ '/formConsegne' }}" role="button">Aggiungi consegna</a>
-                <a class="btn btn-primary " href="{{ '/consegne' }}" role="button">Lista consegne</a>
+                <a class="btn btn-primary " href="{{ '/list' }}" role="button">Lista soci</a>
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -60,7 +60,6 @@
                                        
                                         <th scope="col">Nome</th>
                                         <th scope="col">Sigla</th>
-                                        <th scope="col">Modifica</th>
                                         <th scope="col">Cancella</th>
                                     </tr>
                                 </thead>
@@ -71,7 +70,7 @@
                                             <td>{{ $consegne->getNome() }}</td>
                                             <td>{{ $consegne->getSigla() }}</td>
                                             
-                                            <td><a href={{"/editConsegne/".$consegne->id}}>Edit</a></td>
+     
                                             <td><a href={{"/deleteConsegne/".$consegne->id}} onclick="return confirm('Sei sicuro?')">Cancella</a></td>
                                         </tr>
                                     @endforeach

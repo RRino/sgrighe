@@ -75,7 +75,7 @@ Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/formConsegne', 'formAddConsegne');
     Route::POST('addConsegne', 'store');
     Route::get('/deleteConsegne/{id}', 'delete');
-    Route::post('editConsegne', 'edit');
+   
 });
 
 Route::controller(ExcelController::class)->group(function () {

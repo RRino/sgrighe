@@ -51,12 +51,5 @@ class AnagraficheController extends Controller
         return redirect('/consegne');
     }
 
-    public function edit(Request $req)
-    {
-        $viewData = [];
-        $viewData["title"] = "Modifica consegne";
-        $viewData["consegne"] = Consegne::find($req->id);
-    
-        return view('anagrafiche.formEditConsegne')->with("viewData", $viewData);
-    }
+
 }

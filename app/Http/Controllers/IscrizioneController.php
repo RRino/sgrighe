@@ -31,9 +31,7 @@ class IscrizioneController extends Controller
         /**
          *  Route::get('editIscrizione/{id}', 'showData');
          *
-         * // edit iscrizione
-         *  usato in formEditConsegne.blade -- // TODO formEditConsegnen ?-- IscrizioneList.blade
-         *
+         * 
          */
         $id = $req->id;
 
