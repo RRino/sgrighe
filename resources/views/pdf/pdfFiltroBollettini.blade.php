@@ -34,10 +34,8 @@
              <input type="text" class="form-control" id="an" name="bollettini_anno"
                  value="{{ now()->year }}">
              <input type="hidden" class="form-control" id="nom" name="tipo" value="3">
-             <label for="usr">Causale:</label>
-             <input type="text" class="form-control" id="ca" name="causale"
-                 value="ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste">
-         </div><br>
+           
+      <br>
          <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF bollettini</button>
      </form>
      <br>

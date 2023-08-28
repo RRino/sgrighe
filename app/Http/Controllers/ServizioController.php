@@ -74,12 +74,10 @@ class ServizioController extends Controller
         }
 
 
-        $servizio = DB::table('param_etichettes')
-            ->whereNotNull('nome')
-            ->get();
-        if ($servizio == null) {
+        $etic = Param_etichette::all();
+        if($etic->isEmpty()){
             DB::insert('insert into param_etichettes (nome,spazio_sopra,larghezza ,altezza ,numero_verticale, numero_orrizontale,description )
-            values (?,?,?,?,?,?,?)', ['Etic_70x36' . '6', '70', '36', '8', '3', 'default']);
+            values (?,?,?,?,?,?,?)', ['Etic_70x36' , 6, 70, 36, 8, 3, 'default']);
         }
         $viewData['etichettes'] = DB::table('param_etichettes')->get();
 
@@ -105,14 +103,15 @@ class ServizioController extends Controller
             DB::insert('insert into servizios (nome,uso) values (?,?)', ['check_del', 'cancella socio da check']);
         }
 
-        $servizio = DB::table('param_bollettinis')
-            ->whereNotNull('causale')
-            ->get();
-        if ($servizio == null) {
-            DB::insert('insert into param_bollettinis (causale,prezzo) values (?,?)', ['ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste ', '20']);
-        }
-        $viewData['bollettinis'] = DB::table('param_bollettinis')->get();
 
+        $boll = Param_bollettini::all();
+        if($boll->isEmpty())
+        {
+            DB::table('param_bollettinis')->insert(['causale' => 'ISCRIZIONE ASSOCIAZIONE PROGETTO 10 RIGHE APS 2023 PIU 2 RIVISTE ', 'prezzo' => '20']);
+         }
+
+
+        $viewData['bollettinis'] = DB::table('param_bollettinis')->get();
 
         return view('servizio.preferenze_bollettini')->with("viewData", $viewData);
     }

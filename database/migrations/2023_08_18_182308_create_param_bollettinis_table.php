@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('causale')->default('ISCRIZIONE ASSOCIAZIONE PROGETTO 10 Righe APS 2023 piu 2 riviste ');
             $table->string('prezzo')->default('20');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -167,7 +167,7 @@ class PdfController extends Controller
             $htmlel = '<div style="font-size:14px;font-weight:900;text-align:left;border-bottom: solid 1px #000;">VENTI/00</div>';
 
             $htmlintest = '<div style="font-size:10px;font-weight:900;text-align:left;">INTESTATO A</div>';
-            $htmlgru = '<div style="font-size:12px;font-weight:900;text-align:left;">&nbsp;&nbsp;ASSOCIAZIONE GRUPPO DI STUDI PROGETTO 10 Righe APS APS</div>';
+            $htmlgru = '<div style="font-size:12px;font-weight:900;text-align:left;">&nbsp;&nbsp;ASSOCIAZIONE GRUPPO DI STUDI PROGETTO 10 RIGHE APS</div>';
             $htmlgru2 = '<div style="font-size:12px;font-weight:900;text-align:left;">&nbsp;&nbsp;</div>';
             $htmlcaus = '<div style="font-size:12px;font-weight:900;text-align:left;">CAUSALE</div>';
             $htmlquo = '<div style="font-size:12px;font-weight:900;text-align:left;">' . $causale . '</div>';
@@ -200,7 +200,7 @@ Ti abbiamo spedito la rivista "al sas" n. 47 relativa al 1° semestre 2023 anche
 <div style="font-size:14px;"><b>Come effettuare o rinnovare l’iscrizione</b><br>
 Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diritto a ricevere a domicilio i due  numeri della rivista semestrale di un anno con solo Euro 20,00.
 <br><br>E’ possibile:<br>
-1) utilizzare il bolettino stampato sopra per l\'ufficio postale<br>
+1) utilizzare il bollettino stampato sopra per l\'ufficio postale<br>
 2) effettuare un bonifico sul nostro conto presso EMILBANCA con codice IBAN: IT74 Z070 7237 10000000 0024 254 e con causale
   “iscrizione anno 2023 con due riviste”.<br>Per prima iscrizione aggiungere:
    nome, cognome, data di nascita, indirizzo, n.telefono, email(opzionale)<br>
