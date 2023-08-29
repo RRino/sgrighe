@@ -157,6 +157,7 @@
             @php
                 use Carbon\Carbon;
                 $anno = Carbon::now()->format('Y');
+                $anno3 = 'a' . $anno+1;
                 $anno0 = 'a' . $anno;
                 $anno1 = 'a' . $anno - 1;
                 $anno2 = 'a' . $anno - 2;
@@ -181,6 +182,7 @@
                             <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
                             <th scope="col">Consegne</th>
                             <th scope="col">Socio</th>
+                            <th scope="col">{{ $anno+1 }}</th>
                             <th scope="col">{{ $anno }}</th>
                             <th scope="col">{{ $anno - 1 }}</th>
                             <th scope="col">{{ $anno - 2 }}</th>
@@ -206,6 +208,7 @@
                                 <td>{{ $soci->getConsegna() }}</td>
 
                                 <td>{{ $soci->getTipo_socio() }}</td>
+                                <td>{{ $soci->$anno3 }}</td>
                                 <td>{{ $soci->$anno0 }}</td>
                                 <td>{{ $soci->$anno1 }}</td>
                                 <td>{{ $soci->$anno2 }}</td>

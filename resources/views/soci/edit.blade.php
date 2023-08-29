@@ -4,9 +4,7 @@
 @section('title', $viewData['title'])
 
 
-<a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
-<a class="btn btn-success btn-sm" href="{{ '/list' }}" role="button">Lista</a>
-<br><br>
+
 
 
 @php
@@ -15,11 +13,16 @@
     $anno0 = 'a' . $anno;
     $anno1 = 'a' . $anno - 1;
     $anno2 = 'a' . $anno - 2;
-    $anno3 = 'a' . $anno +1;
+    $anno3 = 'a' . $anno + 1;
 @endphp
 
 @section('content')
+<a class="btn btn-success " href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+<a class="btn btn-success " href="{{ '/list' }}" role="button">Lista</a>
+<br><br>
     <div class="card mb-4">
+
+        
         <div class="card-header">
             Edit soci
         </div>
@@ -34,7 +37,6 @@
 
 
             @foreach ($viewData['socis'] as $dati)
-            
                 <form method="POST" action="/editSocio" enctype="multipart/form-data">
                     @csrf
 
@@ -44,8 +46,7 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Id:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="id" value="{{ $dati->getId() }}" type="text"
-                                        class="form-control">
+                                    <input name="id" value="{{ $dati->getId() }}" type="text" class="form-control">
                                 </div>
                             </div>
 
@@ -77,8 +78,7 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">CAP:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="cap" value="{{ $dati->getCap() }}" type="text"
-                                        class="form-control">
+                                    <input name="cap" value="{{ $dati->getCap() }}" type="text" class="form-control">
                                 </div>
                             </div>
 
@@ -101,8 +101,8 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Provincia:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="sigla_provincia" value="{{ $dati->getSigla_provincia() }}"
-                                        type="text" class="form-control">
+                                    <input name="sigla_provincia" value="{{ $dati->getSigla_provincia() }}" type="text"
+                                        class="form-control">
                                 </div>
                             </div>
 
@@ -125,16 +125,16 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">C.Fiscale:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="codice_fiscale" value="{{ $dati->getCodice_fiscale() }}"
-                                        type="text" class="form-control">
+                                    <input name="codice_fiscale" value="{{ $dati->getCodice_fiscale() }}" type="text"
+                                        class="form-control">
                                 </div>
                             </div>
 
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Partita iva:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="partita_iva" value="{{ $dati->getPartita_iva() }}"
-                                        type="text" class="form-control">
+                                    <input name="partita_iva" value="{{ $dati->getPartita_iva() }}" type="text"
+                                        class="form-control">
                                 </div>
                             </div>
 
@@ -149,8 +149,8 @@
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Cellulare:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
-                                    <input name="cellulare" value="{{ $dati->getCellulare() }}"
-                                        type="text" class="form-control">
+                                    <input name="cellulare" value="{{ $dati->getCellulare() }}" type="text"
+                                        class="form-control">
                                 </div>
                             </div>
 
@@ -207,25 +207,26 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Iscrizioni</label>
-        <br>
-        <a class="btn btn-success btn-sm" href="{{ '/editIscrizione/'.$dati->getId() }}" role="button">Edit Iscrizioni</a>
-        <br>
-        <div class="singolo">
-            <label class="slabel" for="pwd">{{ $anno+1 }}:</label>
-            {{ $dati[$anno3] }}
-        </div>
-        <div class="singolo">
-            <label class="slabel" for="pwd">{{ $anno }}:</label>
-            {{ $dati[$anno0] }}
-        </div>
-        <div class="singolo">
-            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
-            {{ $dati[$anno1] }}
-        </div>
-        <div class="singolo">
-            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
-            {{ $dati[$anno2] }}
-        </div>
+                        <br>
+                        <a class="btn btn-success btn-sm" href="{{ '/editIscrizione/' . $dati->getId() }}"
+                            role="button">Edit Iscrizioni</a>
+                        <br>
+                        <div class="singolo">
+                            <label class="slabel" for="pwd">{{ $anno + 1 }}:</label>
+                            {{ $dati[$anno3] }}
+                        </div>
+                        <div class="singolo">
+                            <label class="slabel" for="pwd">{{ $anno }}:</label>
+                            {{ $dati[$anno0] }}
+                        </div>
+                        <div class="singolo">
+                            <label class="slabel" for="pwd">{{ $anno - 1 }}:</label>
+                            {{ $dati[$anno1] }}
+                        </div>
+                        <div class="singolo">
+                            <label class="slabel" for="pwd">{{ $anno - 2 }}:</label>
+                            {{ $dati[$anno2] }}
+                        </div>
 
 
                     </div>
@@ -238,7 +239,7 @@
                 </form>
                 <br>
             @endforeach
- 
+
             <br>
         </div>
     </div>

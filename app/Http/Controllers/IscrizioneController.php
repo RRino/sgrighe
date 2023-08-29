@@ -95,7 +95,7 @@ class IscrizioneController extends Controller
         $viewData["iscrizioni"] = Iscrizione::find($id);
         $viewData["iscrizioni"]->socio_id = $id;
         $viewData["iscrizioni"]->$anno = $req->anno;
-        $viewData["iscrizioni"]->description = $req->description;
+      
 
         $viewData["iscrizioni"]->save();
 
@@ -130,9 +130,8 @@ class IscrizioneController extends Controller
         $iscrizioni[$anno - 2] = $req[$anno - 2];
         $iscrizioni[$anno +1] = $req[$anno+1];
 
-        $iscrizioni['nome'] = $req['nome'];
-        $iscrizioni['cognome'] = $req['cognome'];
-        $iscrizioni['description'] = $req['description'];
+
+       // $iscrizioni['description'] = $req['description'];
 
         $iscrizioni->save();
 

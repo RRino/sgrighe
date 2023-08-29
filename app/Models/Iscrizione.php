@@ -14,26 +14,14 @@ class Iscrizione extends Model
     {
         $request->validate([
      
-        "nome" => "nullable",
-        "cognome" => "nullable",
+        "socio_id" => "nullable",
+
         ]);
     }
 
        /**
 
-     * Get the post that owns the comment.
-
-     *  
-
-     * Syntax: return $this->belongsTo(Post::class, 'foreign_key', 'owner_key');
-
-     *
-
-     * Example: return $this->belongsTo(Post::class, 'post_id', 'id');
-
-     * 
-
-     */
+       */
 
      public $timestamps = false;
 
@@ -59,47 +47,7 @@ class Iscrizione extends Model
         $this->attributes['socio_id'] = $socio_id;
     }
 
-    public function getDescription()
-    {
-        return $this->attributes['description'];
-    }
-    
-    public function setDescription($description)
-    {
-        $this->attributes['description'] = $description;
-    }
- 
- 
-   public function getNome()
-    {
-        return $this->attributes['nome'];
-    }
-    
-    public function setNome($nome)
-    {
-        $this->attributes['nome'] = $nome;
-    }
-    public function getCognome()
-    {
-        return $this->attributes['cognome'];
-    }
-    
-    public function setCognome($cognome)
-    {
-        $this->attributes['nome'] = $cognome;
-    }
- 
-/*
-    public function getAnno()
-    {
-        return $this->attributes['anno'];
-    }
-    
-    public function setAnno($anno)
-    {
-        $this->attributes['anno'] = $anno;
-    }
-*/
+   
  
     public function socis()
     {
