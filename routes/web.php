@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnagraficheController;
+use App\Http\Controllers\ConsegneController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IscrizioneController;
@@ -72,13 +73,19 @@ Route::controller(ServizioController::class)->group(function () {
 });
 
 Route::controller(AnagraficheController::class)->group(function () {
-    Route::get('/anagrafiche', 'home')->middleware('is_admin');;
+    Route::get('/anagrafiche', 'index')->middleware('is_admin');;
+
+   
+});
+
+Route::controller(ConsegneController::class)->group(function () {
     Route::get('/consegne', 'consegne');
     Route::get('/formConsegne', 'formAddConsegne');
     Route::POST('addConsegne', 'store');
     Route::get('/deleteConsegne/{id}', 'delete');
    
 });
+
 
 Route::controller(ExcelController::class)->group(function () {
     Route::get('/formExcel_soci', 'index_soci'); //->middleware('is_admin'); // da menu sidebar richiama form per importare excel
@@ -155,6 +162,10 @@ Route::post('update/{id}', [PostController::class, 'update']);
 Route::get('delete/{id}', [PostController::class, 'destroy']);
 
 Route::get('iltuoente_list', [IlTuoEnte::class, 'index']);
+
+Route::get('/iconeHome', function () {
+    return view('iconeHome');
+});
 
 Route::get('/', function () {
     return view('welcome');

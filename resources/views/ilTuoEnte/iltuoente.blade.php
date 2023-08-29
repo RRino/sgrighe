@@ -56,50 +56,56 @@
                             </div>
                     
                             <div class="singolo">
+                                <label class="slabel" for="pwd">Permalink:</label>
+                                <a href="{{ $dati->permalink}}" target=”_blank”>Permalink</a>
+                        
+                            </div>
+
+                            <div class="singolo">
                                 <label class="slabel" for="usr">Tipologia:</label>
                                 <span class="slabelb">{{ $dati->tipologia }}</span>
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Cognome:</label>
-                                <span class="slabelb">{{-- $dati->getCognome() --}}</span>
+                                <label class="slabel" for="pwd">Settore:</label>
+                                <span class="slabelb">{{$dati->settore }}</span>
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Indirizzo:</label>
-                                {{-- $dati->getIndirizzo() --}}
-                            </div>
-                    
-                    
-                    
-                            <div class="singolo">
-                                <label class="slabel" for="pwd">CAP:</label>
-                                {{-- $dati->getCap() --}}
+                                <label class="slabel" for="pwd">Acronimo:</label>
+                                {{ $dati->acronimo}}
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Località:</label>
-                                {{-- $dati->getLocalita() --}}
+                                <label class="slabel" for="pwd">Nome breve:</label>
+                                {{ $dati->nome_breve }}
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Comune:</label>
-                                {{-- $dati->getComune() --}}
+                                <label class="slabel" for="pwd">Telefono:</label>
+                                {{ $dati->telefono}}
+                    
+                            <div class="singolo">
+                                <label class="slabel" for="pwd">Cellulare:</label>
+                                {{ $dati->cellulare }}
+                            </div>
+                    
+    
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Sigla Prov.:</label>
-                                {{-- $dati->getSigla_provincia() --}}
+                                <label class="slabel" for="pwd">Web e Social</label>
+                                {{ $dati->webesocial }}
                             </div>
                     
                             <div class="singolo">
                                 <label class="slabel" for="pwd">Email:</label>
-                                {{-- $dati->getEmail() --}}
+                                {{ $dati->email}}
                             </div>
                     
                             <div class="singolo">
                                 <label class="slabel" for="pwd">PEC:</label>
-                                {{-- $dati->getPec() --}}
+                                {{$dati->pec}}
                             </div>
                     
                             <div class="singolo">
@@ -108,42 +114,29 @@
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">P.Iva:</label>
-                                {{-- $dati->getPartita_iva() --}}
+                                <label class="slabel" for="pwd">Settore ISTAT:</label>
+                                {{ $dati->settore_istat }}
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Telefono:</label>
-                                {{-- $dati->getTelefono() --}}
+                                <label class="slabel" for="pwd">Attivita ISTAT:</label>
+                                {{ $dati->attivita_istat}}
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Cell.:</label>
-                                {{-- $dati->getCellulare() --}}
+                                <label class="slabel" for="pwd">Destinatari</label>
+                                {{ $dati->destinatari}}
                             </div>
                     
                             <div class="singolo">
-                                <label class="slabel" for="pwd">Tipo Socio:</label>
-                                <td>{{-- $dati->getTipo_socio() --}}</td>
+                                <label class="slabel" for="pwd">Presentazione:</label>
+                                <td>{{ $dati->presentazione}}</td>
                     
                             </div>
                     
-                            <div class="singolo">
-                                <label class="slabel" for="pwd">Pubblicato:</label>
-                                {{-- $dati->getPublished() --}}
-                        
-                            </div>
+  
                     
-                            <div class="singolo">
-                                <label class="slabel" for="pwd">Consegna:</label>
-                                {{-- $dati->getConsegna() --}}
-                            </div>
-             
-                    
-                            <div class="singolo">
-                                <label class="slabel" for="pwd">Note:</label>
-                                {{-- $dati->getDescription() --}}
-                            </div>
+                     
                             <br>
                         @endforeach
                         <br>

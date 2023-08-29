@@ -26,4 +26,44 @@ class ConsegneController extends Controller
         $viewData["consegne"] = $iscrizione;
         return view('consegne.show')->with("viewData", $viewData);
     }
+
+    public function consegne(){
+
+        $viewData = [];
+        $viewData["title"] = "Anagrafica Consegne";
+
+        $viewData["consegnes"] = Consegne::orderBy('nome')->paginate(session('pag'));
+        return view('consegne.consegne')->with("viewData", $viewData);
+    }
+
+    public function formAddConsegne(){
+
+        $viewData = [];
+        $viewData["title"] = "Aggiunge Consegne";
+        $viewData["consegnes"] = Consegne::all();
+     
+        return view('consegne.formAddConsegne')->with("viewData", $viewData);
+    }
+
+    public function store(Request $request)
+    {
+        Consegne::validate($request);
+        $nome = $request->nome;
+        $newconsegne = new Consegne();
+        $newconsegne->setNome($request->input('nome'));
+        $newconsegne->setSigla($request->input('sigla'));
+      
+        $newconsegne->save();
+
+        //return back();
+        return redirect('/consegne');
+
+    }
+
+    public function delete($id){
+
+        Consegne::destroy($id);
+
+        return redirect('/consegne');
+    }
 }

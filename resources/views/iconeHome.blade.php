@@ -23,7 +23,7 @@
 
     
                                   
-                    <img src="{{ asset('/img/il-tuo-ente.png') }}" class="img_fluid">
+                    <a href="iltuoente_list"><img src="{{ asset('/img/il-tuo-ente.png') }}" class="img_fluid"></a>
                     <a href="/anagrafiche"><img src="{{ asset('/img/anagrafiche.png') }}" class="img_fluid"></a>
                     <a  href="{{ '/list' }}"> <img src="{{ asset('/img/associati.png') }}" class="img_fluid"></a>
                    

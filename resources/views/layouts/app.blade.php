@@ -104,7 +104,7 @@
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Selezioni </div>
+            <a href="/iconeHome" class="list-group-item list-group-item-action bg-light">Selezioni</a>
             <div class="list-group list-group-flush">
                 <a href="/anagrafiche" class="list-group-item list-group-item-action bg-light">Anagrafiche</a>
                 <a href="/iltuoente_list" class="list-group-item list-group-item-action bg-light">Il Tuo Ente</a>
@@ -120,6 +120,7 @@
                         <ul class="dropdown-menu">
                             <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
                             <a href="/pref_etichette" class="dropdown-item">Etichette</a>
+                            <a href="/consegne" class="dropdown-item">Consegne</a>
                         </ul>
 
                     </a>
