@@ -88,7 +88,7 @@
 
 
         $('.saveAll').on('click', function(e) {
-            console.log('clic');
+            console.log('clicf.');
             var studentIdArr = [];
             $(".checkbox:checked").each(function() {
                 studentIdArr.push($(this).attr('data-id'));
@@ -98,7 +98,7 @@
             } else {
                 //if (confirm("Sicuro?")) {
                 var stuId = studentIdArr.join(",");
-                console.log(stuId);
+                console.log('stuidf'+stuId);
                 $.ajax({
                     url: "{{ url('salvaChck') }}",
                     type: 'POST',
@@ -107,7 +107,7 @@
                     },
                     data: 'ids=' + stuId,
                     success: function(data) {
-                        console.log('dt '.data);
+                        console.log('dtf '.data);
                         window.location.href = "/bollettini/1";
 
 
@@ -141,7 +141,7 @@
                 eticIdArr.push($(this).attr('data-id'));
 
             });
-            console.log('st ' + eticIdArr);
+            console.log('st-' + eticIdArr);
             if (eticIdArr.length <= 0) {
                 alert("Scegliere almeno un nome [ ]");
             } else {

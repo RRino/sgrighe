@@ -250,17 +250,17 @@
         // Crea Bollettini da chckbox selezionato
 
         $('.saveAll').on('click', function(e) {
-            console.log('0clic');
+            console.log('0-clic');
             var studentIdArr = [];
             $(".checkbox:checked").each(function() {
                 studentIdArr.push($(this).attr('data-id'));
             });
-            console.log('1st ' + studentIdArr);
+            console.log('1-st ' + studentIdArr);
             if (studentIdArr.length <= 0) {
                 alert("Scegliere almeno un nome [ ]");
             } else {
                 var stuId = studentIdArr.join(",");
-                console.log('2s', stuId);
+                console.log('2-s', stuId);
                 $.ajax({
                     url: "{{ url('salvaChck') }}",
                     type: 'POST',
@@ -269,7 +269,7 @@
                     },
                     data: 'ids=' + stuId,
                     success: function(data) {
-                        console.log('3dt '.data);
+                        console.log('3-dt '.data);
                         window.location.href = "/bollettini/1";
                     },
                     error: function(data) {
@@ -282,17 +282,17 @@
         // Crea etichette da sel. chckbox
 
         $('.saveEtt').on('click', function(e) {
-            console.log('0clic');
+            console.log('0xclic');
             var studentIdArr = [];
             $(".checkbox:checked").each(function() {
                 studentIdArr.push($(this).attr('data-id'));
             });
-            console.log('1st ' + studentIdArr);
+            console.log('1xst ' + studentIdArr);
             if (studentIdArr.length <= 0) {
                 alert("Scegliere almeno un nome [ ]");
             } else {
                 var stuId = studentIdArr.join(",");
-                console.log('2s', stuId);
+                console.log('2xs', stuId);
                 $.ajax({
                     url: "{{ url('salvaChck') }}",
                     type: 'POST',
@@ -301,7 +301,7 @@
                     },
                     data: 'ids=' + stuId,
                     success: function(data) {
-                        console.log('3dt '.data);
+                        console.log('3xdt '.data);
                         window.location.href = "/etichette/1";
                     },
                     error: function(data) {
@@ -315,23 +315,23 @@
         // Del socio sel. checkbox
 
         $('.del_socio').on('click', function(e) {
-            console.log('clic');
+            console.log('clicy');
 
             var eticIdArr = [];
             $(".checkbox:checked").each(function() {
                 eticIdArr.push($(this).attr('data-id'));
 
             });
-            console.log('st ' + eticIdArr);
+            console.log('sty ' + eticIdArr);
             if (eticIdArr.length <= 0) {
                 alert("Scegliere almeno un nome [ ]");
             } else {
                 sicuro = confirm('Sei sicuro?');
-                console.log('sicuro ' + sicuro);
+                console.log('sicuroy ' + sicuro);
                 if (sicuro) {
                     //if (confirm("Sicuro?")) {
                     var etiId = eticIdArr.join(",");
-                    console.log('datax ' + etiId);
+                    console.log('datay ' + etiId);
                     $.ajax({
                         url: "{{ url('salvaChck') }}",
                         type: 'POST',
