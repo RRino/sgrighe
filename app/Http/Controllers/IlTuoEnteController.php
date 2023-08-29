@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class IlTuoEnte extends Controller
+class IlTuoEnteController extends Controller
 {
     public function index()
     {
