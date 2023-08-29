@@ -1,44 +1,62 @@
- @include('layouts.app')
- <link rel="stylesheet" href="css/app.css">
- <div class="container">
-     <br>
-     <h1 class="tit-add">Stampa bollettini</h1>
-     <h5 class="tit-add">Stampa i bollettini dei soci anno di rinnovo</h5>
-     <style>
-         .form {
-             max-width: 600px;
-             margin: 10px;
-         }
+@extends('layouts.app')
 
-         #an {
-             max-width: 100px;
-         }
-
-         .b-list {
-             margin-top: 73px;
-         }
-     </style>
-     @section('content')
-
-
-     @stop
-     <!--
+@php
+    use Carbon\Carbon;
+    $anno = Carbon::now()->format('Y');
+    // $anno = $viewData["anno"];
     
-    Route::post('creaBollettini_anno', 'PdfBollettini');
-    // richiamato dal form filtro anno bollettini
--->
-     <form action="creaBollettini_anno" class="form" method="POST">
-         @csrf
-         <div class="form-group">
-             <label for="usr">Anno rinnovo:</label>
-             <input type="text" class="form-control" id="an" name="bollettini_anno"
-                 value="{{ now()->year }}">
-             <input type="hidden" class="form-control" id="nom" name="tipo" value="3">
-           
-      <br>
-         <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF bollettini</button>
-     </form>
-     <br>
+    $anno0 = 'a' . $anno;
+    $anno1 = 'a' . $anno - 1;
+    $anno2 = 'a' . $anno - 2;
+    $anno3 = 'a' . $anno + 1;
+@endphp
 
-     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br><br>
- </div>
+@section('content')
+    <div class="container-fluid">
+
+        @if ($errors->any())
+            <ul class="alert alert-danger list-unstyled">
+                @foreach ($errors->all() as $error)
+                    <li>- {{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Crea bollettini anno scelto') }}</div>
+
+                    <div class="card-body">
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista
+                            Soci</a><br><br>
+                        <hr>
+
+
+                        <div class="container">
+                            <form action="creaBollettini_anno" class="form" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="usr">Anno non rinnovato:</label><br>
+                                    <input type="text" class="" id="an" name="bollettini_anno"
+                                        value="{{ now()->year }}"><br>
+                                    <input type="hidden" class="" id="nom" name="tipo" value="3">
+
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Crea PDF
+                                        bollettini</button>
+                            </form>
+                            <br>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+    @endsection

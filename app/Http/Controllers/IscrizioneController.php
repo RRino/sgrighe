@@ -23,6 +23,7 @@ class IscrizioneController extends Controller
         $viewData = iscri_leftJoin();
 
         return view('iscrizione.iscrizioneList')->with("viewData", $viewData);
+        
     }
 
     public function showData(request $req)

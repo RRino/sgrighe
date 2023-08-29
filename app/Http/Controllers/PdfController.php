@@ -36,15 +36,15 @@ class PdfController extends Controller
         $parametri_bollettini = Param_bollettini::all();
         $causale = $parametri_bollettini[0]->causale;
         $prezzo = $parametri_bollettini[0]->prezzo;
+           
         /**
          * legge tabella database dove ajax ha memorizzato i check selezionati
          */
         if ($tip == 1) {
             //  $datis = Servizio::find(1);
             $datis = DB::table('servizios')->where('nome', 'check')->first();
-            $causale = DB::table('servizios')->where('nome', 'causale')->first();
-
-            $causale = $causale->dati . ' - anno: ' . (string) $anno;
+            
+            //$causale = $causale->dati . ' - anno: ' . (string) $anno;
             $dt = explode(',', $datis->dati);
             $data = Soci::find($dt);
         }
@@ -65,11 +65,12 @@ class PdfController extends Controller
                     'socis.comune',
                     'socis.sigla_provincia',
 
-                    'iscriziones.' . $anno . ' as a' . $anno,
+                    'iscriziones.' . $anno-1 . ' as a' . $anno-1,
 
                 )
                 ->orderBy('socis.cognome', 'ASC')
-                ->where('iscriziones.' . $anno, '=', $anno)
+                ->where('iscriziones.' . $anno-1, '=', $anno-1)
+                ->where('iscriziones.' . $anno, '=', 'No')
                 ->get();
 
         }

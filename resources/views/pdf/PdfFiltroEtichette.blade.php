@@ -1,67 +1,61 @@
- @include('layouts.app')
- <link rel="stylesheet" href="css/app.css">
- <div class="container">
-     <br>
-     <h1 class="tit-add">Stampa etichette</h1>
-     <h5 class="tit-add">Stampa i etichette dei soci anno rinnovo</h5>
-     <style>
-         .form {
-             float: left;
-             margin: 10px;
-         }
+@extends('layouts.app')
 
-         .b-list {
-             margin-top: 73px;
-         }
+@php
+    use Carbon\Carbon;
+    $anno = Carbon::now()->format('Y');
+    // $anno = $viewData["anno"];
+    
+    $anno0 = 'a' . $anno;
+    $anno1 = 'a' . $anno - 1;
+    $anno2 = 'a' . $anno - 2;
+    $anno3 = 'a' . $anno + 1;
+@endphp
 
-         .parametri {
-             margin-left: 100px;
-         }
+@section('content')
+    <div class="container-fluid">
 
-         body {
-             height: 1000px;
-         }
-     </style>
-     @section('content')
+        @if ($errors->any())
+            <ul class="alert alert-danger list-unstyled">
+                @foreach ($errors->all() as $error)
+                    <li>- {{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
 
 
-     @stop
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ __('Crea Etichette') }}</div>
 
-     <!-- Crea etichette
-        Route::post('etichette_anno',  'PdfEtichette');-->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-     <br>
-     <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br>
-     <!--<form method="post" id="myForm" onsubmit="return submitForm()">-->
-     <form action="etichette_anno" class="form" method="POST">
-         @csrf
-         <div class="form-group">
-             <label for="usr">Anno ultima iscrizione:</label>
-             <input type="text" class="form-control" id="nom" name="etichette_anno"
-                 value="{{ now()->year }}">
-
-
-             <label for="usr">Etichetta tipo:</label>
-
-             <select name="etichetta_nome" id="tso" class="form-control imp">
-                 <option>Seleziona Tipo etichetta</option>
-
-                 @foreach ($viewData['TipoEtichette'] as $tipo)
-                     <option value="{{ $tipo->getNome() }}">{{ $tipo->getNome() }}</option>
-                 @endforeach
-
-             </select>
-
-             <input type="hidden" class="form-control" id="nom" name="tipo" value="2">
-         </div><br>
-         Prima seleziona Etichetta tipo:<br>
-         <button type="submit" class="btn btn-primary btn-sm btn-block">Crea PDF etichette</button>
-     </form>
-     <br><br><br><br><br><br>
+                    <div class="container">
+                        <br>
+                        <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br>
+                       <hr>
+                        <form action="etichette_anno" class="form" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="usr">Anno ultima iscrizione:</label><br>
+                                <input type="text" class="form-controlx" id="nom" name="etichette_anno"
+                                    value="{{ now()->year }}">
 
 
- </div>
+                                <input type="hidden" class="form-control" id="nom" name="tipo" value="2">
+                            </div><br>
+                        
+                            <button type="submit" class="btn btn-primary">Crea PDF etichette</button>
+                        </form>
+                        <br><br><br><br>
 
+                        {{-- $viewData['iscrizioni']->links() --}}
+                        <br>
 
- <br>
- <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+@endsection

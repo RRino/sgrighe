@@ -7,67 +7,61 @@
 
 
 <style>
-    .wanno {
-        width: 50px;
-    }
-
     .frighe {
         width: 200px;
     }
 
-    .fanno {
-        width: 200px;
-    }
-
-    .fcognome {
-        width: 300px;
-    }
-
-    .coloreanno {
-        color: red;
-    }
-
-    .te {
-        white-space: nowrap;
-        margin-right: 3px;
+    .adds {
+       margin:3px;
     }
 </style>
+<div class="box">
+    @section('content')
 
-
-@section('title', $viewData['title'])
-
-
-
-@section('content')
-    <div class="container-fluid">
-        <div class="card mb-4">
+        <div class="container-fluid">
+        @section('title', $viewData['title'])
+        <div class="card mb-6">
             <div class="card-header">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 
-                <a class="btn btn-primary btn-sm adds" href="{{ '/formExcel_soci' }}" role="button">Excel</a>
-                <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ">
+                            <a class="btn btn-primary btn-sm adds" href="{{ '/formExcel_soci' }}" role="button">Excel</a>
+                            <a class="btn btn-primary btn-sm adds" href="{{ '/formAdd' }}" role="button">Aggiungi Socio</a>
+                            <a class="btn btn-primary btn-sm adds" href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
+                            <a class="btn btn-primary btn-sm adds" href="{{ '/bollettini_anno' }}" role="button">Bollettini anno</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Azione da Sel.
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <button class="dropdown-item btn-link saveEtt">Etichette da Sel.</button>
+                                        <button class="dropdown-item btn-link  saveAll">Bollettini da Sel.</button>
+                                        <button class="dropdown-item btn-link del_socio">Cancella soci Sel. </button>
+                                    </ul>
+
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                </div>
+                            </li>
+
+                    <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
+                        </ul>
+                    </div>
+                </nav>
 
 
-                <a class="btn btn-primary btn-sm" href="{{ '/etichette_anno' }}" role="button">Etichette anno</a>
-                <a class="btn btn-primary btn-sm" href="{{ '/bollettini_anno' }}" role="button">Bollettini anno</a>
 
 
 
 
-                <button class="btn link dropdown-toggle mbut" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="true">
-                    Azione da Sel.
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <button class="dropdown-item btn-link saveEtt">Etichette da Sel.</button>
-                    <button class="dropdown-item btn-link  saveAll">Bollettini da Sel.</button>
-                    <button class="dropdown-item btn-link del_socio">Cancella soci Sel. </button>
-                </ul>
+              
 
-                <a class="btn btn-success btn-sm" href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
-            
+
+
 
             </div>
-
 
 
             <div class="card-body">
@@ -78,7 +72,6 @@
                         @endforeach
                     </ul>
                 @endif
-
 
 
                 <div class="card">
@@ -97,8 +90,9 @@
                                                         session(['pag' => 25]);
                                                     }
                                                 @endphp
-                                                <input type="text" class="form-control te " id="nom" name="rows"
-                                                    value="{{ session('pag') }}" placeholder="N. righe visualizzate">
+                                                <input type="text" class="form-control te " id="nom"
+                                                    name="rows" value="{{ session('pag') }}"
+                                                    placeholder="N. righe visualizzate">
                                                 <button type="submit" class="btn btn-success bt-sm te">N.Righe</button>
                                             </div>
                                         </div>
@@ -163,9 +157,9 @@
             @php
                 use Carbon\Carbon;
                 $anno = Carbon::now()->format('Y');
-                $anno0 = 'a'.$anno;
-                $anno1 = 'a'.$anno-1;
-                $anno2 = 'a'.$anno-2;
+                $anno0 = 'a' . $anno;
+                $anno1 = 'a' . $anno - 1;
+                $anno2 = 'a' . $anno - 2;
             @endphp
 
             <div class="card-body">
@@ -213,8 +207,8 @@
 
                                 <td>{{ $soci->getTipo_socio() }}</td>
                                 <td>{{ $soci->$anno0 }}</td>
-                                <td>{{ $soci->$anno1}}</td>
-                                <td>{{ $soci->$anno2}}</td>
+                                <td>{{ $soci->$anno1 }}</td>
+                                <td>{{ $soci->$anno2 }}</td>
                                 <!-- non usato per ora -->
                                 <?php /*
                                 @if ($soci->getPublished() == "Si")
@@ -234,14 +228,13 @@
             </div>
             {{ $viewData['socis']->links() }}
         </div>
-        <br><br><br>
+
     @endsection
     <br>
     <br>
 </div>
 
-</div>
-</div>
+
 
 
 
