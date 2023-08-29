@@ -8,6 +8,8 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
+use App\Http\Controllers\IlTuoEnte;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -151,6 +153,8 @@ Route::get('show/{id}', [PostController::class, 'show']);
 Route::get('editPost/{id}', [PostController::class, 'editPost']);
 Route::post('update/{id}', [PostController::class, 'update']);
 Route::get('delete/{id}', [PostController::class, 'destroy']);
+
+Route::get('iltuoente_list', [IlTuoEnte::class, 'index']);
 
 Route::get('/', function () {
     return view('welcome');
