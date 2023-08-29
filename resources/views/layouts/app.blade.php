@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>Laravel</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -73,11 +73,19 @@
 
             li {
                 list-style-type: none;
-}
+            }
         }
     </style>
 </head>
-@include('includes.header')
+
+@guest
+@else
+    @if (Auth::check())
+        @if (Auth::user()->getIs_admin() == 1)
+            @include('includes.header')
+        @endif
+    @endif
+@endguest
 
 <body>
     <div class="d-flex" id="wrapper">
@@ -85,18 +93,18 @@
         <div class="bg-light border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">Selezioni </div>
             <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+                <a href="/anagrafiche" class="list-group-item list-group-item-action bg-light">Anagrafiche</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                
+
                 <li class="nav-item dropdown  punto">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Preferenze
 
-                        <ul class="dropdown-menu" >
+                        <ul class="dropdown-menu">
                             <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
                             <a href="/pref_etichette" class="dropdown-item">Etichette</a>
                         </ul>
@@ -123,12 +131,33 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                     
+
+
+                        @guest
+                            <li>
+                                <a class="nav-link active" href="{{ route('login') }}">Login</a>
+                            </li>
+                            <li>
+                                <a class="nav-link active" href="{{ route('register') }}">Registrati</a>
+                            </li>
+                        @else
+                            <div>
+                                <a class="nav-link active"
+                                    href="{{ route('myaccount.orders') }}">{{ Auth::user()->getName() }} -
+                                    Ordini</a>
+                                <a class="nav-link active" href="#">${{ Auth::user()->getBalance() }}</a>
+                            </div>
+                            <form id="logout" action="{{ route('logout') }}" method="POST">
+                                <a role="button" class="nav-link active"
+                                    onclick="document.getElementById('logout').submit();">Logout</a>
+                                @csrf
+                            </form>
+                        @endguest
+
+
+
                     </ul>
                 </div>
             </nav>

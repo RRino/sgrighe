@@ -34,7 +34,7 @@ $anno3 = 'a'.$anno+1;
                     
                         <td><a class="btn btn-primary btn-sm b-add" href={{ '/filtraIscritto' }}>Filtra Socio</a></td>
                         <div class="container">
-                            <table class="table tab1">
+                            <table class="table table-bordered table-striped">
                                 <tr class="head">
                         
                                     <td>socio_id</td>

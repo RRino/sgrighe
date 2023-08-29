@@ -51,18 +51,7 @@
                     </div>
                 </nav>
 
-
-
-
-
-
-              
-
-
-
-
             </div>
-
 
             <div class="card-body">
                 @if ($errors->any())
