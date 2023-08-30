@@ -17,15 +17,7 @@ class AnagraficheController extends Controller
         return view('anagrafiche.index');
     }
 
-    public function show($id)
-    {
-        $viewData = [];
-        $iscrizione = Consegne::findOrFail($id);
-        $viewData["title"] = $iscrizione->getName() . " - Consegne";
-        $viewData["subtitle"] = $iscrizione->getName() . " - Riviste";
-        $viewData["consegne"] = $iscrizione;
-        return view('consegne.show')->with("viewData", $viewData);
-    }
+  
 
     public function anagrafica(Request $request)
     {
@@ -83,7 +75,7 @@ class AnagraficheController extends Controller
         return redirect('/anagrafica');
     }
 
-    public function show2($tab = null)
+    public function show($tab = null)
     {
 
         if (is_null($tab)) {

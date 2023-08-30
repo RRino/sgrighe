@@ -74,7 +74,8 @@ Route::controller(ServizioController::class)->group(function () {
 
 Route::controller(AnagraficheController::class)->group(function () {
       
-
+    Route::get('/tab/{tab?}', 'show')->name('show');
+    
     Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
     Route::get('/formAnagrafica', 'formAddAnagrafica');
     Route::POST('addAnagrafica', 'store');
@@ -177,5 +178,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/tab/{tab?}', [AnagraficheController::class, 'show2'])
-    ->name('show2');
+
