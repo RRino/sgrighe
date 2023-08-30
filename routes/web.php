@@ -150,6 +150,7 @@ Route::controller(PdfController::class)->group(function () {
     Route::post('etichette_anno', 'PdfEtichette');
     Route::get('bollettini/{tipo}', 'PdfBollettini'); //usato da bottone "Bollettini da chckbox" che chiama AJAX poi da success in soci.index.blade.php
     Route::get('etichette/{tipo}', 'PdfEtichette');
+    Route::get('pdf','printPagePdf');
 
 });
 

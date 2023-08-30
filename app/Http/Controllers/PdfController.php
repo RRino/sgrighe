@@ -510,4 +510,37 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
 
     }
 
+    public function printPagePdf()
+    {
+
+           $viewData = [];
+           $anno = 2023;
+           $html =  DB::table('socis')
+           ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+           ->get();
+
+        
+
+        $html2 = '<hr>';
+
+        //$html = '<h1 style="color:red;">Hello World</h1>';
+
+        $pdf = new TCPDF;
+
+        $pdf::SetTitle('Hello World');
+
+        $pdf::AddPage();
+
+          //$pdf::writeHTMLCell($w=0, $h=0, $x='', $y='', $html, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
+
+        foreach($html as $ht){ 
+         $pdf::writeHTML('<div style="font-size:12px;margin-bottom:4px">'.$ht->nome.' '.$ht->cognome.' '.$ht->localita.' -- '.$ht->$anno.'</div>', true, false, true, false, '');
+         $pdf::writeHTML($html2, true, false, true, false, '');
+        }
+        
+
+        $pdf::Output('hello_world.pdf');
+
+    }
+
 }
