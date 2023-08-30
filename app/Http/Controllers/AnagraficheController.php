@@ -93,16 +93,16 @@ class AnagraficheController extends Controller
         $viewData = [];
         $viewData["tab"] = $tab;
         if ($tab == 'tab1') {
-            $viewData["consegnes"] = Consegne::all();
+            $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
         }
         if ($tab == 'tab2') {
-            $viewData["consegnes"] = Anagrafica::all();
+            $viewData["dati"] = Anagrafica::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('anagraficas');
         }
 
         if ($tab == 'tab3') {
-            $viewData["consegnes"] = Soci::all();
+            $viewData["dati"] = Soci::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('socis');
         }
         // return view('anagrafiche.anagrafica', ['regions' => Consegne::all(),'tab' => $tab ]);

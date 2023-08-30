@@ -80,7 +80,7 @@
                                 <tbody>
 
 
-                                    @foreach ($viewData['consegnes'] as $consegne)
+                                    @foreach ($viewData['dati'] as $dat)
                                         <tr>
                                             @php
                                                 $status = 0;
@@ -92,7 +92,7 @@
                                                         $coln = $viewData['column'][$status];
                                                         $status++;
                                                     @endphp
-                                                    <td>{{ $consegne[$coln] }}</td>
+                                                    <td>{{ $dat[$coln] }}</td>
                                                 @endif
                                             @endforeach
                                         </tr>
