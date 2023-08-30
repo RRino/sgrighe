@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('ruolo',200)->nullable();
             $table->enum('published',['Abilitato','Sospeso'])->default('Abilitato')->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('tabs_id');
             $table->timestamps();
         });
     }

@@ -73,8 +73,12 @@ Route::controller(ServizioController::class)->group(function () {
 });
 
 Route::controller(AnagraficheController::class)->group(function () {
-    Route::get('/anagrafiche', 'index')->middleware('is_admin');;
+      
 
+    Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
+    Route::get('/formAnagrafica', 'formAddAnagrafica');
+    Route::POST('addAnagrafica', 'store');
+    Route::get('/deleteAnagrafica/{id}', 'delete');
    
 });
 
@@ -173,4 +177,5 @@ Route::get('/', function () {
 });
 
 
-
+Route::get('/tab/{tab?}', [AnagraficheController::class, 'show2'])
+    ->name('show2');
