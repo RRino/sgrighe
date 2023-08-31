@@ -329,8 +329,9 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
         //  if ($etichetta_nome == 'Seleziona Tipo etichetta') {
         //     return redirect('/etichette_anno');
         // }
-
+ 
         $anno = $req->etichette_anno;
+        $no_anno = $req->etichette_no_anno;
         // attenzione .... $req->tipo non si vede in $req si vede se fai '$tip = $req->tipo;' perche è passato da ajax
         // window.location.href = "/etichette/1";
         $tip = $req->tipo;
@@ -351,7 +352,7 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
             //  $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
             //   ->where('iscriziones.anno', $anno)
             //   ->get();
-
+            if($anno != $no_anno){// solo chi non ha pagato
             $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
                 ->select('socis.id',
                     'socis.nome',
@@ -366,8 +367,27 @@ Il rinnovo dell’iscrizione al Gruppo di studi “Progetto 10 righe” dà diri
 
                 )
                 ->orderBy('socis.cognome', 'ASC')
-                ->where('iscriziones.' . $anno, '=', $anno)
+                ->where('iscriziones.' . $no_anno, '=', $no_anno)            
+                ->whereNot('iscriziones.' . $anno, '=', $anno)             
                 ->get();
+            }else{// solo chi ha pagato
+                $sheet1Data = Soci::leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
+                ->select('socis.id',
+                    'socis.nome',
+                    'socis.cognome',
+                    'socis.indirizzo',
+                    'socis.consegna',
+                    'socis.cap',
+                    'socis.localita',
+                    'socis.comune',
+                    'socis.sigla_provincia',
+                    'iscriziones.' . $anno . ' as a' . $anno,
+
+                )
+                ->orderBy('socis.cognome', 'ASC')
+                ->where('iscriziones.' . $anno, '=', $anno)                       
+                ->get(); 
+            }
 
         }
 

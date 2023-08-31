@@ -31,14 +31,20 @@
                     <div class="container">
                         <br>
                         <a class="btn btn-success btn-sm b-list" href="{{ '/list' }}" role="button">Lista soci</a><br>
-                       <hr>
+                      <br>
+                        Se 'Anno 1' è uguale a anno 2 viene selezionato solo chi ha rinnovato nell'anno 1
+                        Se "Anno 2'  è l'anno precedente ad 'Anno 1' viene selezionato chi non ha pagato nell'anno 1
+                        <hr>
                         <form action="etichette_anno" class="form" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="usr">Anno ultima iscrizione:</label><br>
+                                <label for="usr">Anno 1:</label><br>
                                 <input type="text" class="form-controlx" id="nom" name="etichette_anno"
-                                    value="{{ now()->year }}">
+                                    value="{{ now()->year }}"><br><br>
 
+                                    <label for="usr">Anno 2:</label><br>
+                                    <input type="text" class="form-controlx" id="nom" name="etichette_no_anno"
+                                        value="{{ now()->year }}">
 
                                 <input type="hidden" class="form-control" id="nom" name="tipo" value="2">
                             </div><br>
