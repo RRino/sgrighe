@@ -48,15 +48,17 @@
 
 
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                <a href="tab1" id="home-tab"
-                                    class="nav-link @if ($viewData['tab'] === 'tab1') active @endif">Dati Generali</a>
-                                <a href="tab2" id="home-tab"
-                                    class="nav-link @if ($viewData['tab'] === 'tab2') active @endif">Indirizzi e
+                                <a href="/anagrafiche/tab1" id="home-tab"
+                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab1') active @endif">Dati Generali</a>
+                                <a href="/anagrafiche/tab2" id="home-tab"
+                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab2') active @endif">Indirizzi e
                                     Contatti</a>
-                                <a href="tab3" id="home-tab"
-                                    class="nav-link @if ($viewData['tab'] === 'tab3') active @endif">Tab 3</a>
-                                <a href="tab4" id="home-tab"
-                                    class="nav-link @if ($viewData['tab'] === 'tab4') active @endif">Tab 4</a>
+                                <a href="/anagrafiche/tab3" id="home-tab"
+                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab3') active @endif">Dati specifici</a>
+                                <a href="/anagrafiche/tab4" id="home-tab"
+                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab4') active @endif">Collegamenti</a>
+                                <a href="/anagrafiche/tab5" id="home-tab"
+                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab5') active @endif">Documenti</a>
                             </ul>
 
                             <div class="tab-content" id="myTabContent">
@@ -82,18 +84,8 @@
 
                                     @foreach ($viewData['dati'] as $dat)
                                         <tr>
-                                            @php
-                                                $status = 0;
-                                                $nc = count($viewData['column']);
-                                            @endphp
                                             @foreach ($viewData['column'] as $col)
-                                                @if ($status < $nc)
-                                                    @php
-                                                        $coln = $viewData['column'][$status];
-                                                        $status++;
-                                                    @endphp
-                                                    <td>{{ $dat[$coln] }}</td>
-                                                @endif
+                                                <td>{{ $dat->$col }}</td>
                                             @endforeach
                                         </tr>
                                     @endforeach
@@ -102,8 +94,8 @@
                             </table>
 
 
-
-
+                            <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File upload</a>
+                            <a class="btn btn-success btn-sm " href="{{ '/display_pdf' }}" role="button">File display</a>
 
                             <br>
 

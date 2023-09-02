@@ -106,7 +106,7 @@
         <div class="bg-light border-right" id="sidebar-wrapper">
             <a href="/iconeHome" class="list-group-item list-group-item-action bg-light">Selezioni</a>
             <div class="list-group list-group-flush">
-                <a href="/anagrafiche" class="list-group-item list-group-item-action bg-light">Anagrafiche</a>
+                <a href="/anagrafiche/tab1" class="list-group-item list-group-item-action bg-light">Anagrafiche</a>
                 <a href="/iltuoente_list" class="list-group-item list-group-item-action bg-light">Il Tuo Ente</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
                 <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>

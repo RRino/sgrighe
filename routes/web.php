@@ -10,6 +10,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
 use App\Http\Controllers\IlTuoEnteController;
+use App\Http\Controllers\FileController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -74,14 +75,28 @@ Route::controller(ServizioController::class)->group(function () {
 
 Route::controller(AnagraficheController::class)->group(function () {
       
-    Route::get('/tab/{tab?}', 'show')->name('show');
+Route::get('/anagrafiche/{tab?}', 'show')->name('show');
     
+/*
+Route::get('/file', 'list_file');
+Route::post('/uploadFile', 'uploadFile')->name('uploadFile');
+Route::post('download','fordownload')->name('down');
+//for displaying PDF
+Route::get('/display_pdf','index');
+*/
+
     Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
     Route::get('/formAnagrafica', 'formAddAnagrafica');
     Route::POST('addAnagrafica', 'store');
     Route::get('/deleteAnagrafica/{id}', 'delete');
    
 });
+
+Route::get('/display_pdf', [FileController::class, 'index']);
+Route::get('/file', [FileController::class, 'list_file']);
+//Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
+Route::post('/uploadFile', [FileController::class, 'store']);//->name('file.store');
+
 
 Route::controller(ConsegneController::class)->group(function () {
     Route::get('/consegne', 'consegne');

@@ -8,15 +8,15 @@ use App\Models\Soci;
 use App\Models\Tabs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+
+
 
 class AnagraficheController extends Controller
 {
-    public function index()
-    {
-
-        return view('anagrafiche.index');
-    }
-
   
 
     public function anagrafica(Request $request)
@@ -83,24 +83,39 @@ class AnagraficheController extends Controller
         }
 
         $viewData = [];
-        $viewData["tab"] = $tab;
+        $viewData["anagrafiche"] = $tab;
         if ($tab == 'tab1') {
             $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
         }
         if ($tab == 'tab2') {
-            $viewData["dati"] = Anagrafica::all();
-            $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('anagraficas');
+            // nomi colonne da utilizzare
+            $viewData["column"] = ['nome', 'cognome'];
+            // dati da tabella database
+            $viewData["dati"] = DB::table('anagraficas')
+                ->select($viewData["column"])
+                ->get();
+
         }
 
         if ($tab == 'tab3') {
             $viewData["dati"] = Soci::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('socis');
         }
+
+        if ($tab == 'tab4') {
+            return view('/iconeHome');
+        }
+
+        if ($tab == 'tab5') {
+            return view('/iconeHome');
+        }
         // return view('anagrafiche.anagrafica', ['regions' => Consegne::all(),'tab' => $tab ]);
 
         return view('anagrafiche.anagrafica')->with("viewData", $viewData);
 
     }
+
+  
 
 }
