@@ -51,7 +51,7 @@
                                 @if ($img != '.' && $img != '..' )
                              
                                     <div style="float:left">
-                                        <a href=<?php echo  $img->path.'/'.$img->nome_file; ?>><?php echo $img->nome_file.'&nbsp;&nbsp;&nbsp;'; ?></a> <br>
+                                        <a href=<?php echo  $img->path.'/'.str_replace(' ', '%20', $img->nome_file); ?>><?php echo $img->nome_file.'&nbsp;&nbsp;&nbsp;'; ?></a> <br>
                                       @if(substr($img->nome_file,strrpos($img->nome_file, ".")) =='.png' || substr($img->nome_file,strrpos($img->nome_file, ".")) =='.jpg')
                                         <a href=<?php echo  $img->path.'/'. str_replace(' ', '%20', $img->nome_file); ?>><img class="img_dim" src="<?php echo $img->path.'/'.$img->nome_file ?>"></a> <br>
                                     @endif
