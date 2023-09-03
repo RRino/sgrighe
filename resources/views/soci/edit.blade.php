@@ -65,7 +65,7 @@
                                         class="form-control">
                                 </div>
                             </div>
-
+                           
 
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Indirizzo:</label>
@@ -200,7 +200,7 @@
 
                                     </select>
                                 </div>
-
+                                <a class="btn btn-success " href="{{ '/consegne' }}" role="button">+ Consegne</a>
 
                             </div>
                         </div>

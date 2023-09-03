@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Immagini;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
 
 class FileController extends Controller
 {
@@ -21,8 +21,8 @@ class FileController extends Controller
 
         $path = public_path($viewData['path']);
         $viewData['images4'] = scandir($path);
-        $viewData['images4'] = DB::table('immaginis')->where('path', 'files')->get();
-      
+        $viewData['images4'] = DB::table('immaginis')->where('path', $viewData['path'])->get();
+
         return view('file.index')->with("viewData", $viewData);
     }
 
@@ -34,31 +34,38 @@ class FileController extends Controller
     public function uploadFile(Request $request)
     {
 
-      
-        // Validation
-        $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,pdf,doc,xlsx|max:4048',
-        ]);
+        if ($request->categoria != "Seleziona Categoria") {
 
-        if ($request->file('file')) {
-            $file = $request->file('file');
-            //$filename = time().'_'.$file->getClientOriginalName();
-            $filename = $file->getClientOriginalName();
-            // File upload location
-            $location = 'files';
-            // Upload file
-            $file->move($location, $filename);
+            // Validation
+            $request->validate([
+                'file' => 'required|mimes:png,jpg,jpeg,csv,txt,pdf,doc,xlsx|max:4048',
+            ]);
 
-            $save = new Immagini();
-            $save->name = $file;
-            $save->path = $location;
-            $save->nome_file = $filename;
-            $save->save();
+            if ($request->file('file')) {
+                $file = $request->file('file');
+                //$filename = time().'_'.$file->getClientOriginalName();
+                $filename = $file->getClientOriginalName();
+                // File upload location
+                $location = $request->categoria;
+                // Upload file
+                $file->move($location, $filename);
 
-            Session::flash('message', 'Upload Successfully.');
-            Session::flash('alert-class', 'alert-success');
+                $save = new Immagini();
+                $save->name = $file;
+                $save->path = $location;
+                $save->nome_file = $filename;
+                $save->save();
+
+                Session::flash('message', 'Upload Successfully.');
+                Session::flash('alert-class', 'alert-success');
+            } else {
+                Session::flash('message', 'File not uploaded.');
+                Session::flash('alert-class', 'alert-danger');
+            }
+
+
         } else {
-            Session::flash('message', 'File not uploaded.');
+            Session::flash('message', 'Categoria non selezionata.');
             Session::flash('alert-class', 'alert-danger');
         }
         return redirect('/file');

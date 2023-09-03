@@ -43,8 +43,6 @@ $anno3 = 'a'.$anno+1;
                 <div class="card">
                     <div class="card-header">{{ __('Dati socio') }}</div>
 
-                
-                    
 
                         <div class="container">
                

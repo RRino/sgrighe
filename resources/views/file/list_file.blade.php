@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>How to upload a file with validation in Laravel 10</title>
 
@@ -10,49 +11,67 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
+
 <body>
 
     <div class="container">
 
         <div class="row">
 
-             <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
 
-                  <!-- Alert message (start) -->
-                  @if(Session::has('message'))
-                  <div class="alert {{ Session::get('alert-class') }}">
-                       {{ Session::get('message') }}
-                  </div>
-                  @endif 
-                  <!-- Alert message (end) -->
+                <!-- Alert message (start) -->
+                @if (Session::has('message'))
+                    <div class="alert {{ Session::get('alert-class') }}">
+                        {{ Session::get('message') }}
+                    </div>
+                @endif
+                <!-- Alert message (end) -->
 
-                  <form action='/uploadFile' enctype='multipart/form-data' method="post" >
-                        {{csrf_field()}}
+                <form action='/uploadFile' enctype='multipart/form-data' method="post">
+                    {{ csrf_field() }}
 
-                        <div class="form-group">
-                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">File <span class="required">*</span></label>
-                             <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">File <span
+                                class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
 
-                                  <input type='file' name='file' class="form-control">
+                            <div>
+                                <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Categoria:</label>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <select name="categoria" id="tso" class="form-select"
+                                        aria-label="Default select example">
+                                        <option selected="selected">Seleziona Categoria</option>
 
-                                  @if ($errors->has('file'))
-                                        <span class="errormsg text-danger">{{ $errors->first('file') }}</span>
-                                  @endif
-                             </div>
+                                        <option value="files">Immagini</option>
+                                        <option value="documenti">Documenti</option>
+
+                                    </select>
+                                </div>
+                                <br><br>
+                                <div >
+                                    <input type='file' name='file' class="form-control">
+                                </div>
+
+                                @if ($errors->has('file'))
+                                    <span class="errormsg text-danger">{{ $errors->first('file') }}</span>
+                                @endif
+                            </div>
                         </div>
 
                         <div class="form-group">
-                             <div class="col-md-6">
-                                  <input type="submit" name="submit" value='Submit' class='btn btn-success'>
-                             </div>
+                            <div class="col-md-6">
+                                <input type="submit" name="submit" value='Submit' class='btn btn-success'>
+                            </div>
                         </div>
 
-                  </form>
-     
-                  <a class="btn btn-success btn-sm b-add" href="{{ '/display_pdf' }}" role="button">Lista</a><br><br>
-             </div>
+                </form>
+
+                <a class="btn btn-success btn-sm b-add" href="{{ '/display_pdf' }}" role="button">Lista</a><br><br>
+            </div>
         </div>
     </div>
 
 </body>
+
 </html>
