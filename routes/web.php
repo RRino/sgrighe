@@ -95,7 +95,7 @@ Route::get('/display_pdf','index');
 Route::get('/display_pdf', [FileController::class, 'index']);
 Route::get('/file', [FileController::class, 'list_file']);
 //Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
-Route::post('/uploadFile', [FileController::class, 'store']);//->name('file.store');
+Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
 
 
 Route::controller(ConsegneController::class)->group(function () {

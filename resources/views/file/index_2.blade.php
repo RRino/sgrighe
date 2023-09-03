@@ -27,7 +27,7 @@
         @endif
 
         <style>
-            .img_dim {
+            .imx {
                 width: 100px;
             }
         </style>
@@ -46,19 +46,25 @@
                         <div class="container">
 
 
-                            @foreach ($viewData['images4'] as $img)
-                             
-                                @if ($img != '.' && $img != '..')
-                             
-                                    <div style="float:left">
-                                        <a href=<?php echo  $img->path.'/'.$img->nome_file; ?>><?php echo $img->nome_file.'&nbsp;&nbsp;&nbsp;'; ?></a> <br>
-                                        <a href=<?php echo  $img->path.'/'.$img->nome_file; ?>><img class="img_dim" src="<?php echo $img->path.'/'.$img->nome_file ?>"></a> <br>
-                                    </div>
-                                  @endif
-                                @endforeach
+                            <form action="{{-- route('down') --}}" method="post">
+                                {{ csrf_field() }}
+                                <div class="form-group">
+                                    <label for="info">Add Info</label>
+                                    <input type="text" name="info">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
 
+                            @foreach ($viewData['images'] as $img)
+                                
+                                 
+                                   <a href="{{ $img->path }}">{{ $img->name }}</a>
+                        
+                                
+                            @endforeach
+                    
 
-                                <br>
+                            <br>
 
                         </div>
                     </div>

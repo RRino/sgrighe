@@ -48,12 +48,8 @@
                         </div>
 
                   </form>
-                  <img src="{{ asset('/img/cartelle.png') }}" class="img_fluid">
-
-                  <div class="col-md-4">
-                    <img src="{{ asset('/storage/copertina-46.pdf') }}" class="img-fluid rounded-start">
-                </div>
-
+     
+                  <a class="btn btn-success btn-sm b-add" href="{{ '/display_pdf' }}" role="button">Lista</a><br><br>
              </div>
         </div>
     </div>
