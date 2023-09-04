@@ -85,15 +85,18 @@ class AnagraficheController extends Controller
 
         $viewData = [];
         $viewData["anagrafiche"] = $tab;
-        if ($tab == 'tab1') {
+ 
+        if ($tab == 'tab3') {
             $viewData["tabella"] = 'consegne';
             $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
         }
-        if ($tab == 'tab2') {
+        
+
+        if ($tab == 'tab1') {
             $viewData["tabella"] = 'anagrafica';
             // nomi colonne da utilizzare
-            $viewData["column"] = ['nome', 'cognome'];
+            $viewData["column"] = ['id','nome', 'cognome','indirizzo'];
             // dati da tabella database
             $viewData["dati"] = DB::table('anagraficas')
                 ->select($viewData["column"])
@@ -101,16 +104,16 @@ class AnagraficheController extends Controller
 
         }
 
-        if ($tab == 'tab3') {
+        if ($tab == 'tab2') {
             $viewData["tabella"] = 'soci';
             $viewData["dati"] = Soci::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('socis');
         }
-
+ 
         if ($tab == 'tab4') {
             return view('/iconeHome');
         }
-
+ 
         if ($tab == 'tab5') {
             $viewData["tabella"] = 'immagini';
             $viewData['images4'] = DB::table('immaginis')->get();

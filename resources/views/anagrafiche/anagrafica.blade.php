@@ -10,6 +10,13 @@
     .img_dim {
         height: 50px;
     }
+
+    .col {
+        border: solid 1px #ccc;
+        padding: 5px;
+        min-width: 150px;
+        margin-bottom:10px;
+    }
 </style>
 @php
     use Carbon\Carbon;
@@ -56,12 +63,12 @@
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab2') active @endif">Indirizzi e
                                     Contatti</a>
 
-                                <a href="/anagrafiche/tab3" id="home-tab"
-                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab3') active @endif">Dati specifici</a>
-
-                                <a href="/anagrafiche/tab4" id="home-tab"
-                                    class="nav-link @if ($viewData['anagrafiche'] === 'tab4') active @endif">Collegamenti</a>
-
+                                <!-- <a href="/anagrafiche/tab3" id="home-tab"
+                                        class="nav-link @if ($viewData['anagrafiche'] === 'tab3') active @endif">Dati specifici</a>
+                        
+                                    <a href="/anagrafiche/tab4" id="home-tab"
+                                        class="nav-link @if ($viewData['anagrafiche'] === 'tab4') active @endif">Collegamenti</a>
+                                   -->
                                 <a href="/anagrafiche/tab5" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab5') active @endif">Documenti</a>
                             </ul>
@@ -73,34 +80,28 @@
                                 </div>
 
                             </div>
-                            @if ($viewData['tabella'] == 'soci')
-soci
+                            {{-- dd($viewData) --}}
+                            @if ($viewData['tabella'] == 'anagrafica')
+                                <div class="container">
+                                    <div class="row">
+                                        @php
+                                            $ns = count($viewData['dati']);
+                                        @endphp
+                                        @for ($dt = 0; $dt < $ns; $dt++)
+                                            <div class="col">
+                                                {{ $viewData['dati'][$dt]->id }}<br>
+                                                {{ $viewData['dati'][$dt]->nome }}
+                                                {{ $viewData['dati'][$dt]->cognome }}<br>
+                                                {{ $viewData['dati'][$dt]->indirizzo }} <br>
+                                            </div>
+                                            <br>
+                                        @endfor
+                                    </div>
+                                </div>
                             @endif
 
                             @if ($viewData['tabella'] != 'immagini')
                                 <!-- tutte le tabelle -->
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            @foreach ($viewData['column'] as $col)
-                                                <th scope="col">{{ $col }}</th>
-                                            @endforeach
-
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach ($viewData['dati'] as $dat)
-                                            <tr>
-                                                @foreach ($viewData['column'] as $col)
-                                                    <td>{{ $dat->$col }}</td>
-                                                @endforeach
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
                             @else
                                 <!-- Tabella immagini -->
                                 <table>
@@ -145,7 +146,8 @@ soci
                                     </tbody>
                                 </table>
                                 <br>
-                                <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File upload</a>
+                                <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File
+                                    upload</a>
                             @endif
 
 
