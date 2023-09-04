@@ -17,11 +17,10 @@ class FileController extends Controller
     {
 
         $viewData = [];
-        $viewData['path'] = 'files';
+       // $viewData['path'] = 'files';
 
-        $path = public_path($viewData['path']);
-        $viewData['images4'] = scandir($path);
-        $viewData['images4'] = DB::table('immaginis')->where('path', $viewData['path'])->get();
+    $viewData['images4'] = DB::table('immaginis')->get();
+
 
         return view('file.index')->with("viewData", $viewData);
     }
@@ -46,14 +45,18 @@ class FileController extends Controller
                 //$filename = time().'_'.$file->getClientOriginalName();
                 $filename = $file->getClientOriginalName();
                 // File upload location
+                $categ = $request->categoria;
                 $location = $request->categoria;
                 // Upload file
                 $file->move($location, $filename);
+
+                $extension = $file->getClientOriginalExtension();
 
                 $save = new Immagini();
                 $save->name = $file;
                 $save->path = $location;
                 $save->nome_file = $filename;
+                $save->categor = $extension;
                 $save->save();
 
                 Session::flash('message', 'Upload Successfully.');
@@ -70,29 +73,9 @@ class FileController extends Controller
         }
         return redirect('/file');
 
-        //$request->file->storeAs('uploads', $fileName);
-
     }
 
-    public function store(Request $request)
-    {
-
-        $validatedData = $request->validate([
-
-            'file' => 'required|mimes:csv,txt,xlx,xls,pdf,png|max:4048',
-        ]);
-
-        $name = $request->file('file')->getClientOriginalName();
-        $path = $request->file('file')->store('public/files');
-
-        $save = new Immagini();
-        $save->name = $name;
-        $save->path = $path;
-        $save->save();
-
-        return redirect('file')->with('status', 'File Has been uploaded successfully in Laravel 10');
-
-    }
+    
 
     public function fordownload(Request $request)
     {
@@ -104,4 +87,15 @@ class FileController extends Controller
 
     }
 
+
+    public function imageDelete(Request $request) {
+        $image_name = $request->nome;
+        $folder = $request->cartella;
+        $image_path = public_path($folder.'/'.$image_name);
+        if(File::exists($image_path)) {
+          File::delete($image_path);
+        }
+        return redirect('display_img');
+      }
+      
 }

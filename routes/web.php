@@ -82,7 +82,7 @@ Route::get('/file', 'list_file');
 Route::post('/uploadFile', 'uploadFile')->name('uploadFile');
 Route::post('download','fordownload')->name('down');
 //for displaying PDF
-Route::get('/display_pdf','index');
+Route::get('/display_img','index');
 */
 
     Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
@@ -92,11 +92,11 @@ Route::get('/display_pdf','index');
    
 });
 
-Route::get('/display_pdf', [FileController::class, 'index']);
+Route::get('/display_img', [FileController::class, 'index']);
 Route::get('/file', [FileController::class, 'list_file']);
 //Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
 Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
-
+Route::get('/deleteFile', [FileController::class, 'imageDelete']);//->name('file.store');
 
 Route::controller(ConsegneController::class)->group(function () {
     Route::get('/consegne', 'consegne');

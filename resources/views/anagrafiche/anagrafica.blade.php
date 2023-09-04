@@ -95,7 +95,7 @@
 
 
                             <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File upload</a>
-                            <a class="btn btn-success btn-sm " href="{{ '/display_pdf' }}" role="button">File display</a>
+                            <a class="btn btn-success btn-sm " href="{{ '/display_img' }}" role="button">File display</a>
 
                             <br>
 

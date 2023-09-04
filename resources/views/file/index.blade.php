@@ -35,32 +35,37 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('xxxxxx') }}</div>
+                    <div class="card-header">{{ __('Documenti') }}</div>
 
                     <div class="card-body">
                         <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista
                             Soci</a><br><br>
                         <hr>
 
-
                         <div class="container">
 
-
-                            @foreach ($viewData['images4'] as $img)
+                            <table class="table tab1">
+                                <tr class="head">
+                                    <td>id</td>
+                                    <td>Nome</td>
+                                    <td>Posizione</td>
+                                    <td>Documento</td>
+                                </tr>
+ 
+                                @foreach ($viewData['images4'] as $img)
                              
-                                @if ($img != '.' && $img != '..' )
-                             
-                                    <div style="float:left">
-                                        <a href=<?php echo  $img->path.'/'.str_replace(' ', '%20', $img->nome_file); ?>><?php echo $img->nome_file.'&nbsp;&nbsp;&nbsp;'; ?></a> <br>
-                                      @if(substr($img->nome_file,strrpos($img->nome_file, ".")) =='.png' || substr($img->nome_file,strrpos($img->nome_file, ".")) =='.jpg')
-                                        <a href=<?php echo  $img->path.'/'. str_replace(' ', '%20', $img->nome_file); ?>><img class="img_dim" src="<?php echo $img->path.'/'.$img->nome_file ?>"></a> <br>
+                                    @if ($img != '.' && $img != '..')
+                                        <tr class="colo-list">
+                                            <td style="background:#fff;">{{ $img->id }}</td>
+                                            <td> <a href=<?php echo $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><?php echo $img->nome_file . '&nbsp;&nbsp;&nbsp;'; ?></a></td>
+                                            <td>{{ $img->path }}</td>
+                                            @if($img->categor == 'png' || $img->categor == 'jpg')
+                                            <td> <a href=<?php echo $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><img class="img_dim" src="<?php echo $img->path . '/' . $img->nome_file; ?>"></a> </td>
+                                            @endif
+                                        </tr>
                                     @endif
-                                    </div>
-                                  @endif
                                 @endforeach
-
-
-                                <br>
+                            </table>
 
                         </div>
                     </div>

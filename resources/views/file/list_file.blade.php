@@ -43,8 +43,8 @@
                                         aria-label="Default select example">
                                         <option selected="selected">Seleziona Categoria</option>
 
-                                        <option value="files">Immagini</option>
-                                        <option value="documenti">Documenti</option>
+                                        <option value="Documenti">Documenti</option>
+                                        <option value="immagini">Immagini</option>
 
                                     </select>
                                 </div>
@@ -67,7 +67,7 @@
 
                 </form>
 
-                <a class="btn btn-success btn-sm b-add" href="{{ '/display_pdf' }}" role="button">Lista</a><br><br>
+                <a class="btn btn-success btn-sm b-add" href="{{ '/display_img' }}" role="button">Lista</a><br><br>
             </div>
         </div>
     </div>
