@@ -6,6 +6,7 @@ use App\Models\Anagrafica;
 use App\Models\Consegne;
 use App\Models\Soci;
 use App\Models\Tabs;
+use App\Models\Immagini;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -85,10 +86,12 @@ class AnagraficheController extends Controller
         $viewData = [];
         $viewData["anagrafiche"] = $tab;
         if ($tab == 'tab1') {
+            $viewData["tabella"] = 'consegne';
             $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
         }
         if ($tab == 'tab2') {
+            $viewData["tabella"] = 'anagrafica';
             // nomi colonne da utilizzare
             $viewData["column"] = ['nome', 'cognome'];
             // dati da tabella database
@@ -99,6 +102,7 @@ class AnagraficheController extends Controller
         }
 
         if ($tab == 'tab3') {
+            $viewData["tabella"] = 'soci';
             $viewData["dati"] = Soci::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('socis');
         }
@@ -108,7 +112,10 @@ class AnagraficheController extends Controller
         }
 
         if ($tab == 'tab5') {
-            return view('/iconeHome');
+            $viewData["tabella"] = 'immagini';
+            $viewData['images4'] = DB::table('immaginis')->get();
+            $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('immaginis');
+            //return view('file.index')->with("viewData", $viewData);
         }
         // return view('anagrafiche.anagrafica', ['regions' => Consegne::all(),'tab' => $tab ]);
 

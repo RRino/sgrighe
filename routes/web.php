@@ -3,15 +3,14 @@
 use App\Http\Controllers\AnagraficheController;
 use App\Http\Controllers\ConsegneController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\IlTuoEnteController;
 use App\Http\Controllers\IscrizioneController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
-use App\Http\Controllers\IlTuoEnteController;
-use App\Http\Controllers\FileController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,13 +53,14 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/products/{id}/edit', 'App\Http\Controllers\Admin\AdminProductController@edit')->name("admin.product.edit");
     Route::put('/admin/products/{id}/update', 'App\Http\Controllers\Admin\AdminProductController@update')->name("admin.product.update");
 });
-// ------------------- Fine libro -------------------
 
-Route::get('superAdmin/home', [HomeController::class, 'superAdminHome'])->middleware('is_admin');
-//Route::get('/', [HomeController::class, 'index'])->middleware('is_admin');
-Route::get('home', [HomeController::class, 'home'])->name('home');
-Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
-Route::get('admin/super', [HomeController::class, 'adminHome'])->name('admin.super')->middleware('is_admin');
+// ------------------- Fine libro -------------------
+Route::controller(HomeController::class)->group(function () {
+    Route::get('superAdmin/home', 'superAdminHome')->middleware('is_admin');
+    Route::get('home', 'home')->name('home');
+    Route::get('admin/home', 'adminHome')->name('admin.home')->middleware('is_admin');
+    Route::get('admin/super', 'adminHome')->name('admin.super')->middleware('is_admin');
+});
 
 Route::controller(ServizioController::class)->group(function () {
 //usa database per memorizzare dati da javascript
@@ -68,43 +68,35 @@ Route::controller(ServizioController::class)->group(function () {
     Route::post('salvaChck_del', 'salvaSelChck_selSocio');
     Route::get('pref_etichette', 'preferenze_etichette');
     Route::get('pref_bollettini', 'preferenze_bollettini');
-    
-    Route::post('param_bollettini',  'editParamBollettini');
+
+    Route::post('param_bollettini', 'editParamBollettini');
     Route::post('param_etichette', 'editParamEtichette');
 });
 
 Route::controller(AnagraficheController::class)->group(function () {
-      
-Route::get('/anagrafiche/{tab?}', 'show')->name('show');
-    
-/*
-Route::get('/file', 'list_file');
-Route::post('/uploadFile', 'uploadFile')->name('uploadFile');
-Route::post('download','fordownload')->name('down');
-//for displaying PDF
-Route::get('/display_img','index');
-*/
-
+    Route::get('/anagrafiche/{tab?}', 'show')->name('show');
     Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
     Route::get('/formAnagrafica', 'formAddAnagrafica');
     Route::POST('addAnagrafica', 'store');
     Route::get('/deleteAnagrafica/{id}', 'delete');
-   
+
 });
 
-Route::get('/display_img', [FileController::class, 'index']);
-Route::get('/file', [FileController::class, 'list_file']);
-Route::post('/uploadFile', [FileController::class, 'uploadFile']);//->name('file.store');
-Route::get('/deleteFile/{id}', [FileController::class, 'imageDelete']);//->name('file.store');
+Route::controller(FileController::class)->group(function () {
+    Route::get('/display_img', 'index');
+    Route::get('/file', 'list_file');
+    Route::post('/uploadFile', 'uploadFile'); //->name('file.store');
+    Route::get('/download/{id}', 'fordownload'); //->name('file.store');
+    Route::get('/deleteFile/{id}', 'imageDelete'); //->name('file.store');
+});
 
 Route::controller(ConsegneController::class)->group(function () {
     Route::get('/consegne', 'consegne');
     Route::get('/formConsegne', 'formAddConsegne');
     Route::POST('addConsegne', 'store');
     Route::get('/deleteConsegne/{id}', 'delete');
-   
-});
 
+});
 
 Route::controller(ExcelController::class)->group(function () {
     Route::get('/formExcel_soci', 'index_soci'); //->middleware('is_admin'); // da menu sidebar richiama form per importare excel
@@ -112,7 +104,7 @@ Route::controller(ExcelController::class)->group(function () {
     Route::post('/importSoci_old', 'importSoci_old');
     Route::post('/exportSoci', 'exportSoci');
     Route::get('/exportSociTutti', 'exportSociTutti');
-    
+
     Route::get('/formExcel_iscrizioni', 'index_iscrizioni'); // da menu sidebar richiama form per importare excel
     Route::post('/importIscrizione', 'importIscrizione');
     Route::get('/exportIscrizione', 'exportIscrizione');
@@ -129,9 +121,6 @@ Route::controller(SociController::class)->group(function () {
     Route::get('edit/{id}', 'editSocio');
     Route::post('editSocio', 'update'); // ok Aggiorna Socio usato in soci.edit.blade
     Route::get('singolo/{id}', 'singolo'); // ok Visualizza dati singolo socio
-
-    //Route::post('filtro', 'indexFiltro');//ok  Filtra soci per anno join con iscrizione
-    // Route::view('formFiltroAnno/', 'soci.FiltroAnno'); // ok // filtro anno rinnovo
     Route::get('deleteSoci/{id}', 'sociCancella'); // ok Cancella socio dal database 'deleteSoci/1' è richiamata da $ajax in index.blade
     Route::POST('/selAnno', 'selAnno');
     Route::POST('/selCognome', 'selCognome');
@@ -139,7 +128,6 @@ Route::controller(SociController::class)->group(function () {
 
 Route::controller(IscrizioneController::class)->group(function () {
     Route::POST('editIscrizione', 'editIscrizione');
-
     Route::get('iscrizione', 'iscrizioneList'); // Lista iscrizioni con edit e ricerca
     Route::get('editIscrizione/{id}', 'showData'); // edit iscrizione
     Route::get('showIscrizione/{id}', 'formIscr'); // Form per aggiungere iscrizione ad un socio
@@ -169,17 +157,18 @@ Route::controller(PdfController::class)->group(function () {
     Route::post('etichette_anno', 'PdfEtichette');
     Route::get('bollettini/{tipo}', 'PdfBollettini'); //usato da bottone "Bollettini da chckbox" che chiama AJAX poi da success in soci.index.blade.php
     Route::get('etichette/{tipo}', 'PdfEtichette');
-    Route::get('pdf','printPagePdf');
-
+    Route::get('pdf', 'printPagePdf');
 });
 
-Route::get('articoli', [PostController::class, 'index']);
-Route::get('create', [PostController::class, 'create']);
-Route::post('post', [PostController::class, 'store']);
-Route::get('show/{id}', [PostController::class, 'show']);
-Route::get('editPost/{id}', [PostController::class, 'editPost']);
-Route::post('update/{id}', [PostController::class, 'update']);
-Route::get('delete/{id}', [PostController::class, 'destroy']);
+Route::controller(PostController::class)->group(function () {
+    Route::get('articoli', 'index');
+    Route::get('create', 'create');
+    Route::post('post', 'store');
+    Route::get('show/{id}', 'show');
+    Route::get('editPost/{id}', 'editPost');
+    Route::post('update/{id}', 'update');
+    Route::get('delete/{id}', 'destroy');
+});
 
 Route::get('iltuoente_list', [IlTuoEnteController::class, 'index']);
 
@@ -190,6 +179,3 @@ Route::get('/iconeHome', function () {
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-

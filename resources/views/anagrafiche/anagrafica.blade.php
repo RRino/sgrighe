@@ -6,7 +6,11 @@
 
 
 
-
+<style>
+    .img_dim {
+        height: 50px;
+    }
+</style>
 @php
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
@@ -34,29 +38,30 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('xxxxxx') }}</div>
+                    <div class="card-header">{{ __('Anagrafiche') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista
-                            Soci</a><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/iconeHome' }}" role="button">Home
+                            Anagrafiche</a><br><br>
                         <hr>
 
 
                         <div class="container-fluid">
 
-
-
-
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <a href="/anagrafiche/tab1" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab1') active @endif">Dati Generali</a>
+
                                 <a href="/anagrafiche/tab2" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab2') active @endif">Indirizzi e
                                     Contatti</a>
+
                                 <a href="/anagrafiche/tab3" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab3') active @endif">Dati specifici</a>
+
                                 <a href="/anagrafiche/tab4" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab4') active @endif">Collegamenti</a>
+
                                 <a href="/anagrafiche/tab5" id="home-tab"
                                     class="nav-link @if ($viewData['anagrafiche'] === 'tab5') active @endif">Documenti</a>
                             </ul>
@@ -68,34 +73,83 @@
                                 </div>
 
                             </div>
+                            @if ($viewData['tabella'] == 'soci')
+soci
+                            @endif
 
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        @foreach ($viewData['column'] as $col)
-                                            <th scope="col">{{ $col }}</th>
-                                        @endforeach
-
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-                                    @foreach ($viewData['dati'] as $dat)
+                            @if ($viewData['tabella'] != 'immagini')
+                                <!-- tutte le tabelle -->
+                                <table class="table table-bordered table-striped">
+                                    <thead>
                                         <tr>
                                             @foreach ($viewData['column'] as $col)
-                                                <td>{{ $dat->$col }}</td>
+                                                <th scope="col">{{ $col }}</th>
                                             @endforeach
+
+
                                         </tr>
-                                    @endforeach
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
+                                        @foreach ($viewData['dati'] as $dat)
+                                            <tr>
+                                                @foreach ($viewData['column'] as $col)
+                                                    <td>{{ $dat->$col }}</td>
+                                                @endforeach
+                                            </tr>
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            @else
+                                <!-- Tabella immagini -->
+                                <table>
+                                    <thead>
+                                        <tr class="head">
+                                            <td>id</td>
+                                            <td>Nome</td>
+                                            <td>Posizione</td>
+                                            <td style="padding:5px">Documento</td>
+                                            <td>Scarica </td>
+                                            <td>Cancella </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach ($viewData['images4'] as $img)
+                                            @if ($img != '.' && $img != '..')
+                                                {{-- dd($img->path) --}}
+                                                <tr class="colo-list">
+                                                    <td style="background:#fff;padding:5px">{{ $img->id }}</td>
+
+                                                    <td style="padding:5px"> <a
+                                                            href=<?php echo '/' . $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><?php echo $img->nome_file . '&nbsp;&nbsp;&nbsp;'; ?></a></td>
+
+                                                    <td style="padding:5px">{{ '/' . $img->path }}</td>
+
+                                                    @if ($img->categor == 'png' || $img->categor == 'jpg')
+                                                        <td style="padding-right:5px"> <a href=<?php echo '/' . $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><img
+                                                                    class="img_dim" src="<?php echo '/' . $img->path . '/' . $img->nome_file; ?>"></a> </td>
+                                                    @else
+                                                        <td style="padding:5px"></td>
+                                                    @endif
+
+                                                    <td style="padding:5px"><a
+                                                            href={{ '/download/' . $img->id }}>Scarica</a></td>
+
+                                                    <td style="padding:5px"><a href={{ '/deleteFile/' . $img->id }}
+                                                            onclick="return confirm('Sei sicuro?')">Cancella</a></td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <br>
+                                <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File upload</a>
+                            @endif
 
 
-                            <a class="btn btn-success btn-sm " href="{{ '/file' }}" role="button">File upload</a>
-                            <a class="btn btn-success btn-sm " href="{{ '/display_img' }}" role="button">File display</a>
+
 
                             <br>
 

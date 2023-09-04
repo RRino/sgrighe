@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>How to upload a file with validation in Laravel 10</title>
+    <title>Carica file</title>
 
     <!-- Meta -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -67,7 +67,7 @@
 
                 </form>
 
-                <a class="btn btn-success btn-sm b-add" href="{{ '/display_img' }}" role="button">Lista</a><br><br>
+                <a class="btn btn-success btn-sm b-add" href="{{ '/anagrafiche/tab5' }}" role="button">Lista</a><br><br>
             </div>
         </div>
     </div>

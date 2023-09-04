@@ -38,8 +38,8 @@
                     <div class="card-header">{{ __('Documenti') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/list' }}" role="button">Lista
-                            Soci</a><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/anagrafiche/tab1' }}" role="button">Lista
+                            Anagrafiche</a><br><br>
                         <hr>
 
                         <div class="container">
@@ -50,6 +50,7 @@
                                     <td>Nome</td>
                                     <td>Posizione</td>
                                     <td>Documento</td>
+                                    <td>Scarica</td>
                                     <td>Cancella</td>
                                 </tr>
  
@@ -62,10 +63,11 @@
                                             <td>{{ $img->path }}</td>
                                             @if($img->categor == 'png' || $img->categor == 'jpg')
                                             <td> <a href=<?php echo $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><img class="img_dim" src="<?php echo $img->path . '/' . $img->nome_file; ?>"></a> </td>
+                                            @else
+                                            <td></td>
                                             @endif
-
+                                            <td><a href={{"/download/".$img->id}} >Scarica</a></td>
                                                     <td><a href={{"/deleteFile/".$img->id}} onclick="return confirm('Sei sicuro?')">Cancella</a></td>
-
                                         </tr>
                                     @endif
                                 @endforeach

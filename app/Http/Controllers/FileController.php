@@ -77,13 +77,16 @@ class FileController extends Controller
 
     
 
-    public function fordownload(Request $request)
+    public function fordownload($id)
     {
-        $fileName = $request->info; //"myfile.txt";
+        $dati = DB::table('immaginis')->where('id',$id)->first();
+        
+        $image_name = $dati->nome_file;
+        $folder = $dati->path;
 
-        \File::put(public_path($fileName), $request->info);
+        \File::put(public_path($image_name), $folder);
         // $fileName= 'img/copertina-46.pdf';
-        return response()->download($fileName);
+        return response()->download($image_name);
 
     }
 

@@ -18,8 +18,10 @@ class IsAdmin
         
         if(auth()->check() && auth()->user()->is_admin == 1){
             return $next($request);
+
         }else if(auth()->check() && auth()->user()->is_admin == 2){
             return $next($request);
+
        }else if(auth()->check() && auth()->user()->is_admin == 0){
             return $next($request);
         }
@@ -39,10 +41,13 @@ class IsAdmin
     /*
             if (auth()->user()->is_admin == 1) {
                 return redirect()->route('admin.home');
+
             } else if (auth()->user()->type == 'admin') {
                 return redirect()->route('admin.home');
+
             } else if (auth()->user()->type == 2) {
                 return redirect()->route('manager.home');
+                
             } else {
                 return redirect()->route('home');
             }

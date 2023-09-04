@@ -20,7 +20,6 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         
-
         Product::validate($request);
 
         $newProduct = new Product();
