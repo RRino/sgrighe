@@ -88,13 +88,17 @@ class FileController extends Controller
     }
 
 
-    public function imageDelete(Request $request) {
-        $image_name = $request->nome;
-        $folder = $request->cartella;
+    public function imageDelete($id) {
+
+        $dati = DB::table('immaginis')->where('id',$id)->first();
+        
+        $image_name = $dati->nome_file;
+        $folder = $dati->path;
         $image_path = public_path($folder.'/'.$image_name);
         if(File::exists($image_path)) {
           File::delete($image_path);
         }
+        Immagini::destroy($id);
         return redirect('display_img');
       }
       

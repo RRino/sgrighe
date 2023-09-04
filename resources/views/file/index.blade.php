@@ -50,6 +50,7 @@
                                     <td>Nome</td>
                                     <td>Posizione</td>
                                     <td>Documento</td>
+                                    <td>Cancella</td>
                                 </tr>
  
                                 @foreach ($viewData['images4'] as $img)
@@ -62,6 +63,9 @@
                                             @if($img->categor == 'png' || $img->categor == 'jpg')
                                             <td> <a href=<?php echo $img->path . '/' . str_replace(' ', '%20', $img->nome_file); ?>><img class="img_dim" src="<?php echo $img->path . '/' . $img->nome_file; ?>"></a> </td>
                                             @endif
+
+                                                    <td><a href={{"/deleteFile/".$img->id}} onclick="return confirm('Sei sicuro?')">Cancella</a></td>
+
                                         </tr>
                                     @endif
                                 @endforeach
