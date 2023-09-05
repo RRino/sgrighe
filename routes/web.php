@@ -75,10 +75,13 @@ Route::controller(ServizioController::class)->group(function () {
 
 Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/anagrafiche/{tab?}', 'show')->name('show');
-    Route::get('/anagrafiche', 'anagrafica')->name('anagrafica');
-    Route::get('/formAnagrafica', 'formAddAnagrafica');
+    Route::get('/anagrafiche', 'index')->name('index');
+    Route::get('/formAddAnagrafica', 'formAddAnagrafica');
     Route::POST('addAnagrafica', 'store');
     Route::get('/deleteAnagrafica/{id}', 'delete');
+
+    Route::get('editAna/{id}', 'editAnagrafica');
+    Route::post('editAnag', 'update'); // ok Aggiorna Anagrafica
 
 });
 

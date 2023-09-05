@@ -11,8 +11,9 @@ class Anagrafica extends Model
     {
       
         $request->validate([
+        "per_soc" => "required",
         "nome" => "required|max:255",
-        "cognome" => "required|max:255",
+        "cognome" => "nullable",
         "indirizzo" => "required",
         "cap" => "required",
         "localita" => "required",
@@ -24,7 +25,7 @@ class Anagrafica extends Model
         "partita_iva" => "nullable",
         "telefono" => "nullable",
         "cellulare" => "nullable",
-        "tipo_socio" => "required",
+        "per_soc" => "required",
         "published" => "required|boolean",
         "description" => "nullable",
         ]);
@@ -177,25 +178,17 @@ class Anagrafica extends Model
     }
 
 
-    public function getTipo_socio()
+    public function getTper_soc()
     {
-        return $this->attributes['tipo_socio'];
+        return $this->attributes['per_soc'];
     }
-    public function setTipo_socio($tipo_socio)
+    public function setTper_soc($per_soc)
     {
-        $this->attributes['tipo_socio'] = $tipo_socio;
-    }
-
-    public function getConsegna()
-    {
-        return $this->attributes['consegna'];
-    }
-    public function setConsegna($consegna)
-    {
-        $this->attributes['consegna'] = $consegna;
+        $this->attributes['per_soc'] = $per_soc;
     }
 
 
+ 
     public function getPublished()
     {
         return $this->attributes['published'];
