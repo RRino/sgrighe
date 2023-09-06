@@ -11,6 +11,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
+use App\Http\Controllers\AssociatiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -83,6 +84,13 @@ Route::controller(AnagraficheController::class)->group(function () {
     Route::get('editAna/{id}', 'editAnagrafica');
     Route::post('editAnag', 'update'); // ok Aggiorna Anagrafica
 
+
+    Route::get('/anatest', 'test')->name('test');
+});
+
+Route::controller(AssociatiController::class)->group(function () {
+    Route::get('/asstest', 'test');
+    Route::get('/asstest', 'index');
 });
 
 Route::controller(FileController::class)->group(function () {

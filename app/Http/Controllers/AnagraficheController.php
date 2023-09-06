@@ -7,18 +7,25 @@ use App\Models\Consegne;
 use App\Models\Soci;
 use App\Models\Tabs;
 use App\Models\Immagini;
+use App\Models\Ruoli;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
-
+use Carbon\Carbon;
+use App\Models\Associati;
 
 
 class AnagraficheController extends Controller
 {
-  
+    public function test(Request $request)
+    {
+        
+         return Anagrafica::find(2)->getAssociati()->get();
+        //return Anagrafica::with("getAssociati")->get();// vedi tutti
+    }
 
     public function index(Request $request)
     {
@@ -36,6 +43,7 @@ class AnagraficheController extends Controller
             $catTab = isset($request->id) ? $request->id : $category->first()->id;
         }
 
+        
         return view()->exists('anagrafiche.index') ? view('anagrafiche.anagrafica', compact('category', 'catTab')) : '';
 
         // $viewData["anagraficas"] = Anagrafica::orderBy('nome')->paginate(session('pag'));
@@ -47,9 +55,10 @@ class AnagraficheController extends Controller
 
         $viewData = [];
         $viewData["title"] = "Aggiunge Anagrafica";
+        $viewData['ruoli'] = Ruoli::all();
         //$viewData["consegnes"] = Anagrafica::all();
 
-        return view('anagrafiche.formAddAnagrafica');//->with("viewData", $viewData);
+        return view('anagrafiche.formAddAnagrafica')->with("viewData", $viewData);
     }
 
     public function store(Request $request)
@@ -119,7 +128,7 @@ class AnagraficheController extends Controller
             $viewData["column"] = ['id','nome', 'cognome','indirizzo'];
             // dati da tabella database
             $viewData["dati"] = DB::table('anagraficas')
-                ->select($viewData["column"])
+                //->select($viewData["column"])
                 ->get();
 
         }
@@ -188,7 +197,7 @@ class AnagraficheController extends Controller
         $anagrafica->save();
 
 
-        return redirect('/list');
+        return redirect('/anagrafiche');
      
     }
     public function editAnagrafica($id)

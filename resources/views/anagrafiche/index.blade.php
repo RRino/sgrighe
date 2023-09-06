@@ -14,8 +14,15 @@
     .col {
         border: solid 1px #ccc;
         padding: 5px;
-        min-width: 150px;
+        min-width: 250px;
         margin-bottom:10px;
+    }
+    .lab{
+        width:80px;
+        color:#2f3a79;
+    }
+    .nomcogn{
+        font-weight:700;
     }
 </style>
 @php
@@ -87,12 +94,33 @@
                                         @php
                                             $ns = count($viewData['dati']);
                                         @endphp
+                                       
                                         @for ($dt = 0; $dt < $ns; $dt++)
                                             <div class="col">
-                                                {{ $viewData['dati'][$dt]->id }}<br>
-                                                {{ $viewData['dati'][$dt]->nome }}
-                                                {{ $viewData['dati'][$dt]->cognome }}<br>
-                                                {{ $viewData['dati'][$dt]->indirizzo }} <br>
+                                                
+                                                 <span class="nomcogn">{{ $viewData['dati'][$dt]->nome }} {{ $viewData['dati'][$dt]->cognome }}</span><br>
+                                                 <label class="lab">Tipo:</label>{{ $viewData['dati'][$dt]->per_soc }} <br>  
+                                                 <hr>
+                                                 <label class="lab">Ind:</label>{{ $viewData['dati'][$dt]->indirizzo }} <br>                                               
+                                                 <label class="lab">Loc:</label>{{ $viewData['dati'][$dt]->localita }}<br>
+                                                 <label class="lab">Cap:</label>{{ $viewData['dati'][$dt]->cap}}<br>
+                                                 <label class="lab">Comune:</label>{{ $viewData['dati'][$dt]->comune }}<br>
+                                                 <label class="lab">Prov:</label>{{ $viewData['dati'][$dt]->sigla_provincia }} <br>
+                                                <hr>
+                                                <label class="lab">Email:</label>{{ $viewData['dati'][$dt]->email }}<br>
+                                                <label class="lab">Pec:</label>{{ $viewData['dati'][$dt]->pec}}<br>
+                                                <label class="lab">C.F:</label>{{ $viewData['dati'][$dt]->codice_fiscale }}<br>
+                                                <label class="lab">IVA:</label>{{ $viewData['dati'][$dt]->partita_iva }} <br>
+                                                <label class="lab">Tel:</label>{{ $viewData['dati'][$dt]->telefono}} <br>
+                                                <label class="lab">Cell:</label>{{ $viewData['dati'][$dt]->cellulare}} <br>
+                                                <label class="lab">Tipo:</label>{{ $viewData['dati'][$dt]->per_soc}} <br>
+                                                <label class="lab">Stato:</label>{{ $viewData['dati'][$dt]->published}} <br>
+                                                
+
+
+
+
+
                                                 <a class="btn btn-link " href="{{ '/deleteAnagrafica/'.$viewData['dati'][$dt]->id }}" onclick="return confirm('Sei sicuro?')">Cancella</a> 
                                                 <a class="btn btn-link " href="{{ '/editAna/'.$viewData['dati'][$dt]->id }}" >Modifica</a> 
                                             </div>

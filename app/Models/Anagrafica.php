@@ -25,7 +25,7 @@ class Anagrafica extends Model
         "partita_iva" => "nullable",
         "telefono" => "nullable",
         "cellulare" => "nullable",
-        "per_soc" => "required",
+        "per_soc" => "nullable",
         "published" => "required|boolean",
         "description" => "nullable",
         ]);
@@ -71,7 +71,15 @@ class Anagrafica extends Model
         $this->attributes['indirizzo'] = $indirizzo;
     }
 
+    public function getAssociati()
+    {
+        return $this->hasOne(Associati::class);
+    }
 
+    public function associati(): BelongsTo
+    {
+        return $this->belongsTo(Anagrafica::class);
+    }
 
     public function getCap()
     {

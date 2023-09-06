@@ -3,9 +3,16 @@
 
 
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
 
-
+<style>
+    .hidden{
+        display:none;
+    }
+    </style>
 
 @php
     use Carbon\Carbon;
@@ -17,8 +24,8 @@
 @endphp
 
 @section('content')
-<a class="btn btn-success " href="{{ '/iscrizione' }}" role="button">Iscrizioni</a>
-<a class="btn btn-success " href="{{ '/list' }}" role="button">Lista</a>
+
+<a class="btn btn-success " href="{{ '/anagrafiche/tab1' }}" role="button">Lista</a>
 <br><br>
     <div class="card mb-4">
 
@@ -47,6 +54,20 @@
                         <div class="col">
 
                             <div class="mb-3 row">
+                                <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tipo:</label>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+
+                                    <div class="form-group">
+                                       
+                                        <div class="col-sm-9">
+                                            <input class="message_pri" type="radio" name="per_soc" value="Persona"> Persona
+                                            <input class="message_pri" type="radio" name="per_soc" value="Societa"> Societa
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Id:</label>
                                 <div class="col-lg-10 col-md-6 col-sm-12">
                                     <input name="id" value="{{ $dati->getId() }}" type="text" class="form-control">
@@ -61,6 +82,14 @@
                                 </div>
                             </div>
 
+                            <div class="mb-3 row">
+                                    <label class="col-lg-2 col-md-6 col-sm-12 col-form-label cognome">Cognome:</label>
+                                    <div class="col-lg-10 col-md-6 col-sm-12 cognome">
+                                        <input name="cognome" value="{{ $dati->getCognome() }}" type="text"
+                                            class="form-control">
+                                    </div>
+                                 
+                            </div>
 
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Indirizzo:</label>
@@ -149,37 +178,19 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3 row">
-                                <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tipo socio:</label>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-
-                                    <select name="tipo_socio" id="tso" class="form-select"
-                                        aria-label="Tipo socio">
-
-                                        <option value="1" selected>{{ $dati->getTper_soc() }}</option>
-
-                                        <option value="1">ordinario</option>
-                                        <option value="2">Famigliare</option>
-                                        <option value="3">societa</option>
-                                    </select>
-                                </div>
-                            </div>
+            
 
 
                             <div class="mb-3 row">
                                 <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Pubblicato:</label>
                                 <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <select name="published" id="tso" class="form-select" aria-label="Pubblicato">
-                                        @if ($dati->getPublished() == true)
-                                            <option value="1" selected>{{ $dati->getPublished() }}
-                                            </option>
-                                        @else
-                                            <option value="0" selected>Sospeso </option>
-                                        @endif
-
-                                        <option value="1">Abilitato</option>
-                                        <option value="0">Sospeso</option>
-                                    </select>
+                                    <div class="form-group">
+                                  
+                                        <div class="col-sm-9">
+                                            <input type="radio" name="published" value="1"> Abilitato
+                                            <input type="radio" name="published" value="2"> Sospeso
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -203,3 +214,25 @@
     <br>
     <br>
 @endsection
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+ $(document).ready(function() {
+
+$('.message_pri').change(function(){
+    if($(this).val() == 'Persona')
+    {
+      $('.cognome').removeClass('hidden');
+       
+    }
+    else
+    {
+       
+      $('.cognome').addClass('hidden');
+    
+    }
+  });
+});
+  </script>
