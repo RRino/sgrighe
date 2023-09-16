@@ -135,6 +135,7 @@ class AnagraficheController extends Controller
             $viewData["tabella"] = 'consegne';
             $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
+            
         }
 
         if ($tab == 'tab1') {
