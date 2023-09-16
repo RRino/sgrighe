@@ -10,13 +10,12 @@
 
 <style>
     .hidden {
-        display: none;
+       /* display: none;*/
     }
 </style>
 
 @php
     use Carbon\Carbon;
-    use Illuminate\Support\Str;
     $anno = Carbon::now()->format('Y');
     $anno0 = 'a' . $anno;
     $anno1 = 'a' . $anno - 1;
@@ -48,7 +47,7 @@
                 $dati = $viewData['anagraficas'];
             @endphp
 
-            {{-- dd($viewData['associati']) --}}
+
 
             <form method="POST" action="/editAnag" enctype="multipart/form-data">
                 @csrf
@@ -69,51 +68,43 @@
                                 </div>
                             </div>
                         </div>
-
+                       
 
                         <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ruolo:</label>
                             <div class="col-lg-10 col-md-6 col-sm-12">
-                                @foreach ($viewData['ruoli'] as $ruo)
-                                    @if ($ruo->id == $dati->id)
-                                         {{ 'Ruolo attuale: ' . $ruo->nome_ruolo }}
-                                    @endif
-                                @endforeach
-
-
-                                <select class="form-control" id="main" name="ruolo">
-                                    <option value="">Selezionare ruolo</option>
-                                    @foreach ($viewData['ruoli'] as $ru)
-                                        <option value="{{ $ru->id }}"> {{ $ru->nome_ruolo }}</option>
+                             
+                                <select name="ruolo" id="main_x" class="form-control" value="">
+                                    {{ dd($viewData) }}
+                                    <option class="form-control" value="">--- Schelta tipo ---</option>
+                                  
+                                    @foreach ($viewData['ruoli'] as $ruolo)
+                                    
+                                        <option id="opt1" value="{{ $ruolo->id }}">{{ $ruolo->ruolo }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
-
                         <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ruolo specifico:</label>
+
+                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ruolo:</label>
                             <div class="col-lg-10 col-md-6 col-sm-12">
-                                {{ 'Ruolo spec attuale: ' }}
-                                @foreach ($viewData['associati'] as $asso)
-                                    @if ($asso->id == $dati->id)
-                                        @php
-                                            $spe = explode(',', $asso->ruoli_spec_id);
-                                        @endphp
-                                        @foreach ($spe as $sp)
-                                            @foreach ($viewData['ruoli_spec'] as $rsp)
-                                                @if ($rsp->id == $sp)
-                                                    {{ $rsp->nome_ruolo_specifico .' - '}}
-                                                @endif
-                                            @endforeach
+
+                                <div class="">
+                             
+                                    <label><strong>Select Ruolo :</strong></label><br />
+                                    <select class="form-control" name="cat[]" multiple="">
+                                
+                                        @foreach ($viewData['ruoli'] as $ruolo)
+                                            <option id="opt1" value="{{ $ruolo->id }}">{{ $ruolo->ruolo }}</option>
                                         @endforeach
-                                    @endif
-                                @endforeach
+                                    </select><br>
+    
+                                </div>
 
-                                <select class="form-control" id="spec" name="ruolo_spec[]" multiple="">
-
-                                </select>
                             </div>
+      
                         </div>
 
                         <div class="mb-3 row">
@@ -164,7 +155,8 @@
                         <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Comune:</label>
                             <div class="col-lg-10 col-md-6 col-sm-12">
-                                <input name="comune" value="{{ $dati->getComune() }}" type="text" class="form-control">
+                                <input name="comune" value="{{ $dati->getComune() }}" type="text"
+                                    class="form-control">
                             </div>
                         </div>
 
@@ -277,44 +269,60 @@
 
             }
         });
+    });
+</script>
 
-
-        /*
-                $('#main').on('change', function() {
-                    console.log('1x' + $(this).val());
-
-                    var options = '';
-                    if ($(this).val() == 1) {
-                        
-                        console.log('1');
-                    } else if ($(this).val() == 2) {
-                       
-                        console.log('2');
-                    }
-
-                    $('#sub').html(options);
-                });
-
-        */
+<script></script>
 
 
 
-        $(document).on("change", '#main', function() {
-            var stateUrl = "{{ url('/states') }}";
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
 
-            $.get(stateUrl, {
-                    option: $(this).val()
+        $('#main').on('change', function() {
+            console.log('1x' + $(this).val());
+
+            var options = '';
+            if ($(this).val() == 1) {
+                options = '<option value="2">Occasionale</option><option value="2">Continuo</option>';
+                console.log('1');
+            } else if ($(this).val() == 2) {
+                options = '<option value="2">Ordinario</option><option value="2">Famigliare</option>';
+                console.log('2');
+            }
+
+            $('#sub').html(options);
+        });
+
+        /*------------------------------------------
+        --------------------------------------------
+        Country Dropdown Change Event
+        --------------------------------------------
+        --------------------------------------------*/
+        $('#mainxx').on('change', function() {
+            console.log('0-sel ');
+
+            var e = document.getElementById("select1");
+            var sel = e.value;
+            console.log('1-sel ' + sel);
+
+            $.ajax({
+                url: "{{ url('getSelect') }}",
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                function(data) {
-                    var model = $('#spec');
-                    model.empty();
-                    model.append("<option>Select a state</option>");
-                    $.each(data, function(index, element) {
-                        model.append("<option value='" + element.id + "'>" + element
-                            .nome_ruolo_specifico + "</option>");
-                    });
+                data: 'ids=' + sel,
+                success: function(data) {
+                    console.log('3-dt ' + data);
+
+                },
+                error: function(data) {
+                    alert(data.responseText);
                 }
-            );
+            });
+
         });
 
     });

@@ -40,16 +40,6 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="pwd">Ruolo:</label>
-                                    <select name="ruolo" id="tso" class="form-control"
-                                        value="{{ $tipo_socio ?? old('tipo_socio') }}">
-                                        <option value="">--- Schelta tipo ---</option>
-                                        @foreach ($viewData['ruoli'] as $ruolo)
-                                            <option value="{{ $ruolo->id }}">{{ $ruolo->ruolo }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
 
 
                                 <div class="form-group">

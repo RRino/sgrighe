@@ -3,27 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anagrafica;
+use App\Models\Associati;
 use App\Models\Consegne;
+use App\Models\Ruoli;
+use App\Models\Ruoli_spec;
 use App\Models\Soci;
 use App\Models\Tabs;
-use App\Models\Immagini;
-use App\Models\Ruoli;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Response;
-use Carbon\Carbon;
-use App\Models\Associati;
-
 
 class AnagraficheController extends Controller
 {
     public function test(Request $request)
     {
-        
-         return Anagrafica::find(2)->getAssociati()->get();
+
+
+               // return view('user')->with("data", $data);
+              //- return Anagrafica::find(1)->collegamentiMany()->get();
+               //return User::find(1)->getAccount()->get();
+                return Anagrafica::with("collegamentiMany")->get();// vedi tutti
+       
+       
+              // return User::find(1)->phone;
+               //return Phone::find(2)->user;
+               //return Phone::with("user")->get();// richiama tutti "user" è una funzione in Phone model
+         
+               
+        return Anagrafica::find(2)->getAssociati()->get();
         //return Anagrafica::with("getAssociati")->get();// vedi tutti
     }
 
@@ -43,7 +50,6 @@ class AnagraficheController extends Controller
             $catTab = isset($request->id) ? $request->id : $category->first()->id;
         }
 
-        
         return view()->exists('anagrafiche.index') ? view('anagrafiche.anagrafica', compact('category', 'catTab')) : '';
 
         // $viewData["anagraficas"] = Anagrafica::orderBy('nome')->paginate(session('pag'));
@@ -55,7 +61,7 @@ class AnagraficheController extends Controller
 
         $viewData = [];
         $viewData["title"] = "Aggiunge Anagrafica";
-        $viewData['ruoli'] = Ruoli::all();
+
         //$viewData["consegnes"] = Anagrafica::all();
 
         return view('anagrafiche.formAddAnagrafica')->with("viewData", $viewData);
@@ -63,18 +69,18 @@ class AnagraficheController extends Controller
 
     public function store(Request $request)
     {
-   /**
+        /**
          * Route::POST('addAnagrafica', 'store');
          * // ok salva nuovo anagrafica nel database
-         * 
+         *
          */
         Anagrafica::validate($request);
-        
+
         $newanagrafica = new Anagrafica();
         $newanagrafica->setNome($request->input('nome'));
         $newanagrafica->setCognome($request->input('cognome'));
         $newanagrafica->setIndirizzo($request->input('indirizzo'));
-  
+
         $newanagrafica->setTper_soc($request->get('per_soc'));
 
         $newanagrafica->setCap($request->input('cap'));
@@ -89,8 +95,18 @@ class AnagraficheController extends Controller
         $newanagrafica->setCellulare($request->input('cellulare'));
         $newanagrafica->setPublished($request->input('published'));
         $newanagrafica->setDescription($request->input('description'));
- 
+
         $newanagrafica->save();
+
+      
+/*
+            $ruolo = $request->ruolo;
+            $collegamenti = new Collegamenti();
+            $collegamenti->anagrafica_id = $newanagrafica->id;
+            $collegamenti->ruolo_id = $ruolo;
+            // salva collegamenti
+            $collegamenti->save();
+    */   
 
         //return back();
         return redirect('/anagrafiche');
@@ -114,22 +130,23 @@ class AnagraficheController extends Controller
 
         $viewData = [];
         $viewData["anagrafiche"] = $tab;
- 
+
         if ($tab == 'tab3') {
             $viewData["tabella"] = 'consegne';
             $viewData["dati"] = Consegne::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('consegnes');
         }
-        
 
         if ($tab == 'tab1') {
             $viewData["tabella"] = 'anagrafica';
+            $viewData['ruoli'] = DB::table('ruolis')->get();
             // nomi colonne da utilizzare
-            $viewData["column"] = ['id','nome', 'cognome','indirizzo'];
+            $viewData["column"] = ['id', 'nome', 'cognome', 'indirizzo'];
             // dati da tabella database
             $viewData["dati"] = DB::table('anagraficas')
-                //->select($viewData["column"])
+            //->select($viewData["column"])
                 ->get();
+               
 
         }
 
@@ -138,14 +155,15 @@ class AnagraficheController extends Controller
             $viewData["dati"] = Soci::all();
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('socis');
         }
- 
+
         if ($tab == 'tab4') {
             return view('/iconeHome');
         }
- 
+
         if ($tab == 'tab5') {
             $viewData["tabella"] = 'immagini';
             $viewData['images4'] = DB::table('immaginis')->get();
+          
             $viewData["column"] = DB::getSchemaBuilder()->getColumnListing('immaginis');
             //return view('file.index')->with("viewData", $viewData);
         }
@@ -162,20 +180,20 @@ class AnagraficheController extends Controller
          *  Route::post('editAnag', 'update');
          * // ok Aggiorna Anagrafica
          */
-         $anno = Carbon::now()->format('Y');
-         $id = $request->id;
- 
-         $viewData = [];
-         $viewData["title"] = "iscr ";
-         $viewData["subtitle"] = "Anagrafica";
-         $viewData["anno"] = $anno;
- 
-     
+        $anno = Carbon::now()->format('Y');
+        $id = $request->id;
+
+        $viewData = [];
+        $viewData["title"] = "iscr ";
+        $viewData["subtitle"] = "Anagrafica";
+        $viewData["anno"] = $anno;
+        $viewData['ruoli'] = Ruoli::all();
+        $viewData['ruolo_specifico'] = Ruoli_spec::all();
 
         Anagrafica::validate($request);
         $viewData["title"] = "- anagrafica - ";
         $anagrafica = Anagrafica::find($id);
-  
+
         $anagrafica->setNome($request->input('nome'));
         $anagrafica->setCognome($request->input('cognome'));
         $anagrafica->setIndirizzo($request->input('indirizzo'));
@@ -193,44 +211,38 @@ class AnagraficheController extends Controller
         $anagrafica->setCellulare($request->input('cellulare'));
         $anagrafica->setPublished($request->get('published'));
         $anagrafica->setDescription($request->input('description'));
-// salva anagrafica
+         // salva anagrafica
         $anagrafica->save();
-
+         // verifica se esiste gia
+         $ruolo_s = $request->ruolo_spec;
+        $datis = DB::table('associatis')->where('anagrafica_id', $request->input('id'));
+        if ($datis != null) {
+            $id = $request->input('id');
+            $ruolo = $request->ruolo;
+            $collegamenti = Associati::find($id);
+           // $collegamenti->anagrafica_id = $request->input('id');
+            $collegamenti->ruoli_id = $ruolo;
+            $rs = implode(',', $ruolo_s);
+            $collegamenti->ruoli_spec_id = $rs;
+            // salva collegamenti
+            $collegamenti->save();
+        }
 
         return redirect('/anagrafiche');
-     
+
     }
+
+
     public function editAnagrafica($id)
     {
 
         $viewData = [];
         // da helpers
-       // $viewData = //select_sociRightjoin_singolo($id);
-
+        // $viewData = //select_sociRightjoin_singolo($id);
+        $viewData['ruoli'] = Ruoli::all();
         $viewData['anagraficas'] = Anagrafica::find($id);
-  
-     /*   $anagrafica->getNome();
-        $anagrafica->getCognome();
-        $anagrafica->getIndirizzo();
-        //$anagrafica->getConsegna($request->get('consegna'));
-        $anagrafica->getTper_soc();
-        $anagrafica->getCap();
-        $anagrafica->getLocalita();
-        $anagrafica->getComune();
-        $anagrafica->getSigla_provincia();
-        $anagrafica->getEmail();
-        $anagrafica->getPec();
-        $anagrafica->getCodice_fiscale();
-        $anagrafica->getPartita_iva();
-        $anagrafica->getTelefono();
-        $anagrafica->getCellulare();
-        $anagrafica->getPublished();
-        $anagrafica->getDescription();
-
-        $viewData['anagraficas'] = $anagrafica;*/
-
-       
-
+        $viewData['ruoli_spec'] = Ruoli_spec::all();
+        $viewData['associati'] = Associati::all();
 
         return view('anagrafiche.formEditAnagrafica')->with("viewData", $viewData);
     }

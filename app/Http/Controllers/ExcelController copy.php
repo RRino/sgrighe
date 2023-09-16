@@ -173,6 +173,74 @@ class ExcelController extends Controller
         return back()->withSuccess('I dati sono stati caricati.');
     }
 
+
+    public function importAnagrafica(Request $request)
+    {
+
+        /**
+         *   Route::post('/importSoci', 'importSoci');
+         *  Importa i dati da file excel
+         *
+         */
+        $this->validate($request, [
+            'uploaded_file' => 'required|file|mimes:xls,xlsx',
+        ]);
+        $the_file = $request->file('uploaded_file');
+        try {
+
+            $spreadsheet = IOFactory::load($the_file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $row_limit = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range = range(2, $row_limit);
+            $column_range = range('Z', $column_limit);
+            $startcount = 0;
+            $data = array();
+
+            $anno = Carbon::now()->format('Y');
+
+            foreach ($row_range as $row) {
+
+
+                $data[] = [
+                    'id' => $sheet->getCell('X' . $row)->getValue(),
+                    'cognome' => $sheet->getCell('A' . $row)->getValue(),
+                    'nome' => $sheet->getCell('B' . $row)->getValue(),
+                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),
+                    'cap' => $sheet->getCell('D' . $row)->getValue(),
+                    'localita' => $sheet->getCell('E' . $row)->getValue(),
+                    'comune' => $sheet->getCell('F' . $row)->getValue(),
+                    'sigla_provincia' => $sheet->getCell('G' . $row)->getValue(),
+                    'per_soc' => 1,
+                    'email' => $sheet->getCell('M' . $row)->getValue(),
+                    'telefono' => $sheet->getCell('N' . $row)->getValue(),
+                    'cellulare' => $sheet->getCell('O' . $row)->getValue(),
+                    'tipo_socio' => 1,
+                    'pec' => $sheet->getCell('P' . $row)->getValue(),
+                    'codice_fiscale' => $sheet->getCell('Q' . $row)->getValue(),
+                    'partita_iva' => $sheet->getCell('R' . $row)->getValue(),
+                    'description' => $sheet->getCell('T' . $row)->getValue(),
+                    'published' => 1,
+                    'created_at' => $sheet->getCell('U' . $row)->getValue(),
+                    'updated_at' => $sheet->getCell('V' . $row)->getValue(),
+                ];
+                $startcount++;
+            }
+
+//-------------------------- Anagrafica -----------------------------------
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            DB::table('anagraficas')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            DB::table('anagraficas')->insert($data);
+
+        } catch (Exception $e) {
+            // $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        return back()->withSuccess('I dati Anagrafica sono stati caricati.');
+    }
+
+
     public function importSoci_old(Request $request)
     {
 

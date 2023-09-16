@@ -10,6 +10,13 @@ use App\Models\Param_bollettini;
 
 class ServizioController extends Controller
 {
+
+    public function getSelect(Request $request)
+    {
+        
+           return 'select '.$request;
+    }
+
     public function salvaSelChck(Request $request)
     {
 

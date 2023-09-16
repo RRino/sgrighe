@@ -31,6 +31,22 @@ class Anagrafica extends Model
         ]);
     }
 
+   
+    public function associatiMany(){
+        return $this->hasMany(Associati::class);
+    }
+
+    public function associatiOne()
+    {
+        return $this->hasOne(Associati::class);
+    }
+
+    public function appartiene()
+    {
+        return $this->belongsTo(Ruoli::class);
+    }
+
+
     public function getId()
     {
         return $this->attributes['id'];
@@ -71,15 +87,9 @@ class Anagrafica extends Model
         $this->attributes['indirizzo'] = $indirizzo;
     }
 
-    public function getAssociati()
-    {
-        return $this->hasOne(Associati::class);
-    }
 
-    public function associati(): BelongsTo
-    {
-        return $this->belongsTo(Anagrafica::class);
-    }
+
+   
 
     public function getCap()
     {
@@ -237,10 +247,7 @@ class Anagrafica extends Model
     }
 
     public function anagraficas()
-
     {
-
         return $this->belongsTo(Tabs::class);
-
     }
 }

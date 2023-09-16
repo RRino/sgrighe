@@ -93,4 +93,71 @@ Add Tag
 DB::table('posts')
 ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
 ->where('is_published', true)->groupBy('user_id');*/
+
+
+
+
+/*
+
+CREATE TABLE ruolo_secondario (
+      ruoli INT NOT NULL, id INT NOT NULL,
+      nome VARCHAR(100),
+      PRIMARY KEY(ruoli, id)
+  )   ENGINE=INNODB;
+  
+  CREATE TABLE ruoli (
+      id INT NOT NULL,
+      PRIMARY KEY (id)
+  )   ENGINE=INNODB;
+  
+  CREATE TABLE collegamenti (
+      no INT NOT NULL AUTO_INCREMENT,
+      anagrafica INT NOT NULL,
+      ruolo_secondario_id INT NOT NULL,
+      ruoli_id INT NOT NULL,
+  
+      PRIMARY KEY(no),
+      INDEX (anagrafica),
+      INDEX (ruoli_id),
+  
+      FOREIGN KEY (anagrafica, ruolo_secondario_id)
+        REFERENCES ruolo_secondario(ruoli, id)
+        ON UPDATE CASCADE ON DELETE RESTRICT,
+  
+      FOREIGN KEY (ruoli_id)
+        REFERENCES ruoli(id)
+  )   ENGINE=INNODB;
+*/
+
+  /*
+CREATE TABLE product (
+    category INT NOT NULL, id INT NOT NULL,
+    price DECIMAL,
+    PRIMARY KEY(category, id)
+)   ENGINE=INNODB;
+
+CREATE TABLE customer (
+    id INT NOT NULL,
+    PRIMARY KEY (id)
+)   ENGINE=INNODB;
+
+CREATE TABLE product_order (
+    no INT NOT NULL AUTO_INCREMENT,
+    product_category INT NOT NULL,
+    product_id INT NOT NULL,
+    customer_id INT NOT NULL,
+
+    PRIMARY KEY(no),
+    INDEX (product_category, product_id),
+    INDEX (customer_id),
+
+    FOREIGN KEY (product_category, product_id)
+      REFERENCES product(category, id)
+      ON UPDATE CASCADE ON DELETE RESTRICT,
+
+    FOREIGN KEY (customer_id)
+      REFERENCES customer(id)
+)   ENGINE=INNODB;
+
+  */
 }

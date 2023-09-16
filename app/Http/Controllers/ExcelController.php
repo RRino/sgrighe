@@ -201,12 +201,6 @@ class ExcelController extends Controller
             // ------------ SOCI ------------
             foreach ($row_range as $row) {
 
-                $cons = $sheet->getCell('J' . $row)->getValue();
-                if (strlen($cons) == 2) {
-                    $cons = $sheet->getCell('J' . $row)->getValue();
-                } else {
-                    $cons = '';
-                }
 
                 $data[] = [
                     'id' => $sheet->getCell('X' . $row)->getValue(),
@@ -217,13 +211,13 @@ class ExcelController extends Controller
                     'localita' => $sheet->getCell('E' . $row)->getValue(),
                     'comune' => $sheet->getCell('E' . $row)->getValue(),
                     'sigla_provincia' => $sheet->getCell('F' . $row)->getValue(),
-                    'consegna' => $cons,
+                    
                     'email' => $sheet->getCell('L' . $row)->getValue(),
                     'telefono' => $sheet->getCell('M' . $row)->getValue(),
                     'cellulare' => $sheet->getCell('M' . $row)->getValue(),
                     'description' => $sheet->getCell('N' . $row)->getValue(),
-                    'tipo_socio' => 1, //$sheet->getCell( 'O' . $row )->getValue(),
-
+               
+                    'per_soc' => 1,
                     'pec' => $sheet->getCell('Q' . $row)->getValue(),
                     'codice_fiscale' => $sheet->getCell('R' . $row)->getValue(),
                     'partita_iva' => $sheet->getCell('S' . $row)->getValue(),
@@ -234,106 +228,21 @@ class ExcelController extends Controller
                 $startcount++;
             }
 
-            // ------------- ISCRIZIONI -----------
-            foreach ($row_range as $row) {
-//postultimo
-                if (Schema::hasColumn('iscriziones', $anno + 1)) {
-                    $esite = 1;
-                } else {
-                    $type = 'string';
-                    $length = 20;
-                    $fieldName = $anno + 1;
-                    Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                        $table->string($fieldName, 20)->nullable();
-                    });
-                };
-
-                // --- ultimo ---
-
-                if ($sheet->getCell('G' . $row)->getValue() == $anno) {
-                    if (Schema::hasColumn('iscriziones', $anno)) {
-                        $esite = 1;
-                    } else {
-                        $type = 'string';
-                        $length = 20;
-                        $fieldName = $anno;
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName, 20)->nullable();
-                        });
-                    };
-
-                    $vanno1 = $anno;
-                } else {
-                    $vanno1 = 'No';
-                }
-
-                // --- Penultimo ---
-                if ($sheet->getCell('H' . $row)->getValue() == $anno - 1) {
-                    if (Schema::hasColumn('iscriziones', $anno - 1)) {
-                        $esite = 1;
-                    } else {
-                        $type = 'string';
-                        $length = 20;
-                        $fieldName = $anno - 1;
-
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName, 20)->nullable();
-                        });
-                    };
-                    $vanno2 = $anno - 1;
-                } else {
-                    $vanno2 = 'No';
-                }
-
-                // --- terzultimo ---
-                if ($sheet->getCell('G' . $row)->getValue() == $anno - 2) {
-                    if (Schema::hasColumn('iscriziones', $anno - 2)) {
-                        $esite = 1;
-                    } else {
-                        $type = 'string';
-                        $length = 20;
-                        $fieldName = $anno - 2;
-
-                        Schema::table('iscriziones', function (Blueprint $table) use ($fieldName) {
-                            $table->string($fieldName, 20)->nullable();
-                        });
-                    };
-                    $vanno3 = $anno - 2;
-                } else {
-                    $vanno3 = 'No';
-                }
-
-                $iscrizione[] = [
-                    // 'nome' => $sheet->getCell('B' . $row)->getValue(),
-                    // 'cognome' => $sheet->getCell('A' . $row)->getValue(),
-                    'socio_id' => $sheet->getCell('X' . $row)->getValue(),
-                    $anno => $vanno1,
-                    $anno - 1 => $vanno2,
-                    $anno - 2 => $vanno3,
-                    // 'description' => $sheet->getCell('N' . $row)->getValue(),
-                ];
-
-                $startcount++;
-            }
+        
 
 //-------------------------- Soci -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('socis')->truncate();
+            DB::table('anagraficas')->truncate();
             DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            DB::table('socis')->insert($data);
+            DB::table('anagraficas')->insert($data);
 
-//-------------------------- Iscrizione -----------------------------------
 
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            DB::table('iscriziones')->truncate();
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-            DB::table('iscriziones')->insert($iscrizione);
 
         } catch (Exception $e) {
             // $error_code = $e->errorInfo[1];
             return back()->withErrors('There was a problem uploading the data!');
         }
-        return back()->withSuccess('I dati sono stati caricati.');
+        return back()->withSuccess('I dati A sono stati caricati.');
     }
 
     /**

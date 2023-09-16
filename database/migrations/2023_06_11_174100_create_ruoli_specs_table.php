@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ruolo_specificos', function (Blueprint $table) {
+        Schema::create('ruoli_specs', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->integer('ordine');
-            $table->boolean('published');
+            $table->string('name');
+            $table->text('description');
+            $table->string('image'); 
+            $table->integer('price'); 
             $table->timestamps();
+ 
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ruolo_specifico');
+        Schema::dropIfExists('products');
     }
 };

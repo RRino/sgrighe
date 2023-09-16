@@ -14,6 +14,11 @@ use App\Http\Controllers\SociController;
 use App\Http\Controllers\AssociatiController;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Ruoli;
+use App\Models\Ruoli_spec;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +31,19 @@ use Illuminate\Support\Facades\Route;
  */
 
 Auth::routes();
+
+
+
+Route::get('/states', function(Request $request) {
+     $input = $request->option;
+    $country = Ruoli_spec::where('ruoli_id',$input)->get();
+   
+   return $country;
+    $resp = $country->get(['id', 'nome_ruolo_specifico']);
+
+    return Response::json($country->get(['id', 'nome_ruolo_specifico']));
+});
+
 
 Route::get('/nonAut', function () {
     return view('nonAutorizzato');
@@ -72,6 +90,8 @@ Route::controller(ServizioController::class)->group(function () {
 
     Route::post('param_bollettini', 'editParamBollettini');
     Route::post('param_etichette', 'editParamEtichette');
+
+    Route::post('getSelect', 'getSelect');
 });
 
 Route::controller(AnagraficheController::class)->group(function () {
@@ -85,12 +105,14 @@ Route::controller(AnagraficheController::class)->group(function () {
     Route::post('editAnag', 'update'); // ok Aggiorna Anagrafica
 
 
-    Route::get('/anatest', 'test')->name('test');
+    Route::get('/test', 'test')->name('test');
 });
+
+
 
 Route::controller(AssociatiController::class)->group(function () {
     Route::get('/asstest', 'test');
-    Route::get('/asstest', 'index');
+    Route::get('/associati', 'index');
 });
 
 Route::controller(FileController::class)->group(function () {
@@ -113,6 +135,7 @@ Route::controller(ExcelController::class)->group(function () {
     Route::get('/formExcel_soci', 'index_soci'); //->middleware('is_admin'); // da menu sidebar richiama form per importare excel
     Route::post('/importSoci', 'importSoci');
     Route::post('/importSoci_old', 'importSoci_old');
+
     Route::post('/exportSoci', 'exportSoci');
     Route::get('/exportSociTutti', 'exportSociTutti');
 

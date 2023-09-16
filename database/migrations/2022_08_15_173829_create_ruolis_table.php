@@ -8,23 +8,25 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('ruolis', function (Blueprint $table) {
             $table->id();
-            $table->string('ruolo');
-            $table->string('nome_ente')->nullable();
-            $table->date('da_data');
-            $table->date('a_data')->nullable();
+            $table->string('nome'); 
+            $table->unsignedBigInteger('ruolo_id'); 
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('ruolis');
     }
