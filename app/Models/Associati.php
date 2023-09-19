@@ -30,6 +30,21 @@ class Associati extends Model
     {
         return $this->hasMany(Ruoli_spec::class);
     }
+
+    public function ruoli_specmm() 
+    {
+        return $this->belongsToMany(Ruoli_spec::class);
+    }
+
+    public function dateiscr() 
+    {
+        return $this->belongsTo(Dateiscr::class);
+    }
+  
+    public function dateiscr_many() 
+    {
+        return $this->hasMany(Dateiscr::class);
+    }
   
 }
 

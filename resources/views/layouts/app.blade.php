@@ -121,6 +121,7 @@
                             <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
                             <a href="/pref_etichette" class="dropdown-item">Etichette</a>
                             <a href="/consegne" class="dropdown-item">Consegne</a>
+                            <a href="/formAddAssociati" class="dropdown-item">Add Associati</a>
                         </ul>
 
                     </a>

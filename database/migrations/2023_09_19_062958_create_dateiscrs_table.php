@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ruoli_specs', function (Blueprint $table) {
+        Schema::create('dateiscrs', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->timestamps();
- 
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('dateiscr');
     }
 };

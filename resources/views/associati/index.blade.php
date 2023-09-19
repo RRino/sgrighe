@@ -1,5 +1,44 @@
 @extends('layouts.app')
 
+<style>
+    .img_dim {
+        height: 50px;
+    }
+
+    .col {
+        border: solid 1px #ccc;
+        padding: 5px;
+        min-width: 250px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        height: auto;
+
+    }
+
+    .lab {
+        width: 100px;
+        color: #2f3a79;
+    }
+
+
+
+
+
+    .published {
+        position: absolute;
+        bottom: 0px;
+
+    }
+
+    .rsp {
+        padding-top: 10px;
+    }
+
+
+</style>
+
+
+
 @php
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
@@ -29,83 +68,71 @@
                     <div class="card-header">{{ __('Associati') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/asstest' }}" role="button">Lista
-                            Soci</a><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/formAddAssociati' }}" role="button">Aggiungi</a><br><br>
                         <hr>
 
-
+                        <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;"></div>
                         <div class="container">
+                            
+                            <div class="row">
 
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Sel</th>
-                                        <th scope="col">Id</th>
+                                {{-- dd($viewData) --}}
+                                @php $primo = 0; @endphp
+                                @foreach ($viewData['associati'] as $soci)
+                                    <div class="col">
+                                        @if ($soci->ruoli->id == 1)
+                                            @if ($primo == 0)
+                                                <div id="tit1">{{ $soci->ruoli->nome }}</div>
+                                                @php $primo = 1; @endphp
+                                            @endif
+                                            {{ $soci->anagrafica->id . ' ' . $soci->anagrafica->nome . ' ' . $soci->anagrafica->cognome }}<br><br>
+                                            <label class="lab">Indirizzo:</label>{{ $soci->anagrafica->indirizzo }}<br>
+                                            <label class="lab">CAP:</label>{{ $soci->anagrafica->cap }}<br>
+                                            <label class="lab">località:</label>{{ $soci->anagrafica->localita }}<br>
+                                            <label class="lab">Comune:</label>{{ $soci->anagrafica->comune }}<br>
+                                            <label
+                                                class="lab">Provincia:</label>{{ $soci->anagrafica->sigla_provincia }}<br>
+                                            <label class="lab">Email:</label>{{ $soci->anagrafica->email }}<br>
+                                            <label class="lab">PEC:</label>{{ $soci->anagrafica->pec }}<br>
+                                            <label class="lab">C.D.F:</label>{{ $soci->anagrafica->codice_fiscale }}<br>
+                                            <label class="lab">P.IVA:</label>{{ $soci->anagrafica->partita_iva }}<br>
+                                            <label class="lab">Tel.:</label>{{ $soci->anagrafica->telefono }}<br>
+                                            <label class="lab">Cell.:</label>{{ $soci->anagrafica->cellulare }}<br>
 
-                                        <th scope="col">Nome</th>
-                                        <th scope="col"><a href="/list/cognome">Cognome</a></th>
-                                        <!-- Route::get('/list/{col}', 'indexOrd');//ok ordina una colonna in index.blade -->
-                                        <th scope="col"><a href="/list/indirizzo">Indirizzo</a></th>
-                                        <th scope="col">CAP</th>
-                                        <th scope="col"><a href="/list/localita">Località</a></th>
-                                        <th scope="col"><a href="/list/comune">Comune</a></th>
-                                        <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Ruolo</th>
-                                        <th scope="col">Ruolo specifico</th>
+                                            <div class="ruolo"><label
+                                                    class="lab">Ruolo:</label>{{ $soci->ruoli->nome }}<br></div>
 
-                                        <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
+                                            <div class="ruolo_spec">
+                                                @forelse($soci->ruoli_specm as $soci->ruoli_specm)
+                                                    <label class="lab rsp">Ruolo
+                                                        specif:</label>{{ $soci->ruoli_specm->nome }}<br>
+                                                @empty
+                                                    <label class="lab rsp">Ruolo specif:</label><br>
+                                                    <label class="lab rsp">Ruolo specif:</label><br>
+                                                @endforelse
+                                            </div>
+                                            <br>
+                                            <div class="dataiscr">
+                                                @forelse($soci->dateiscr_many as $soci->date_specm)
+                                                    <label class="lab dat">Data
+                                                        iscriz:</label>{{ $soci->date_specm->nome }}<br>
+                                                @empty
+                                                    <label class="lab dat">Data iscr:</label><br>
+                                                @endforelse
+                                                <br>
+                                            </div>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach ($viewData['associati'] as $soci)
-                                        {{-- dd($viewData['ruoli'][$soci->ruoli_id]->nome_ruolo) --}}
-                                        {{-- dd($viewData['ruoli']) --}}
-                                        <tr>
-                                            <td><input type="checkbox" class="checkbox"
-                                                    data-id="{{ $soci->anagrafica->id }}"></td>
-
-                                            <td>{{ $soci->anagrafica_id . ' ' . $soci->ruoli_id }}</td>
-
-                                            <td>{{ $soci->anagrafica->nome }}</td>
-                                            <td>{{ $soci->anagrafica->cognome }}</td>
-                                            <td>{{ $soci->anagrafica->indirizzo }}</td>
-                                            <td>{{ $soci->anagrafica->cap }}</td>
-                                            <td>{{ $soci->anagrafica->localita }}</td>
-                                            <td>{{ $soci->anagrafica->comune }}</td>
-                                            <td>{{ $soci->anagrafica->sigla_provincia }}</td>
-                                            
-                                            @foreach ($viewData['ruoli'] as $ruolo) 
-                                                @if ($soci->anagrafica->ruolo == $ruolo->ruolo_id)
-                                                    <td>{{ $ruolo->nome }} </td>
-                                                    @else
-                                                     <td>{{ '' }} </td>
-                                                @endif
-                                            @endforeach
+                                            <div class="published">
+                                                <label class="lab">Pubblicato:</label>
+                                                {{ $soci->anagrafica->published }}
+                                                </label><br>
+                                            </div>
+                                    </div>
+                                @endif
+                                @endforeach
 
 
-                        
-
-
-
-                                            <!-- non usato per ora -->
-                                            <?php /*
-                @if ($soci->getPublished() == "Si")
-                    <td><a style="color:green" href="/changeStatus/{{ $soci->getId() }}"> Si </a>
-                    @else
-                    <td><a style="color:red" href="/changeStatus/{{ $soci->getId() }}"> No </a>
-                @endif 
-                </td>
-               */
-                                            ?>
-
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
+                            </div>
                             {{-- $viewData['iscrizioni']->links() --}}
                             <br>
 
@@ -120,3 +147,13 @@
     <br>
     <br>
 @endsection
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var myDiv1Para = $('#tit1').remove();
+        myDiv1Para.appendTo('#tit2');
+
+    });
+</script>

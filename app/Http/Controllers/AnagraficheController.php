@@ -141,6 +141,7 @@ class AnagraficheController extends Controller
         if ($tab == 'tab1') {
             $viewData["tabella"] = 'anagrafica';
             $viewData['ruoli'] = DB::table('ruolis')->get();
+            $viewData['ruoli_spec'] = DB::table('ruoli_specs')->get();
             // nomi colonne da utilizzare
             $viewData["column"] = ['id', 'nome', 'cognome', 'indirizzo'];
             // dati da tabella database
@@ -215,25 +216,24 @@ class AnagraficheController extends Controller
          // salva anagrafica
         $anagrafica->save();
          // verifica se esiste gia
-         $ruolo_s = $request->ruolo_spec;
-        $datis = DB::table('associatis')->where('anagrafica_id', $request->input('id'));
-        if ($datis != null) {
+        
+        $rid = $request->input('id');
+        $datis = Associati::where('anagrafica_id',$rid)->get();
+        
+        if (!isset($datis->anagrafica_id)) {
             $id = $request->input('id');
-            $ruolo = $request->ruolo;
-            $collegamenti = Associati::find($id);
-           // $collegamenti->anagrafica_id = $request->input('id');
-            $collegamenti->ruoli_id = $ruolo;
-            $rs = implode(',', $ruolo_s);
-            $collegamenti->ruoli_spec_id = $rs;
-            // salva collegamenti
-            $collegamenti->save();
+            $associati = new Associati;
+           
+            $associati->anagrafica_id = $rid;
+          
+            $associati->save();
         }
 
         return redirect('/anagrafiche');
 
     }
 
-
+   
     public function editAnagrafica($id)
     {
 

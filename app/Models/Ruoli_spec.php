@@ -11,13 +11,16 @@ class Ruoli_spec extends Model
 
     public function ruoli(): BelongsTo
     {
-        return $this->belongsTo(Ruoli::class);
+        return $this->belongsTo(Associoati::class);
     }
 
     public function ruolim()
     {
-        return $this->hasMany(Ruoli::class);
+        return $this->hasMany(Associati::class);
     }
 
-
+    public function ruoli_specmm() 
+    {
+        return $this->belongsToMany(Associati::class);
+    }
 }

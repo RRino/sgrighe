@@ -104,7 +104,6 @@ Route::controller(AnagraficheController::class)->group(function () {
     Route::get('editAna/{id}', 'editAnagrafica');
     Route::post('editAnag', 'update'); // ok Aggiorna Anagrafica
 
-
     Route::get('/test', 'test')->name('test');
 });
 
@@ -113,6 +112,9 @@ Route::controller(AnagraficheController::class)->group(function () {
 Route::controller(AssociatiController::class)->group(function () {
     Route::get('/asstest', 'test');
     Route::get('/associati', 'index');
+    Route::post('addAssociati', 'addAssociati');
+    Route::get('editAass/{id}', 'editAssociati');
+    Route::get('/formAddAssociati', 'formAddAssociati');
 });
 
 Route::controller(FileController::class)->group(function () {

@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('ruolis', function (Blueprint $table) {
             $table->id();
             $table->string('nome'); 
-            $table->unsignedBigInteger('ruolo_id'); 
             $table->timestamps();
         });
     }

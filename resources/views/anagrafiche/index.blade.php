@@ -49,7 +49,7 @@
                 @endforeach
             </ul>
         @endif
-
+{{-- dd($viewData) --}}
 
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -105,13 +105,7 @@
                                                     {{ $viewData['dati'][$dt]->cognome }}</span><br>
                                                 <label class="lab">Tipo:</label>{{ $viewData['dati'][$dt]->per_soc }}
                                                 <br>
-                                                @foreach ($viewData['ruoli'] as $ruolo)
-                                                    @if ($viewData['dati'][$dt]->ruolo == $ruolo->ruolo_id)
-                                                        <label class="lab">Ruolo:</label>{{ $ruolo->nome }} <br>
-                                                    @endif
-                                                @endforeach
-
-
+             
                                                 <hr>
                                                 <label class="lab">Ind:</label>{{ $viewData['dati'][$dt]->indirizzo }}
                                                 <br>

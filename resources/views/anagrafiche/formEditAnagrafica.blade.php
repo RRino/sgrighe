@@ -72,51 +72,6 @@
 
 
                         <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ruolo:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                @foreach ($viewData['ruoli'] as $ruo)
-                                    @if ($ruo->id == $dati->id)
-                                         {{ 'Ruolo attuale: ' . $ruo->nome_ruolo }}
-                                    @endif
-                                @endforeach
-
-
-                                <select class="form-control" id="main" name="ruolo">
-                                    <option value="">Selezionare ruolo</option>
-                                    @foreach ($viewData['ruoli'] as $ru)
-                                        <option value="{{ $ru->id }}"> {{ $ru->nome_ruolo }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="mb-3 row">
-                            <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Ruolo specifico:</label>
-                            <div class="col-lg-10 col-md-6 col-sm-12">
-                                {{ 'Ruolo spec attuale: ' }}
-                                @foreach ($viewData['associati'] as $asso)
-                                    @if ($asso->id == $dati->id)
-                                        @php
-                                            $spe = explode(',', $asso->ruoli_spec_id);
-                                        @endphp
-                                        @foreach ($spe as $sp)
-                                            @foreach ($viewData['ruoli_spec'] as $rsp)
-                                                @if ($rsp->id == $sp)
-                                                    {{ $rsp->nome_ruolo_specifico .' - '}}
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    @endif
-                                @endforeach
-
-                                <select class="form-control" id="spec" name="ruolo_spec[]" multiple="">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mb-3 row">
                             <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Id:</label>
                             <div class="col-lg-10 col-md-6 col-sm-12">
                                 <input name="id" value="{{ $dati->getId() }}" type="text" class="form-control">
