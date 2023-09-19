@@ -8,6 +8,8 @@ use App\Models\Associati;
 use App\Models\Ruoli;
 use App\Models\Ruoli_spec;
 use App\Models\Dateiscr;
+use App\Models\Enumruolispec;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 
@@ -51,11 +53,24 @@ class AssociatiController extends Controller
     public function formAddassociati()
     {
 
+        $annox = Carbon::now()->format('Y');
+
         $viewData = [];
         $viewData["title"] = "Aggiunge Associato";
-        $viewData["anagrafica"] = Anagrafica::all();
-        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruoli_spec","dateiscr_many"])->get();
+        $anno = 2000;
+        $anni = 2000;
+        while ($anno < $annox+2) {
+            $anni = $anni.','.$anno+1;
+            $anno++;
+        }
         
+        $viewData["dataiscr"] = $anni;
+        $viewData["anagrafica"] = Anagrafica::all();
+        $viewData["ruoli"] = Ruoli::all();
+        $viewData["ruoli_spec"] = Ruoli_spec::all();
+        $viewData["enumruolispec"] = Enumruolispec::all();
+        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruoli_spec","dateiscr_many"])->get();
+     
         return view('associati.formAddAssociati')->with("viewData", $viewData);
     }
 

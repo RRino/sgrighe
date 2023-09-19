@@ -34,7 +34,7 @@
                                 @csrf
                                 <div class="form-group">
                                     <label for="usr">Anagrafica:</label>
-                                    <select name="tipo_socio" id="tso" class="form-select" aria-label="Tipo socio">
+                                    <select name="anagrafica" id="tso" class="form-select" aria-label="Tipo socio">
                                         @foreach ($viewData['anagrafica'] as $anag)
                                             <option id="opt1" value="{{ $anag->id }}">
                                                 {{ $anag->id . ' ' . $anag->cognome }}</option>
@@ -44,11 +44,39 @@
 
                                 <div class="form-group">
                                     <label for="usr">Ruolo:</label>
-                                    <input type="text" class="form-control" id="nom" name="ruolo"
-                                        value="{{ $nome ?? old('ruolo') }}" placeholder="Inserire ruolo">
+                                    <select name="ruolo" id="tso" class="form-select" aria-label="Tipo socio">
+                                        @foreach ($viewData['ruoli'] as $anag)
+                                            <option id="opt1" value="{{ $anag->id }}">
+                                                {{ $anag->id . ' ' . $anag->nome }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="usr">Ruoli specifici:</label>
+                                   
+                                    <select name="ruolo_spec[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
+                                        @foreach ($viewData['enumruolispec'] as $anag)
+                                            <option id="opt1" value="{{ $anag->id }}">
+                                                {{ $anag->id . ' ' . $anag->nome }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <br>
 
+                                <div class="form-group">
+                                    <label for="usr">Date iscriz:</label>
+                                    @php $dataiscr = explode(',',$viewData['dataiscr']); @endphp
+                                   
+                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
+                                       
+                                        @for ($d =0; $d < count($dataiscr);  $d++)
+          
+                                            <option id="opt1" value="{{ $dataiscr[$d] }}">
+                                                {{ $dataiscr[$d]. ' ' }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
                                 <br>
 
                                 <!-- Submit button -->
