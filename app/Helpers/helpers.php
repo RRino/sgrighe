@@ -8,6 +8,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
+
 function formatPrice($value)
 {
     return '$' . number_format($value, 2);
