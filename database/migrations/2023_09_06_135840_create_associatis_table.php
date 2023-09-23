@@ -26,6 +26,10 @@ return new class extends Migration
             $table->foreign('dateiscr_id')->references('id')->on('dateiscrs'); 
             $table->string('nome');
 
+            $table->unsignedBigInteger('consegne_id'); 
+            $table->foreign('consegne_id')->references('id')->on('consegnes'); 
+            $table->string('nome_cons');
+
             $table->timestamps();
         });
     }

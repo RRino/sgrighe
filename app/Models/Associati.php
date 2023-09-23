@@ -46,6 +46,16 @@ class Associati extends Model
         return $this->hasMany(Dateiscr::class);
     }
   
+
+    public function consegnem() 
+    {
+        return $this->hasMany(Consegne::class);
+    }
+
+    public function consegne() 
+    {
+        return $this->belongsTo(Consegne::class);
+    }
 }
 
 

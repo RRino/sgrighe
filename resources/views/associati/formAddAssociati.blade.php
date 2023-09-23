@@ -67,14 +67,23 @@
                                 <div class="form-group">
                                     <label for="usr">Date iscriz:</label>
                                     @php $dataiscr = explode(',',$viewData['dataiscr']); @endphp
-                                   
-                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
-                                       
+                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">           
                                         @for ($d =0; $d < count($dataiscr);  $d++)
-          
                                             <option id="opt1" value="{{ $dataiscr[$d] }}">
                                                 {{ $dataiscr[$d]. ' ' }}</option>
                                         @endfor
+                                    </select>
+                                </div>
+                                <br>
+
+                                <div class="form-group">
+                                    <label for="usr">Consegne:</label>
+                                   
+                                    <select name="consegne[]" id="tso" class="form-select" aria-label="Consegne" multiple="">
+                                        @foreach ($viewData['consegne'] as $anag)
+                                            <option id="opt1" value="{{ $anag->id }}">
+                                                {{ $anag->nome . ' ' . $anag->sigla }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <br>

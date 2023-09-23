@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dateiscrs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('associati_id'); 
             $table->string('nome');
             $table->timestamps();
         });

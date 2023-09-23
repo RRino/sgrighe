@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ruoli_specs', function (Blueprint $table) {
+        Schema::create('consegnes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('associati_id'); 
-            $table->string('nome');
+            $table->string('nome')->nullable();
+            $table->string('sigla')->nullable();
             $table->timestamps();
- 
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('consegnes');
     }
 };

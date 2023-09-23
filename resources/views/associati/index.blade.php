@@ -112,6 +112,7 @@
                                                 @endforelse
                                             </div>
                                             <br>
+
                                             <div class="dataiscr">
                                                 @forelse($soci->dateiscr_many as $soci->date_specm)
                                                     <label class="lab dat">Data
@@ -122,6 +123,14 @@
                                                 <br>
                                             </div>
 
+                                            <div class="consegne">
+                                                @forelse($soci->consegnem as $soci->consegnem)
+                                                    <label class="lab dat">Consene:</label>{{ $soci->consegnem->nome }}<br>
+                                                @empty
+                                                    <label class="lab dat">Consegne:</label><br>
+                                                @endforelse
+                                                <br>
+                                            </div>
                                             <div class="published">
                                                 <label class="lab">Pubblicato:</label>
                                                 {{ $soci->anagrafica->published }}
