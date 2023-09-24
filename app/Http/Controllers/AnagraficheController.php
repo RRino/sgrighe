@@ -6,7 +6,7 @@ use App\Models\Anagrafica;
 use App\Models\Associati;
 use App\Models\Consegne;
 use App\Models\Ruoli;
-use App\Models\Ruoli_spec;
+use App\Models\Ruolispec;
 use App\Models\Soci;
 use App\Models\Tabs;
 use Carbon\Carbon;
@@ -141,7 +141,7 @@ class AnagraficheController extends Controller
         if ($tab == 'tab1') {
             $viewData["tabella"] = 'anagrafica';
             $viewData['ruoli'] = DB::table('ruolis')->get();
-            $viewData['ruoli_spec'] = DB::table('ruoli_specs')->get();
+            $viewData['ruolispec'] = DB::table('ruolispecs')->get();
             // nomi colonne da utilizzare
             $viewData["column"] = ['id', 'nome', 'cognome', 'indirizzo'];
             // dati da tabella database
@@ -190,7 +190,7 @@ class AnagraficheController extends Controller
         $viewData["subtitle"] = "Anagrafica";
         $viewData["anno"] = $anno;
         $viewData['ruoli'] = Ruoli::all();
-        $viewData['ruolo_specifico'] = Ruoli_spec::all();
+        $viewData['ruolo_specifico'] = Ruolispec::all();
 
         Anagrafica::validate($request);
         $viewData["title"] = "- anagrafica - ";
@@ -242,7 +242,7 @@ class AnagraficheController extends Controller
         // $viewData = //select_sociRightjoin_singolo($id);
         $viewData['ruoli'] = Ruoli::all();
         $viewData['anagraficas'] = Anagrafica::find($id);
-        $viewData['ruoli_spec'] = Ruoli_spec::all();
+        $viewData['ruolispec'] = Ruolispec::all();
         $viewData['associati'] = Associati::all();
 
         return view('anagrafiche.formEditAnagrafica')->with("viewData", $viewData);

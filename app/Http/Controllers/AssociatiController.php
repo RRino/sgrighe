@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Anagrafica;
 use App\Models\Associati;
 use App\Models\Ruoli;
-use App\Models\Ruoli_spec;
+use App\Models\Ruolispec;
 use App\Models\Dateiscr;
 use App\Models\Consegne;
 use App\Models\Enumruolispec;
+use App\Models\Enumconsegne;
+use App\Models\Enumdateiscr;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
@@ -24,8 +26,10 @@ class AssociatiController extends Controller
        $viewData = [];
        $viewData['title'] = " associati";
       
+       $nome =  Associati::with(["anagrafica","ruolispecm"])->get();
+return $nome;
 
-       $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruoli_spec","dateiscr_many","consegnem"])->get();
+       $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruolispecm","dateiscr_many","consegnem"])->get();
        return $viewData;
 
 
@@ -38,7 +42,7 @@ class AssociatiController extends Controller
         $viewData['title'] = " associati";
        
        
-        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruoli_spec","dateiscr_many","consegnem"])->get();
+        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruolispecm","dateiscr_many","consegnem"])->get();
 
         
        // return view('associati.index', compact('associatis', 'ruoli'));
@@ -48,24 +52,14 @@ class AssociatiController extends Controller
     public function formAddassociati()
     {
 
-        $annox = Carbon::now()->format('Y');
-
-        $viewData = [];
-        $viewData["title"] = "Aggiunge Associato";
-        $anno = 2000;
-        $anni = 2000;
-        while ($anno < $annox+2) {
-            $anni = $anni.','.$anno+1;
-            $anno++;
-        }
-        
-        $viewData["dataiscr"] = $anni;
+      
         $viewData["anagrafica"] = Anagrafica::all();
+        // Ruoli no ha enumruoli perche è singolo nonmultiplo
         $viewData["ruoli"] = Ruoli::all();
-        $viewData["ruoli_spec"] = Ruoli_spec::all();
+        $viewData["enumconsegne"] = Enumconsegne::all();
         $viewData["enumruolispec"] = Enumruolispec::all();
-        $viewData["consegne"] = Consegne::all();
-        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruoli_spec","dateiscr_many","consegnem"])->get();
+        $viewData["enumdateiscr"] = Enumdateiscr::all();
+        $viewData['associati'] = Associati::with(["anagrafica","ruoli","ruolispecm","dateiscr_many","consegnem"])->get();
   
         return view('associati.formAddAssociati')->with("viewData", $viewData);
     }
@@ -78,23 +72,21 @@ class AssociatiController extends Controller
         $id = $request->id;
 
         $viewData = [];
-        $viewData["ruoli"] = Enumruolispec::all();
-        
-        $ruoli_speca = $request->anagrafica;
-        foreach ($request->ruolo_spec as $rq) {
-            $ruoli_spec = new Ruoli_spec;
-            $ruoli_spec->associati_id = $ruoli_speca;
-           // $ruoli_spec->ruoli_spec_id = $rq;
-            $ruoli_spec->nome = $viewData["ruoli"][$rq]->nome;
-            $ruoli_spec->save();
-           $rspid =  $ruoli_spec->id;
-        }
 
-       
+        $associati = new Associati;
+        $associati->anagrafica_id = $request->anagrafica;
+        $associati->save();
+
+        foreach ($request->ruolispec as $rqd) {
+            $ruolispec = new Ruolispec;
+            $ruolispec->associati_id = $associati->id;
+            $ruolispec->nome = $rqd;
+            $ruolispec->save();
+        }
         
         foreach ($request->dataiscr as $rqd) {
             $dataiscr = new Dateiscr;
-            $dataiscr->associati_id = $request->anagrafica;
+            $dataiscr->associati_id = $associati->id;
             $dataiscr->nome = $rqd;
             $dataiscr->save();
         }
@@ -102,22 +94,24 @@ class AssociatiController extends Controller
 
         foreach ($request->consegne as $rqd) {
             $consegne = new Consegne;
-            $consegne->associati_id = $request->anagrafica;
+            $consegne->associati_id = $associati->id;
             $consegne->nome = $rqd;
             $consegne->save();
         }
 
-        $associati = new Associati;
-        $associati->anagrafica_id = $request->anagrafica;
+
+        $associati = Associati::find($associati->id);
+        //$associati->anagrafica_id = $request->anagrafica;
         $associati->ruoli_id = $request->ruolo;
-        $associati->ruoli_spec_id = $request->anagrafica;
-        $associati->dateiscr_id = $request->anagrafica;
+        $associati->ruolispec_id = $ruolispec->id;
+        $associati->dateiscr_id = $dataiscr->id;
+        $associati->consegne_id = $consegne->id;
 
-        $datis = Associati::where('anagrafica_id', $request->anagrafica)->get();
+       // $datis = Associati::where('anagrafica_id', $request->anagrafica)->get();
 
-        if ($datis->isEmpty()) {
+       // if ($datis->isEmpty()) {
             $associati->save();
-        }
+       // }
 
         return redirect('/associati');
 

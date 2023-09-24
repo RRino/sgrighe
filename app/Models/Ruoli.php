@@ -9,16 +9,16 @@ class Ruoli extends Model
 {
     use HasFactory;
 
-    public function ruoli_specm(){
+  /*  public function ruolispecm(){
         return $this->hasMany(Associati::class);
     }
 
 
 
-    public function ruoli_specb()
+    public function ruolispecb()
     {
         return $this->belongsTo(Associati::class);
-    }
+    }*/
 }
 
 

@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ruoli_spec extends Model
+class Ruolispec extends Model
 {
     use HasFactory;
 
-    public function ruoli(): BelongsTo
+    public function ruolispecb()
     {
-        return $this->belongsTo(Associoati::class);
+        return $this->belongsTo(Associati::class);
     }
 
-    public function ruolim()
+    public function ruolispecm()
     {
         return $this->hasMany(Associati::class);
     }
 
-    public function ruoli_specmm() 
+    public function ruolispecmm() 
     {
         return $this->belongsToMany(Associati::class);
     }

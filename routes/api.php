@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnagraficheController;
 use App\Models\Ruoli;
 use App\Models\Response;
-use App\Models\Ruoli_spec;
+use App\Models\Ruolispec;
 use App\Models\Input;
 /*
 |--------------------------------------------------------------------------

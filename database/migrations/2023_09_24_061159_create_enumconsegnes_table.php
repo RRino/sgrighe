@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ruoli_specs', function (Blueprint $table) {
+        Schema::create('enumconsegnes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('associati_id'); 
-            $table->string('nome');
+            $table->string('nome')->default('Posta');
+            $table->string('sigla')->default('po');
             $table->timestamps();
- 
         });
     }
 
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('enumconsegnes');
     }
 };

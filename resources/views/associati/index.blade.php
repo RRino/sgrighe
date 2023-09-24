@@ -33,8 +33,6 @@
     .rsp {
         padding-top: 10px;
     }
-
-
 </style>
 
 
@@ -68,23 +66,22 @@
                     <div class="card-header">{{ __('Associati') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/formAddAssociati' }}" role="button">Aggiungi</a><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/formAddAssociati' }}"
+                            role="button">Aggiungi</a><br><br>
                         <hr>
 
-                        <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;"></div>
+                        <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;">
+                        </div>
                         <div class="container">
-                            
+
                             <div class="row">
 
-                                {{-- dd($viewData) --}}
+                                {{-- dd($viewData['associati'][0]->ruoli) --}}
                                 @php $primo = 0; @endphp
                                 @foreach ($viewData['associati'] as $soci)
                                     <div class="col">
-                                        @if ($soci->ruoli->id == 1)
-                                            @if ($primo == 0)
-                                                <div id="tit1">{{ $soci->ruoli->nome }}</div>
-                                                @php $primo = 1; @endphp
-                                            @endif
+                                        <div class="anagr">
+                                            {{-- dd($soci->ruoli->nome) --}}
                                             {{ $soci->anagrafica->id . ' ' . $soci->anagrafica->nome . ' ' . $soci->anagrafica->cognome }}<br><br>
                                             <label class="lab">Indirizzo:</label>{{ $soci->anagrafica->indirizzo }}<br>
                                             <label class="lab">CAP:</label>{{ $soci->anagrafica->cap }}<br>
@@ -98,58 +95,61 @@
                                             <label class="lab">P.IVA:</label>{{ $soci->anagrafica->partita_iva }}<br>
                                             <label class="lab">Tel.:</label>{{ $soci->anagrafica->telefono }}<br>
                                             <label class="lab">Cell.:</label>{{ $soci->anagrafica->cellulare }}<br>
+                                        </div>
 
-                                            <div class="ruolo"><label
-                                                    class="lab">Ruolo:</label>{{ $soci->ruoli->nome }}<br></div>
+                                        <div class="ruolo_spec">
 
-                                            <div class="ruolo_spec">
-                                                @forelse($soci->ruoli_specm as $soci->ruoli_specm)
-                                                    <label class="lab rsp">Ruolo
-                                                        specif:</label>{{ $soci->ruoli_specm->nome }}<br>
-                                                @empty
-                                                    <label class="lab rsp">Ruolo specif:</label><br>
-                                                    <label class="lab rsp">Ruolo specif:</label><br>
-                                                @endforelse
-                                            </div>
+                                            @forelse($soci->ruolispecm as $soci->ruolispecm)
+                                                <label class="lab rsp">Ruolo
+                                                    specif:</label>{{ $soci->ruolispecm->nome }}<br>
+                                            @empty
+                                                <label class="lab rsp">Ruolo specif:</label><br>
+                                                <label class="lab rsp">Ruolo specif:</label><br>
+                                            @endforelse
+                                        </div>
+                                        <br>
+
+                                        <div class="dataiscr">
+                                            @forelse($soci->dateiscr_many as $soci->date_specm)
+                                                <label class="lab dat">Data
+                                                    iscriz:</label>{{ $soci->date_specm->nome }}<br>
+                                            @empty
+                                                <label class="lab dat">Data iscr:</label><br>
+                                            @endforelse
                                             <br>
+                                        </div>
 
-                                            <div class="dataiscr">
-                                                @forelse($soci->dateiscr_many as $soci->date_specm)
-                                                    <label class="lab dat">Data
-                                                        iscriz:</label>{{ $soci->date_specm->nome }}<br>
-                                                @empty
-                                                    <label class="lab dat">Data iscr:</label><br>
-                                                @endforelse
-                                                <br>
-                                            </div>
-
-                                            <div class="consegne">
-                                                @forelse($soci->consegnem as $soci->consegnem)
-                                                    <label class="lab dat">Consene:</label>{{ $soci->consegnem->nome }}<br>
-                                                @empty
-                                                    <label class="lab dat">Consegne:</label><br>
-                                                @endforelse
-                                                <br>
-                                            </div>
-                                            <div class="published">
-                                                <label class="lab">Pubblicato:</label>
-                                                {{ $soci->anagrafica->published }}
-                                                </label><br>
-                                            </div>
+                                        <div class="consegne">
+                                            @forelse($soci->consegnem as $soci->consegnem)
+                                                <label class="lab dat">Consene:</label>{{ $soci->consegnem->nome }}<br>
+                                            @empty
+                                                <label class="lab dat">Consegne:</label><br>
+                                            @endforelse
+                                            <br>
+                                        </div>
+                                        <div class="published">
+                                            <label class="lab">Pubblicato:</label>
+                                            {{ $soci->anagrafica->published }}
+                                            </label><br>
+                                        </div>
                                     </div>
-                                @endif
                                 @endforeach
 
-
                             </div>
-                            {{-- $viewData['iscrizioni']->links() --}}
-                            <br>
+
+
 
                         </div>
+
+                        {{-- $viewData['iscrizioni']->links() --}}
+                        <br>
+
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <br>
     <br>

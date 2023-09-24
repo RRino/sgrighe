@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Associati extends Model
 {
@@ -21,19 +22,19 @@ class Associati extends Model
     }
 
 
-    public function ruoli_spec() 
+    public function ruolispecb() :BelongsTo
     {
-        return $this->belongsTo(Ruoli_spec::class);
+        return $this->belongsTo(Ruolispec::class);
     }
   
-    public function ruoli_specm() 
+    public function ruolispecm() : HasMany
     {
-        return $this->hasMany(Ruoli_spec::class);
+        return $this->hasMany(Ruolispec::class);
     }
 
-    public function ruoli_specmm() 
+    public function ruolispecmm() 
     {
-        return $this->belongsToMany(Ruoli_spec::class);
+        return $this->belongsToMany(Ruolispec::class);
     }
 
     public function dateiscr() 

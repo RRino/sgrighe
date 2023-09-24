@@ -55,9 +55,9 @@
                                 <div class="form-group">
                                     <label for="usr">Ruoli specifici:</label>
                                    
-                                    <select name="ruolo_spec[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
+                                    <select name="ruolispec[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
                                         @foreach ($viewData['enumruolispec'] as $anag)
-                                            <option id="opt1" value="{{ $anag->id }}">
+                                            <option id="opt1" value="{{ $anag->nome }}">
                                                 {{ $anag->id . ' ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>
@@ -66,12 +66,12 @@
 
                                 <div class="form-group">
                                     <label for="usr">Date iscriz:</label>
-                                    @php $dataiscr = explode(',',$viewData['dataiscr']); @endphp
-                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">           
-                                        @for ($d =0; $d < count($dataiscr);  $d++)
-                                            <option id="opt1" value="{{ $dataiscr[$d] }}">
-                                                {{ $dataiscr[$d]. ' ' }}</option>
-                                        @endfor
+                           
+                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Data_iscrizione" multiple="">           
+                                        @foreach ($viewData['enumdateiscr'] as $anag)
+                                            <option id="opt1" value="{{ $anag->nome }}">
+                                                {{ $anag->nome. ' ' }}</option>
+                                                @endforeach
                                     </select>
                                 </div>
                                 <br>
@@ -80,8 +80,8 @@
                                     <label for="usr">Consegne:</label>
                                    
                                     <select name="consegne[]" id="tso" class="form-select" aria-label="Consegne" multiple="">
-                                        @foreach ($viewData['consegne'] as $anag)
-                                            <option id="opt1" value="{{ $anag->id }}">
+                                        @foreach ($viewData['enumconsegne'] as $anag)
+                                            <option id="opt1" value="{{ $anag->nome }}">
                                                 {{ $anag->nome . ' ' . $anag->sigla }}</option>
                                         @endforeach
                                     </select>

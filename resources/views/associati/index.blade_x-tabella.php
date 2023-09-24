@@ -52,7 +52,7 @@
                                         <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
 
                                         <th scope="col">Ruolo</th>
-                                        <th scope="col">Ruoli_spec</th>
+                                        <th scope="col">Ruolispec</th>
 
                                         <th scope="col">Abilitato</th>
                                         <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
@@ -78,9 +78,9 @@
                                             <td>{{ $soci->ruoli->nome }}</td>
 
 
-                                            @forelse($soci->ruoli_specm as $soci->ruoli_specm)
+                                            @forelse($soci->ruolispecm as $soci->ruolispecm)
                                             
-                                                    <td>{{ $soci->ruoli_specm->nome }}</td>
+                                                    <td>{{ $soci->ruolispecm->nome }}</td>
                                             
                                            
                                             @empty

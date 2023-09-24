@@ -15,7 +15,7 @@ use App\Http\Controllers\AssociatiController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Ruoli;
-use App\Models\Ruoli_spec;
+use App\Models\Ruolispec;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -36,7 +36,7 @@ Auth::routes();
 
 Route::get('/states', function(Request $request) {
      $input = $request->option;
-    $country = Ruoli_spec::where('ruoli_id',$input)->get();
+    $country = Ruolispec::where('ruoli_id',$input)->get();
    
    return $country;
     $resp = $country->get(['id', 'nome_ruolo_specifico']);

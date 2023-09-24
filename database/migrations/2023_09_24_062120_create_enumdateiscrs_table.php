@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('consegnes', function (Blueprint $table) {
+        Schema::create('enumdateiscrs', function (Blueprint $table) {
             $table->id();
-            $table->string('nome')->default('posta');
-            $table->string('sigla')->default('pos');
-            $table->unsignedBigInteger('socio_id')->nullable(); 
+            $table->string('nome');
             $table->timestamps();
-
-            $table->foreign('socio_id')->references('id')->on('socis');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('consegnes');
+        Schema::dropIfExists('enumdateiscrs');
     }
 };
