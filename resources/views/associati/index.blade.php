@@ -73,7 +73,9 @@
                         <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;">
                         </div>
                         <div class="container">
-
+                            @if($errors->any())
+                            <h4>{{$errors->first()}}</h4>
+                            @endif
                             <div class="row">
 
                                 {{-- dd($viewData['associati'][0]->ruoli) --}}

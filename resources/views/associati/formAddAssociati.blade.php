@@ -13,13 +13,19 @@
 @section('content')
     <div class="container">
 
-        @if ($errors->any())
-            <ul class="alert alert-danger list-unstyled">
-                @foreach ($errors->all() as $error)
-                    <li>- {{ $error }}</li>
-                @endforeach
-            </ul>
+
+        @if (session('successful_message'))
+            <div class="alert alert-success">
+                {{ session('successful_message') }}
+            </div>
         @endif
+
+        @if (session('error_message'))
+            <div class="alert alert-danger">
+                {{ session('error_message') }}
+            </div>
+        @endif
+
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -54,8 +60,9 @@
 
                                 <div class="form-group">
                                     <label for="usr">Ruoli specifici:</label>
-                                   
-                                    <select name="ruolispec[]" id="tso" class="form-select" aria-label="Ruolo_specifico" multiple="">
+
+                                    <select name="ruolispec[]" id="tso" class="form-select"
+                                        aria-label="Ruolo_specifico" multiple="">
                                         @foreach ($viewData['enumruolispec'] as $anag)
                                             <option id="opt1" value="{{ $anag->nome }}">
                                                 {{ $anag->id . ' ' . $anag->nome }}</option>
@@ -66,20 +73,22 @@
 
                                 <div class="form-group">
                                     <label for="usr">Date iscriz:</label>
-                           
-                                    <select name="dataiscr[]" id="tso" class="form-select" aria-label="Data_iscrizione" multiple="">           
+
+                                    <select name="dataiscr[]" id="tso" class="form-select"
+                                        aria-label="Data_iscrizione" multiple="">
                                         @foreach ($viewData['enumdateiscr'] as $anag)
                                             <option id="opt1" value="{{ $anag->nome }}">
-                                                {{ $anag->nome. ' ' }}</option>
-                                                @endforeach
+                                                {{ $anag->nome . ' ' }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <br>
 
                                 <div class="form-group">
                                     <label for="usr">Consegne:</label>
-                                   
-                                    <select name="consegne[]" id="tso" class="form-select" aria-label="Consegne" multiple="">
+
+                                    <select name="consegne[]" id="tso" class="form-select" aria-label="Consegne"
+                                        multiple="">
                                         @foreach ($viewData['enumconsegne'] as $anag)
                                             <option id="opt1" value="{{ $anag->nome }}">
                                                 {{ $anag->nome . ' ' . $anag->sigla }}</option>
