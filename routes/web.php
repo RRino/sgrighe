@@ -115,6 +115,8 @@ Route::controller(AssociatiController::class)->group(function () {
     Route::post('addAssociati', 'addAssociati');
     Route::get('editAass/{id}', 'editAssociati');
     Route::get('/formAddAssociati', 'formAddAssociati');
+    Route::get('delAss/{id}', 'deleteAssociati');
+
 });
 
 Route::controller(FileController::class)->group(function () {

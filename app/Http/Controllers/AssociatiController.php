@@ -13,7 +13,6 @@ use App\Models\Ruoli;
 use App\Models\Ruolispec;
 use Illuminate\Http\Request;
 
-
 class AssociatiController extends Controller
 {
     public function test(Request $request)
@@ -63,69 +62,95 @@ class AssociatiController extends Controller
         $id = $request->id;
 
         $viewData = [];
-       
+        $errori = ':';
         $associati = new Associati;
         $associati->anagrafica_id = $request->anagrafica;
-        $rid = (int)$request->anagrafica;
-        $verificaExist = Associati::find($rid);
-        if (!$verificaExist?->id) {
+        $rid = (int) $request->anagrafica;
 
+        if (Associati::where('anagrafica_id', $rid)->exists()) {
+            $errori = 1;
             return back()->with([
                 'error_message' => 'Anagrafica già esistente',
                 'customerInfo' => $rid,
             ]);
-
         } else {
+            // The record does not exist
             $associati->save();
-if($request?->ruolispec){
-            foreach ($request->ruolispec as $rqd) {
-                $ruolispec = new Ruolispec;
-                $ruolispec->associati_id = $associati->id;
-                $ruolispec->nome = $rqd;
-                $ruolispec->save();
-            }
-            $associati->ruolispec_id = $ruolispec->id;
-        }else{
-            return back()->with([
-                'error_message' => 'no ruolo spec',
-                'customerInfo' => $rid,
-            ]);  
-        }
-            foreach ($request->dataiscr as $rqd) {
-                $dataiscr = new Dateiscr;
-                $dataiscr->associati_id = $associati->id;
-                $dataiscr->nome = $rqd;
-                $dataiscr->save();
-            }
-
-            foreach ($request->consegne as $rqd) {
-                $consegne = new Consegne;
-                $consegne->associati_id = $associati->id;
-                $consegne->nome = $rqd;
-                $consegne->save();
-            }
-
             $associati = Associati::find($associati->id);
-            //$associati->anagrafica_id = $request->anagrafica;
-            $associati->ruoli_id = $request->ruolo;
-            
-            $associati->dateiscr_id = $dataiscr->id;
-            $associati->consegne_id = $consegne->id;
+// -------------- Ruoli specifici ---------------
+            if ($request?->ruolispec) {
+                foreach ($request->ruolispec as $rqd) {
+                    $ruolispec = new Ruolispec;
+                    $ruolispec->associati_id = $associati->id;
+                    $ruolispec->nome = $rqd;
+                    $ruolispec->save();
+                }
+                $associati->ruolispec_id = $ruolispec->id;
+            } else {
+                $errori = "Manca Ruoli specifici";
 
-            // $datis = Associati::where('anagrafica_id', $request->anagrafica)->get();
+            }
+// ---------------- Data iscrizione -----------------
+            if ($request?->dataiscr) {
+                foreach ($request->dataiscr as $rqd) {
+                    $dataiscr = new Dateiscr;
+                    $dataiscr->associati_id = $associati->id;
+                    $dataiscr->nome = $rqd;
+                    $dataiscr->save();
+                }
+                $associati->dateiscr_id = $dataiscr->id;
+            } else {
+                $errori = $errori . ' ' . 'Manca data iscrizione';
+            }
+// ---------------- Consegna rivista -----------------------
+            if ($request?->consegne) {
+                foreach ($request->consegne as $rqd) {
+                    $consegne = new Consegne;
+                    $consegne->associati_id = $associati->id;
+                    $consegne->nome = $rqd;
+                    $consegne->save();
+                }
+                $associati->consegne_id = $consegne->id;
+            } else {
+                $errori = $errori . ' ' . 'Manca consegne';
+            }
 
-            // if ($datis->isEmpty()) {
-            $associati->save();
-            // }
+            if ($request?->ruolo) {
+                $associati->ruoli_id = $request->ruolo;
+            } else {
+                $errori = $errori . ' ' . 'Manca ruolo';
+            }
+// --------- Update --------------------------
+            if ($errori == ':') {
+                $associati->save();
+            } else {
+                return back()->with([
+                    'error_message' => 'Errore ' . $errori,
+                    'customerInfo' => $rid,
+                ]);
+            }
+
         }
 
-
-  
         return back()->with(['successful_message' => 'Anagrafica associata correttamente']);
- 
 
-  return redirect('/associati');
+        // return redirect('/associati');
 
-    
-}
+    }
+
+
+    public function deleteAssociati($id)
+    {
+        $associati = Associati::find($id);
+        $rs = $associati->ruolispec_id;
+        $associati->ruolispec_id = null;
+        $associati->save();
+
+       // $ruolispec = Ruolispec::find($rs) ;
+       // $ruolispec->delete();
+
+        Ruolispec::where('associati_id', '=', $id)->delete();
+        
+           return 'deleteassociati '.$id;
+    }
 }

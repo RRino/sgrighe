@@ -81,6 +81,7 @@
                                 {{-- dd($viewData['associati'][0]->ruoli) --}}
                                 @php $primo = 0; @endphp
                                 @foreach ($viewData['associati'] as $soci)
+                               
                                     <div class="col">
                                         <div class="anagr">
                                             {{-- dd($soci->ruoli->nome) --}}
@@ -140,7 +141,7 @@
                             </div>
 
 
-
+                            <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/'.$soci->id }}" role="button">Cancella</a>
                         </div>
 
                         {{-- $viewData['iscrizioni']->links() --}}
