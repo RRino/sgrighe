@@ -52,8 +52,10 @@
                                         <th scope="col"><a href="/list/sigla_provincia">Prov.</a></th>
 
                                         <th scope="col">Ruolo</th>
+                                        <th scope="col">Consegne</th>
                                         <th scope="col">Ruolispec</th>
-
+                                        <th scope="col">Date iscriz.</th>
+                                       
                                         <th scope="col">Abilitato</th>
                                         <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
 
@@ -76,36 +78,10 @@
                                             <td>{{ $soci->anagrafica->comune }}</td>
                                             <td>{{ $soci->anagrafica->sigla_provincia }}</td>
                                             <td>{{ $soci->ruoli->nome }}</td>
-
-
-                                            @forelse($soci->ruolispecm as $soci->ruolispecm)
+                                            <td>{{ 'cn' }}</td>
+                                            <td>{{ 'sp' }}</td>
+                                            <td>{{ 'dt' }}</td>
                                             
-                                                    <td>{{ $soci->ruolispecm->nome }}</td>
-                                            
-                                           
-                                            @empty
-                                                <td>x</td>
-                                            @endforelse
-
-
-
-
-                                            <!-- Ruoli -->
-
-
-                                            <!-- / Ruoli specifici -->
-
-
-
-
-
-
-
-
-
-
-
-                                            <!--  -->
 
                                             @if ($soci->anagrafica->getPublished() == 'Abilitato')
                                                 <td><a style="color:green"

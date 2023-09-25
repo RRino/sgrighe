@@ -112,6 +112,7 @@ Route::controller(AnagraficheController::class)->group(function () {
 Route::controller(AssociatiController::class)->group(function () {
     Route::get('/asstest', 'test');
     Route::get('/associati', 'index');
+    Route::get('/associati_tabella', 'index_tabella');
     Route::post('addAssociati', 'addAssociati');
     Route::get('editAass/{id}', 'editAssociati');
     Route::get('/formAddAssociati', 'formAddAssociati');

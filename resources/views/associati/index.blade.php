@@ -97,6 +97,7 @@
                                             <label class="lab">P.IVA:</label>{{ $soci->anagrafica->partita_iva }}<br>
                                             <label class="lab">Tel.:</label>{{ $soci->anagrafica->telefono }}<br>
                                             <label class="lab">Cell.:</label>{{ $soci->anagrafica->cellulare }}<br>
+                                            <label class="lab">Ruolo:</label>{{ $soci->ruoli->nome }}<br>
                                         </div>
 
                                         <div class="ruolo_spec">
@@ -126,15 +127,9 @@
                                             @endforelse
                                             <br>
                                         </div>
-
-                                        <div class="consegne">
-                                            @forelse($soci->consegnem as $soci->consegnem)
-                                                <label class="lab dat">Consene:</label>{{ $soci->consegnem->nome }}<br>
-                                            @empty
-                                                <label class="lab dat">Consegne:</label><br>
-                                            @endforelse
-                                            <br>
-                                        </div>
+                                        <div>
+                                            <label class="lab">Consegna:</label>{{ $soci->consegne->nome }}<br>
+                                        </div><br>
                                         <div class="published">
                                             <label class="lab">Pubblicato:</label>
                                             {{ $soci->anagrafica->published }}

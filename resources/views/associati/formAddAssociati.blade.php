@@ -84,18 +84,17 @@
                                 </div>
                                 <br>
 
+       
+
                                 <div class="form-group">
                                     <label for="usr">Consegne:</label>
-
-                                    <select name="consegne[]" id="tso" class="form-select" aria-label="Consegne"
-                                        multiple="">
-                                        @foreach ($viewData['enumconsegne'] as $anag)
-                                            <option id="opt1" value="{{ $anag->nome }}">
-                                                {{ $anag->nome . ' ' . $anag->sigla }}</option>
+                                    <select name="consegne" id="tso" class="form-select" aria-label="Consegna">
+                                        @foreach ($viewData['consegne'] as $anag)
+                                            <option id="opt1" value="{{ $anag->id }}">
+                                                {{ $anag->sigla . ' - ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <br>
+                                </div><br>
 
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary">Aggiungi</button>

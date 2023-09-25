@@ -25,7 +25,7 @@ class AssociatiController extends Controller
         $nome = Associati::with(["anagrafica", "ruolispecm"])->get();
         return $nome;
 
-        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegnem"])->get();
+        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])->get();
         return $viewData;
 
     }
@@ -36,10 +36,22 @@ class AssociatiController extends Controller
         $viewData = [];
         $viewData['title'] = " associati";
 
-        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegnem"])->get();
+        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])->get();
 
         // return view('associati.index', compact('associatis', 'ruoli'));
         return view('associati.index')->with("viewData", $viewData);
+    }
+
+    public function index_tabella()
+    {
+
+        $viewData = [];
+        $viewData['title'] = " associati";
+
+        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])->get();
+
+        // return view('associati.index', compact('associatis', 'ruoli'));
+        return view('associati.index_tabella')->with("viewData", $viewData);
     }
 
     public function formAddassociati()
@@ -48,10 +60,10 @@ class AssociatiController extends Controller
         $viewData["anagrafica"] = Anagrafica::all();
         // Ruoli no ha enumruoli perche è singolo nonmultiplo
         $viewData["ruoli"] = Ruoli::all();
-        $viewData["enumconsegne"] = Enumconsegne::all();
+        $viewData["consegne"] = Consegne::all();
         $viewData["enumruolispec"] = Enumruolispec::all();
         $viewData["enumdateiscr"] = Enumdateiscr::all();
-        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegnem"])->get();
+        $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])->get();
 
         return view('associati.formAddAssociati')->with("viewData", $viewData);
     }
@@ -104,16 +116,11 @@ class AssociatiController extends Controller
             }
 // ---------------- Consegna rivista -----------------------
             if ($request?->consegne) {
-                foreach ($request->consegne as $rqd) {
-                    $consegne = new Consegne;
-                    $consegne->associati_id = $associati->id;
-                    $consegne->nome = $rqd;
-                    $consegne->save();
-                }
-                $associati->consegne_id = $consegne->id;
+                $associati->consegne_id = $request->consegne;
             } else {
-                $errori = $errori . ' ' . 'Manca consegne';
+                $errori = $errori . ' ' . 'Manca consegna';
             }
+        
 
             if ($request?->ruolo) {
                 $associati->ruoli_id = $request->ruolo;
