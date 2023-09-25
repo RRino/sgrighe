@@ -142,15 +142,19 @@ class AssociatiController extends Controller
     public function deleteAssociati($id)
     {
         $associati = Associati::find($id);
-        $rs = $associati->ruolispec_id;
         $associati->ruolispec_id = null;
+        $associati->dateiscr_id  = null;
+        $associati->consegne_id = null;
+        $associati->ruoli_id = null;
         $associati->save();
 
-       // $ruolispec = Ruolispec::find($rs) ;
-       // $ruolispec->delete();
+        Ruolispec::where('associati_id', '=', $id)->delete(); 
+        Dateiscr::where('associati_id', '=', $id)->delete(); 
+        Consegne::where('associati_id', '=', $id)->delete(); 
+        $associati = Associati::find($id);
+        $associati->delete(); //returns true/false
 
-        Ruolispec::where('associati_id', '=', $id)->delete();
-        
-           return 'deleteassociati '.$id;
+
+        return redirect('/associati');
     }
 }

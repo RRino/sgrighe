@@ -73,15 +73,14 @@
                         <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;">
                         </div>
                         <div class="container">
-                            @if($errors->any())
-                            <h4>{{$errors->first()}}</h4>
+                            @if ($errors->any())
+                                <h4>{{ $errors->first() }}</h4>
                             @endif
                             <div class="row">
 
                                 {{-- dd($viewData['associati'][0]->ruoli) --}}
                                 @php $primo = 0; @endphp
                                 @foreach ($viewData['associati'] as $soci)
-                               
                                     <div class="col">
                                         <div class="anagr">
                                             {{-- dd($soci->ruoli->nome) --}}
@@ -101,23 +100,29 @@
                                         </div>
 
                                         <div class="ruolo_spec">
-
+                                            @php $primo = 0;@endphp
                                             @forelse($soci->ruolispecm as $soci->ruolispecm)
-                                                <label class="lab rsp">Ruolo
-                                                    specif:</label>{{ $soci->ruolispecm->nome }}<br>
+                                                @if ($primo == 0)
+                                                    <label class="lab rsp">Ruolo specif:</label>
+                                                    @php $primo = 1;@endphp
+                                                @endif
+                                                {{ $soci->ruolispecm->nome }}
                                             @empty
-                                                <label class="lab rsp">Ruolo specif:</label><br>
-                                                <label class="lab rsp">Ruolo specif:</label><br>
+                                                <label class="lab rsp">Ruolo specif:</label>
                                             @endforelse
                                         </div>
                                         <br>
 
                                         <div class="dataiscr">
+                                            @php $primo = 0;@endphp
                                             @forelse($soci->dateiscr_many as $soci->date_specm)
-                                                <label class="lab dat">Data
-                                                    iscriz:</label>{{ $soci->date_specm->nome }}<br>
+                                                @if ($primo == 0)
+                                                    <label class="lab dat">Data iscriz:</label>
+                                                    @php $primo = 1;@endphp
+                                                @endif
+                                                {{ $soci->date_specm->nome }}
                                             @empty
-                                                <label class="lab dat">Data iscr:</label><br>
+                                                <label class="lab rsp">Data iscriz:</label>
                                             @endforelse
                                             <br>
                                         </div>
@@ -140,8 +145,13 @@
 
                             </div>
 
+                            @if (empty($soci->id))
+                            @else
+                                <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/' . $soci->id }}"
+                                    role="button">Cancella</a>
+                            @endif
 
-                            <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/'.$soci->id }}" role="button">Cancella</a>
+
                         </div>
 
                         {{-- $viewData['iscrizioni']->links() --}}
