@@ -6,7 +6,6 @@ use App\Models\Anagrafica;
 use App\Models\Associati;
 use App\Models\Consegne;
 use App\Models\Dateiscr;
-use App\Models\Enumconsegne;
 use App\Models\Enumdateiscr;
 use App\Models\Enumruolispec;
 use App\Models\Ruoli;
@@ -120,7 +119,6 @@ class AssociatiController extends Controller
             } else {
                 $errori = $errori . ' ' . 'Manca consegna';
             }
-        
 
             if ($request?->ruolo) {
                 $associati->ruoli_id = $request->ruolo;
@@ -145,23 +143,59 @@ class AssociatiController extends Controller
 
     }
 
-
     public function deleteAssociati($id)
     {
         $associati = Associati::find($id);
         $associati->ruolispec_id = null;
-        $associati->dateiscr_id  = null;
+        $associati->dateiscr_id = null;
         $associati->consegne_id = null;
         $associati->ruoli_id = null;
         $associati->save();
 
-        Ruolispec::where('associati_id', '=', $id)->delete(); 
-        Dateiscr::where('associati_id', '=', $id)->delete(); 
-        Consegne::where('associati_id', '=', $id)->delete(); 
+        Ruolispec::where('associati_id', '=', $id)->delete();
+        Dateiscr::where('associati_id', '=', $id)->delete();
+
         $associati = Associati::find($id);
         $associati->delete(); //returns true/false
 
-
         return redirect('/associati');
+    }
+
+    public function editAssociati($id)
+    {
+
+        $viewData = [];
+        $errori = ':';
+        $associati = Associati::where('anagrafica_id', '=', $id)->get();
+     
+        /*
+     "id" => 43
+        "anagrafica_id" => 1
+        "ruoli_id" => 1
+        "ruolispec_id" => 40
+        "dateiscr_id" => 39
+        "consegne_id" => 32
+        */
+        
+     
+// -------------- Ruoli specifici ---------------
+
+$viewData['ruolispec_es'] = Ruolispec::find($associati[0]->ruolispec_id);
+$viewData['enumruolispec'] = Ruolispec::all();
+// ---------------- Data iscrizione -----------------
+$viewData['dateiscr_es'] = Dateiscr::find($associati[0]->dateiscr_id);
+$viewData['enumdateiscr'] = Dateiscr::all();
+// ---------------- Consegna rivista -----------------------
+$viewData['consegne_es'] = Consegne::find($associati[0]->consegne_id);
+$viewData['consegne']= Consegne::all();
+// ----------------- Ruoli ------------
+$viewData['ruoli_es'] = Ruoli::find($associati[0]->ruoli_id);
+$viewData['ruoli'] = Ruoli::all();
+// --------- Update --------------------------
+$viewData['anagrafica'] = $associati;
+       
+
+
+       return view('associati.formEditAssociati')->with("viewData", $viewData);
     }
 }

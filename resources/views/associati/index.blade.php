@@ -24,9 +24,10 @@
 
 
 
-    .published {
+    .cancella {
         position: absolute;
         bottom: 0px;
+        margin-bottom:5px;
 
     }
 
@@ -67,7 +68,8 @@
 
                     <div class="card-body">
                         <a class="btn btn-success btn-sm b-add" href="{{ '/formAddAssociati' }}"
-                            role="button">Aggiungi</a><br><br>
+                            role="button">Aggiungi</a>  <a class="btn btn-success btn-sm b-add" href="{{ '/associati_tabella' }}"
+                            role="button">Vista a tabella</a><br><br><br><br>
                         <hr>
 
                         <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;">
@@ -127,24 +129,31 @@
                                             @endforelse
                                             <br>
                                         </div>
+
                                         <div>
                                             <label class="lab">Consegna:</label>{{ $soci->consegne->nome }}<br>
-                                        </div><br>
+                                        </div>
+
                                         <div class="published">
                                             <label class="lab">Pubblicato:</label>
                                             {{ $soci->anagrafica->published }}
-                                            </label><br>
+                                            </label>
                                         </div>
+
+                                        <div class="cancella">
+                                            @if (empty($soci->id))
+                                            @else
+                                                <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/' . $soci->id }}"
+                                                    role="button" onclick="return confirm('Sei sicuro?')">Cancella</a>
+                                            @endif
+                                        </div>
+                                        <br><br>
                                     </div>
                                 @endforeach
 
                             </div>
 
-                            @if (empty($soci->id))
-                            @else
-                                <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/' . $soci->id }}"
-                                    role="button">Cancella</a>
-                            @endif
+
 
 
                         </div>

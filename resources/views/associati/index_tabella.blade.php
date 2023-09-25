@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 <style>
-.date {
-  font-size: 10;
-}
-    </style>
+    .date {
+        font-size: 10;
+    }
+</style>
 @php
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
@@ -34,8 +34,7 @@
                     <div class="card-header">{{ __('Associati') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/asstest' }}" role="button">Lista
-                            Soci</a><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/associati' }}" role="button">Vista a box</a><br><br>
                         <hr>
 
 
@@ -60,21 +59,18 @@
                                         <th scope="col">Consegne</th>
                                         <th scope="col">Ruolispec</th>
                                         <th scope="col">Date iscriz.</th>
-
                                         <th scope="col">Abilitato</th>
-                                        <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- dd($viewData) --}}
+
 
                                     @foreach ($viewData['associati'] as $soci)
                                         <tr>
                                             <td><input type="checkbox" class="checkbox"
                                                     data-id="{{ $soci->anagrafica->id }}"></td>
                                             <td>{{ $soci->anagrafica_id }}</td>
-
                                             <td>{{ $soci->anagrafica->nome }}</td>
                                             <td>{{ $soci->anagrafica->cognome }}</td>
                                             <td>{{ $soci->anagrafica->indirizzo }}</td>
@@ -98,7 +94,6 @@
                                             <td class="date">{{ $dat }}</td>
 
 
-                                            <!-- end modal -->
                                             @if ($soci->anagrafica->getPublished() == 'Abilitato')
                                                 <td><a style="color:green"
                                                         href="/changeStatus/{{ $soci->anagrafica->getId() }}"> Si
@@ -109,18 +104,11 @@
                                                         href="/changeStatus/{{ $soci->anagrafica->getId() }}"> No
                                                     </a>
                                                 </td>
-                                                <?php /* @endif
-                                                    @endif */
-                                                ?>
 
                                                 <td></td>
-
-
-
                                         </tr>
                                     @endif
                                     @endforeach
-
                                 </tbody>
                             </table>
 
