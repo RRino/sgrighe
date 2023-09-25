@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+<style>
+.date {
+  font-size: 10;
+}
+    </style>
 @php
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
@@ -55,7 +60,7 @@
                                         <th scope="col">Consegne</th>
                                         <th scope="col">Ruolispec</th>
                                         <th scope="col">Date iscriz.</th>
-                                       
+
                                         <th scope="col">Abilitato</th>
                                         <!--<th scope="col">Attivo</th>--><!-- Non usato per ora -->
 
@@ -78,11 +83,22 @@
                                             <td>{{ $soci->anagrafica->comune }}</td>
                                             <td>{{ $soci->anagrafica->sigla_provincia }}</td>
                                             <td>{{ $soci->ruoli->nome }}</td>
-                                            <td>{{ 'cn' }}</td>
-                                            <td>{{ 'sp' }}</td>
-                                            <td>{{ 'dt' }}</td>
-                                            
+                                            <td>{{ $soci->consegne->nome }}</td>
 
+                                            @php $nom = ''; @endphp
+                                            @for ($i = 0; $i < count($soci->ruolispecm); $i++)
+                                                @php $nom = $nom. ' '.$soci->ruolispecm[$i]['nome'];@endphp
+                                            @endfor
+                                            <td>{{ $nom }}</td>
+
+                                            @php $dat = ''; @endphp
+                                            @for ($i = 0; $i < count($soci->dateiscr_many); $i++)
+                                                @php $dat = $dat. ' '.$soci->dateiscr_many[$i]['nome'];@endphp
+                                            @endfor
+                                            <td class="date">{{ $dat }}</td>
+
+
+                                            <!-- end modal -->
                                             @if ($soci->anagrafica->getPublished() == 'Abilitato')
                                                 <td><a style="color:green"
                                                         href="/changeStatus/{{ $soci->anagrafica->getId() }}"> Si
@@ -121,4 +137,5 @@
     <br>
     <br>
     <br>
+
 @endsection
