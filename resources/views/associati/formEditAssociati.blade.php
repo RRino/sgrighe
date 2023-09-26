@@ -8,6 +8,9 @@
     .hidden {
         display: none;
     }
+    label{
+        color:blue;
+    }
 </style>
 
 @section('content')
@@ -30,22 +33,17 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Aggiunge Anagrafica') }}</div>
+                    <div class="card-header">{{ __('Edit Associato') }}</div>
 
                     <div class="card-body">
 
                         <div class="container-sm">
 
-                            <form action="addAssociati" method="POST">
+                            <form action="updateAssociati" method="POST">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="usr">Anagrafica:</label>
-                                    <select name="anagrafica" id="tso" class="form-select" aria-label="Tipo socio">
-                                        @foreach ($viewData['anagrafica'] as $anag)
-                                            <option id="opt1" value="{{ $anag->id }}">
-                                                {{ $anag->id . ' ' . $anag->cognome }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="usr">Associato:</label>
+                                    {{ $viewData['anagrafica']->nome . ' ' . $viewData['anagrafica']->cognome }}
                                 </div>
 
                                 <div class="form-group">
@@ -60,14 +58,19 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="usr">Ruoli specifici:</label>
-                                    @php $rusn = ''; @endphp
-                                    {{ dd($viewData['ruolispec_es']) }}
-                                    @foreach ($viewData['ruolispec_es'] as $rus)
-                                    
-                                        @php $rusn = $rusn.' '.$rus @endphp
-                                    @endforeach
-                                    {{ $rusn }}
+                                              
+                                    <div class="ruolo_spec">
+                                        @php $primo = 0;@endphp
+                                        @forelse($viewData['associati'][0]->ruolispecm as $soci)
+                                            @if ($primo == 0)
+                                                <label class="lab rsp">Ruolo specif:</label>
+                                                @php $primo = 1;@endphp
+                                            @endif
+                                            {{ $soci->nome }}
+                                        @empty
+                                            <label class="lab rsp">Ruolo specif:</label>
+                                        @endforelse
+                                    </div>
 
                                     <select name="ruolispec[]" id="tso" class="form-select"
                                         aria-label="Ruolo_specifico" multiple="">
@@ -79,33 +82,51 @@
                                 </div>
                                 <br>
 
+
+
+
                                 <div class="form-group">
-                                    <label for="usr">Date iscriz:</label>
+                                              
+                                    <div class="ruolo_spec">
+                                        @php $primo = 0;@endphp
+                                        @forelse($viewData['associati'][0]->dateiscr_many as $soci)
+                                            @if ($primo == 0)
+                                                <label class="lab rsp">Date iscrizione:</label>
+                                                @php $primo = 1;@endphp
+                                            @endif
+                                            {{ $soci->nome }}
+                                        @empty
+                                            <label class="lab rsp">Date iscrizione:</label>
+                                        @endforelse
+                                    </div>
 
                                     <select name="dataiscr[]" id="tso" class="form-select"
-                                        aria-label="Data_iscrizione" multiple="">
+                                        aria-label="Date iscrizione" multiple="">
                                         @foreach ($viewData['enumdateiscr'] as $anag)
                                             <option id="opt1" value="{{ $anag->nome }}">
-                                                {{ $anag->nome . ' ' }}</option>
+                                                {{ $anag->id . ' ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <br>
 
 
-
                                 <div class="form-group">
                                     <label for="usr">Consegne:</label>
-                                    <select name="consegne" id="tso" class="form-select" aria-label="Consegna">
+                                    {{ $viewData['consegne_es']->nome }}
+                                    <select name="consegne" id="tso" class="form-select" aria-label="Consegne">
                                         @foreach ($viewData['consegne'] as $anag)
                                             <option id="opt1" value="{{ $anag->id }}">
-                                                {{ $anag->sigla . ' - ' . $anag->nome }}</option>
+                                                {{ $anag->id . ' ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>
-                                </div><br>
+                                </div>
+
+                                       
+
 
                                 <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary">Aggiungi</button>
+                                <button type="submit" class="btn btn-primary">Esegui</button>
                             </form><br>
                             <a class="btn btn-success b-list" href="{{ '/anagrafiche' }}" role="button">Anagrafica</a>
                         </div>

@@ -115,6 +115,7 @@ Route::controller(AssociatiController::class)->group(function () {
     Route::get('/associati_tabella', 'index_tabella');
     Route::post('addAssociati', 'addAssociati');
     Route::get('editAss/{id}', 'editAssociati');
+    Route::post('editAss/updateAssociati', 'updateAssociati');
     Route::get('/formAddAssociati', 'formAddAssociati');
     Route::get('delAss/{id}', 'deleteAssociati');
 
