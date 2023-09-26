@@ -44,6 +44,7 @@
                                 <div class="form-group">
                                     <label for="usr">Associato:</label>
                                     {{ $viewData['anagrafica']->nome . ' ' . $viewData['anagrafica']->cognome }}
+                                <input type='hidden' name="anagrafica" value="<?php echo $viewData['anagrafica']->id ?>">
                                 </div>
 
                                 <div class="form-group">
@@ -75,7 +76,7 @@
                                     <select name="ruolispec[]" id="tso" class="form-select"
                                         aria-label="Ruolo_specifico" multiple="">
                                         @foreach ($viewData['enumruolispec'] as $anag)
-                                            <option id="opt1" value="{{ $anag->nome }}">
+                                            <option id="opt1" value="{{ $anag->id }}">
                                                 {{ $anag->id . ' ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>
@@ -103,7 +104,7 @@
                                     <select name="dataiscr[]" id="tso" class="form-select"
                                         aria-label="Date iscrizione" multiple="">
                                         @foreach ($viewData['enumdateiscr'] as $anag)
-                                            <option id="opt1" value="{{ $anag->nome }}">
+                                            <option id="opt1" value="{{ $anag->id }}">
                                                 {{ $anag->id . ' ' . $anag->nome }}</option>
                                         @endforeach
                                     </select>

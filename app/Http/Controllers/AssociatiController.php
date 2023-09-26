@@ -168,60 +168,57 @@ class AssociatiController extends Controller
         $errori = ':';
         $associati = Associati::where('anagrafica_id', '=', $id)->get();
         $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])
-        ->where('anagrafica_id', '=', $id)->get();
+            ->where('anagrafica_id', '=', $id)->get();
         $viewData['anagrafica'] = Anagrafica::find($id);
-        /*
-     "id" => 43
-        "anagrafica_id" => 1
-        "ruoli_id" => 1
-        "ruolispec_id" => 40
-        "dateiscr_id" => 39
-        "consegne_id" => 32
-        */
-        
-     
+
 // -------------- Ruoli specifici ---------------
 
-$viewData['ruolispec_es'] = Ruolispec::find($associati[0]->ruolispec_id);
-$viewData['enumruolispec'] = Ruolispec::all();
+        $viewData['ruolispec_es'] = Ruolispec::find($associati[0]->ruolispec_id);
+        $viewData['enumruolispec'] = Ruolispec::all();
 
 // ---------------- Data iscrizione -----------------
-$viewData['dateiscr_es'] = Dateiscr::find($associati[0]->dateiscr_id);
-$viewData['enumdateiscr'] = Dateiscr::all();
+        $viewData['dateiscr_es'] = Dateiscr::find($associati[0]->dateiscr_id);
+        $viewData['enumdateiscr'] = Enumdateiscr::all();
 // ---------------- Consegna rivista -----------------------
-$viewData['consegne_es'] = Consegne::find($associati[0]->consegne_id);
-$viewData['consegne']= Consegne::all();
+        $viewData['consegne_es'] = Consegne::find($associati[0]->consegne_id);
+        $viewData['consegne'] = Consegne::all();
 // ----------------- Ruoli ------------
-$viewData['ruoli_es'] = Ruoli::find($associati[0]->ruoli_id);
-$viewData['ruoli'] = Ruoli::all();
+        $viewData['ruoli_es'] = Ruoli::find($associati[0]->ruoli_id);
+        $viewData['ruoli'] = Ruoli::all();
 // --------- Update --------------------------
 //$viewData['associati'] = $associati;
-       
 
-
-       return view('associati.formEditAssociati')->with("viewData", $viewData);
+        return view('associati.formEditAssociati')->with("viewData", $viewData);
     }
 
+
+
+
+
+    
     public function updateAssociati(Request $request)
     {
 
+        /*
+
+      "angrafica" => "1"
+      "ruolo" => "1"
+      "ruolispec" => array:1 [▶]
+      "dataiscr" => array:1 [▶]
+      "consegne" => "32"
+
+        */
+
         $id = $request->id;
-dd($request);
+        
         $viewData = [];
         $errori = ':';
-        $associati = new Associati;
+        dd(($request));
+
         $associati->anagrafica_id = $request->anagrafica;
         $rid = (int) $request->anagrafica;
 
-        if (Associati::where('anagrafica_id', $rid)->exists()) {
-            $errori = 1;
-            return back()->with([
-                'error_message' => 'Anagrafica già esistente',
-                'customerInfo' => $rid,
-            ]);
-        } else {
-            // The record does not exist
-            $associati->save();
+    
             $associati = Associati::find($associati->id);
 // -------------- Ruoli specifici ---------------
             if ($request?->ruolispec) {
@@ -270,7 +267,7 @@ dd($request);
                 ]);
             }
 
-        }
+      
 
         return back()->with(['successful_message' => 'Anagrafica associata correttamente']);
 
