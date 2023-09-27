@@ -174,7 +174,7 @@ class AssociatiController extends Controller
 // -------------- Ruoli specifici ---------------
 
         $viewData['ruolispec_es'] = Ruolispec::find($associati[0]->ruolispec_id);
-        $viewData['enumruolispec'] = Ruolispec::all();
+        $viewData['enumruolispec'] = Enumruolispec::all();
 
 // ---------------- Data iscrizione -----------------
         $viewData['dateiscr_es'] = Dateiscr::find($associati[0]->dateiscr_id);
@@ -191,83 +191,60 @@ class AssociatiController extends Controller
         return view('associati.formEditAssociati')->with("viewData", $viewData);
     }
 
-
-
-
-
-    
     public function updateAssociati(Request $request)
     {
 
         /*
 
-      "angrafica" => "1"
-      "ruolo" => "1"
-      "ruolispec" => array:1 [▶]
-      "dataiscr" => array:1 [▶]
-      "consegne" => "32"
+        "angrafica" => "1"
+        "ruolo" => "1"
+        "ruolispec" => array:1 [▶]
+        "dataiscr" => array:1 [▶]
+        "consegne" => "32"
 
-        */
+        "anagrafica_id" => 1
+        "ruoli_id" => 1
+        "ruolispec_id" => 40
+        "dateiscr_id" => 39
+        "consegne_id" => 32
+         */
 
         $id = $request->id;
-        
+
         $viewData = [];
         $errori = ':';
-        dd(($request));
 
-        $associati->anagrafica_id = $request->anagrafica;
-        $rid = (int) $request->anagrafica;
+        $rid = (int) $request->anagrafica;// id anagrafica
+        $ass_id = (int) $request->ass_id; // id associati
+        // recupera associati
+        $associati = Associati::where('anagrafica_id', '=', $rid)->get();
+        // crea un array con gli id ruolispec trasmessi da edit
+        for ($r = 0; $r < count($request->ruolispec); $r++) {
+            $rx = (int) $request->ruolispec[$r];
+            $viewData['ruolispecx'][$r] = $rx;
+        }
 
-    
-            $associati = Associati::find($associati->id);
 // -------------- Ruoli specifici ---------------
-            if ($request?->ruolispec) {
-                foreach ($request->ruolispec as $rqd) {
-                    $ruolispec = new Ruolispec;
-                    $ruolispec->associati_id = $associati->id;
-                    $ruolispec->nome = $rqd;
-                    $ruolispec->save();
-                }
-                $associati->ruolispec_id = $ruolispec->id;
-            } else {
-                $errori = "Manca Ruoli specifici";
 
-            }
-// ---------------- Data iscrizione -----------------
-            if ($request?->dataiscr) {
-                foreach ($request->dataiscr as $rqd) {
-                    $dataiscr = new Dateiscr;
-                    $dataiscr->associati_id = $associati->id;
-                    $dataiscr->nome = $rqd;
-                    $dataiscr->save();
-                }
-                $associati->dateiscr_id = $dataiscr->id;
-            } else {
-                $errori = $errori . ' ' . 'Manca data iscrizione';
-            }
-// ---------------- Consegna rivista -----------------------
-            if ($request?->consegne) {
-                $associati->consegne_id = $request->consegne;
-            } else {
-                $errori = $errori . ' ' . 'Manca consegna';
-            }
+        $assoc = Associati::find($ass_id);
+       // cancella il contenuto della colonna ruolispec_id per cancellare ruolispec con stesso id
+        $assoc->ruolispec_id = null;
+        $assoc->save();
 
-            if ($request?->ruolo) {
-                $associati->ruoli_id = $request->ruolo;
-            } else {
-                $errori = $errori . ' ' . 'Manca ruolo';
-            }
-// --------- Update --------------------------
-            if ($errori == ':') {
-                $associati->save();
-            } else {
-                return back()->with([
-                    'error_message' => 'Errore ' . $errori,
-                    'customerInfo' => $rid,
-                ]);
-            }
+        // cancella i record di ruolispec che hanno id eliminato da associati_id
+        Ruolispec::where('associati_id', '=', $ass_id)->delete();
 
-      
+        //ricrea record ruolispec con nuovi valori
+        foreach ($viewData['ruolispecx'] as $rqd) {
+           
+            $ruolispec = new Ruolispec;
+            $ruolispec->associati_id = $rqd;
+            $ruolispec->nome = '';
+            $ruolispec->save();
+        }
+        //ripristina ruolispec_id nela tabella associati
+        $assoc->ruolispec_id =  $ruolispec->associati_id;
+        $assoc->save();
 
         return back()->with(['successful_message' => 'Anagrafica associata correttamente']);
 

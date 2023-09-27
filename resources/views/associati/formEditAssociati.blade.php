@@ -45,6 +45,7 @@
                                     <label for="usr">Associato:</label>
                                     {{ $viewData['anagrafica']->nome . ' ' . $viewData['anagrafica']->cognome }}
                                 <input type='hidden' name="anagrafica" value="<?php echo $viewData['anagrafica']->id ?>">
+                                <input type='hidden' name="ass_id" value="<?php echo $viewData['associati'][0]->id ?>">
                                 </div>
 
                                 <div class="form-group">
