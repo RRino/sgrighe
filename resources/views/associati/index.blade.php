@@ -136,7 +136,11 @@
 
                                         <div class="published">
                                             <label class="lab">Pubblicato:</label>
-                                            {{ $soci->anagrafica->published }}
+                                            @if( $soci->anagrafica->published == 'Abilitato')
+                                            <span style="color:darkgreen">{{ $soci->anagrafica->published }}</span>
+                                            @else
+                                           <span style="color:red">{{ $soci->anagrafica->published }}</span>
+                                            @endif
                                             </label>
                                         </div>
 
