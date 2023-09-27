@@ -128,6 +128,17 @@
                                        
 
 
+                                <div class="form-group">
+                                    <label for="usr">Stato:</label>
+                                    {{ $viewData['associati'][0]->anagrafica->published }}
+                                    <select name="published" id="tso" class="form-control" value="{{ $published ?? old('published') }}">
+                                        <option value="">--- Schelta stato ---</option>
+                                        <option value="1">Abilitato</option>
+                                        <option value="2">Sospeso</option>
+                                    </select>
+                                </div>
+
+
                                 <!-- Submit button -->
                                 <button type="submit" class="btn btn-primary">Esegui</button>
                             </form><br>
