@@ -145,6 +145,9 @@
                                             @else
                                                 <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/' . $soci->id }}"
                                                     role="button" onclick="return confirm('Sei sicuro?')">Cancella</a>
+
+                                                    <a class="btn btn-primary btn-sm adds" href="{{ '/editAss/' . $soci->id }}"
+                                                        role="button" onclick="return confirm('Sei sicuro?')">Modifica</a>
                                             @endif
                                         </div>
                                         <br><br>

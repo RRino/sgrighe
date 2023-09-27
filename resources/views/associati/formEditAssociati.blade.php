@@ -38,13 +38,14 @@
                     <div class="card-body">
 
                         <div class="container-sm">
-
+                            {{-- dd($viewData['associati'][0]->anagrafica,$viewData['associati'][0]->ruoli) --}}
                             <form action="updateAssociati" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="usr">Associato:</label>
-                                    {{ $viewData['anagrafica']->nome . ' ' . $viewData['anagrafica']->cognome }}
-                                <input type='hidden' name="anagrafica" value="<?php echo $viewData['anagrafica']->id ?>">
+                                    
+                                    {{ $viewData['associati'][0]->anagrafica->nome . ' ' . $viewData['associati'][0]->anagrafica->nome }}
+                                <input type='hidden' name="anagrafica" value="<?php echo $viewData['associati'][0]->anagrafica->id ?>">
                                 <input type='hidden' name="ass_id" value="<?php echo $viewData['associati'][0]->id ?>">
                                 </div>
 

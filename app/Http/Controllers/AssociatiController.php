@@ -166,24 +166,25 @@ class AssociatiController extends Controller
 
         $viewData = [];
         $errori = ':';
-        $associati = Associati::where('anagrafica_id', '=', $id)->get();
+        $associati = Associati::find($id);
+    //  dd($id,$associati->anagrafica_id);
         $viewData['associati'] = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])
-            ->where('anagrafica_id', '=', $id)->get();
-        $viewData['anagrafica'] = Anagrafica::find($id);
-
+            ->where('anagrafica_id', '=', $associati->anagrafica_id)->get();
+        $viewData['anagrafica'] = Anagrafica::find($associati->angrafica_id);
+      //  dd($associati,$viewData);
 // -------------- Ruoli specifici ---------------
 
-        $viewData['ruolispec_es'] = Ruolispec::find($associati[0]->ruolispec_id);
+        $viewData['ruolispec_es'] = Ruolispec::find($associati->ruolispec_id);
         $viewData['enumruolispec'] = Enumruolispec::all();
 
 // ---------------- Data iscrizione -----------------
-        $viewData['dateiscr_es'] = Dateiscr::find($associati[0]->dateiscr_id);
+        $viewData['dateiscr_es'] = Dateiscr::find($associati->dateiscr_id);
         $viewData['enumdateiscr'] = Enumdateiscr::all();
 // ---------------- Consegna rivista -----------------------
-        $viewData['consegne_es'] = Consegne::find($associati[0]->consegne_id);
+        $viewData['consegne_es'] = Consegne::find($associati->consegne_id);
         $viewData['consegne'] = Consegne::all();
 // ----------------- Ruoli ------------
-        $viewData['ruoli_es'] = Ruoli::find($associati[0]->ruoli_id);
+        $viewData['ruoli_es'] = Ruoli::find($associati->ruoli_id);
         $viewData['ruoli'] = Ruoli::all();
 // --------- Update --------------------------
 //$viewData['associati'] = $associati;
@@ -205,11 +206,10 @@ class AssociatiController extends Controller
       "dataiscr" => array:2 [▶]
       "consegne" => "2"
 */
+
         $rid = (int) $request->anagrafica; // id anagrafica
         $ass_id = (int) $request->ass_id; // id associati
-        // recupera associati
-        $associati = Associati::where('anagrafica_id', '=', $rid)->get();
-
+   
         // crea un array con gli id ruolispec trasmessi da edit
         for ($r = 0; $r < count($request->ruolispec); $r++) {
             $rx = (int) $request->ruolispec[$r];
