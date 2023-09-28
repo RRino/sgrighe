@@ -118,7 +118,7 @@ Route::controller(AssociatiController::class)->group(function () {
     Route::post('editAss/updateAssociati', 'updateAssociati');
     Route::get('/formAddAssociati', 'formAddAssociati');
     Route::get('delAss/{id}', 'deleteAssociati');
-
+   
 });
 
 Route::controller(FileController::class)->group(function () {
@@ -148,6 +148,9 @@ Route::controller(ExcelController::class)->group(function () {
     Route::get('/formExcel_iscrizioni', 'index_iscrizioni'); // da menu sidebar richiama form per importare excel
     Route::post('/importIscrizione', 'importIscrizione');
     Route::get('/exportIscrizione', 'exportIscrizione');
+
+    Route::get('expAss', 'exportAssociati');
+    Route::post('/impAss', 'importAssociati');
 });
 
 Route::controller(SociController::class)->group(function () {

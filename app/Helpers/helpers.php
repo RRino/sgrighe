@@ -135,8 +135,6 @@ function index(Request $request)
     ->leftJoin('iscriziones', 'socis.id', '=', 'iscriziones.socio_id')
     ->get();// joining the posts table , where user_id and posts_user_id are same
 
-
-
         return $viewData;
   }
 

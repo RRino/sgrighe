@@ -122,6 +122,7 @@
                             <a href="/pref_etichette" class="dropdown-item">Etichette</a>
                             <a href="/consegne" class="dropdown-item">Consegne</a>
                             <a href="/formAddAssociati" class="dropdown-item">Add Associati</a>
+                            <a href="/expAss" class="dropdown-item">Esporta excel Associati</a>
                         </ul>
 
                     </a>

@@ -14,6 +14,17 @@ use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
+
+use App\Models\Anagrafica;
+use App\Models\Associati;
+use App\Models\Consegne;
+use App\Models\Dateiscr;
+use App\Models\Enumdateiscr;
+use App\Models\Enumruolispec;
+use App\Models\Ruoli;
+use App\Models\Ruolispec;
+
+
 class ExcelController extends Controller
 {
 
@@ -66,6 +77,29 @@ class ExcelController extends Controller
 
     }
 
+    public function ExportAssociatiExcel($customer_data)
+    {
+        ini_set('max_execution_time', 0);
+        ini_set('memory_limit', '4000M');
+
+        try {
+
+            $spreadSheet = new Spreadsheet();
+            $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(35);
+            $spreadSheet->getActiveSheet()->fromArray($customer_data);
+            $Excel_writer = new Xls($spreadSheet);
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="associati.xls"');
+            header('Cache-Control: max-age=0');
+            ob_end_clean();
+            $Excel_writer->save('php://output');
+            exit();
+
+        } catch (Exception $e) {
+            return;
+        }
+
+    }
     public function index_soci()
     {
 
@@ -227,8 +261,6 @@ class ExcelController extends Controller
                 ];
                 $startcount++;
             }
-
-        
 
 //-------------------------- Soci -----------------------------------
             DB::statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -404,4 +436,150 @@ class ExcelController extends Controller
      */
     }
     // ----------------------------------------------------------------
+
+    public function exportAssociati()
+    {
+
+
+     $associati = Associati::with(["anagrafica", "ruoli", "ruolispecm", "dateiscr_many", "consegne"])->get();
+
+        $data_array[] = array("cognome", "nome", "indirizzo", "cap", "localita",
+            "comune", "sigla_provincia", 
+            "consegna", "data-iscriz", "email", "telefono", "cellulare", "pec", "codice_fiscale",
+            "partita_iva", "per_soc", "description","published","ruolo","ruoli-spec");
+
+
+        foreach ($associati as $data_item) {
+            $ruospec ='';
+            foreach ($data_item->ruolispecm as $rspec) {
+                $ruospec = $ruospec.' '.$rspec->nome;
+              }
+
+              $dateis ='';
+              foreach ($data_item->dateiscr_many as $dtis) {
+                  $dateis = $dateis.' '.$dtis->nome;
+                }
+            $data_array[] = array(
+                'cognome' => $data_item->anagrafica->cognome,
+                'nome' => $data_item->anagrafica->nome,
+                'indirizzo' => $data_item->anagrafica->indirizzo,
+                'cap' => $data_item->anagrafica->cap,
+                'localita' => $data_item->anagrafica->localita,
+                'comune' => $data_item->anagrafica->comune,
+                'sigla_provincia' => $data_item->anagrafica->sigla_provincia,
+
+                'consegna' => $data_item->consegne->nome,
+                'data-iscriz' => $dateis,
+                'email' => $data_item->anagrafica->email,
+                'telefono' => $data_item->anagrafica->telefono,
+                'cellulare' => $data_item->anagrafica->cellulare,
+                'pec' => $data_item->anagrafica->pec,
+                'codice_fiscale' => $data_item->anagrafica->codice_fiscale,
+                'partita_iva' => $data_item->anagrafica->partita_iva,
+                'per_soc' => $data_item->anagrafica->tipo_socio,
+                'description' => $data_item->anagrafica->description,
+                'published' => $data_item->anagrafica->published,
+                'ruolo' => $data_item->ruoli->nome,
+                'ruoli-spec' => $ruospec,
+                
+                // 'created_at' => $data_item->created_at,
+                // 'updated_at' => $data_item->updated_at,
+
+            );
+
+        }
+     
+
+        $this->ExportAssociatiExcel($data_array);
+
+        return back()->withSuccess('I dati sono stati scaricati.');
+    }
+
+
+    public function importAssociati(Request $request)
+    {
+
+   
+        $this->validate($request, [
+            'uploaded_file' => 'required|file|mimes:xls,xlsx',
+        ]);
+        $the_file = $request->file('uploaded_file');
+        try {
+
+            $spreadsheet = IOFactory::load($the_file->getRealPath());
+            $sheet = $spreadsheet->getActiveSheet();
+            $row_limit = $sheet->getHighestDataRow();
+            $column_limit = $sheet->getHighestDataColumn();
+            $row_range = range(2, $row_limit);
+            $column_range = range('Z', $column_limit);
+            $startcount = 0;
+            $data = array();
+
+            $anno = Carbon::now()->format('Y');
+
+            foreach ($row_range as $row) {
+
+                $cons = $sheet->getCell('K' . $row)->getValue();
+                if (strlen($cons) == 2) {
+                    $cons = $sheet->getCell('K' . $row)->getValue();
+                } else {
+                    $cons = '';
+                }
+
+                if ($sheet->getCell('H' . $row)->getValue() == 'Si') {
+                    $ultimo = $anno;
+                } else {
+                    $ultimo = 'No';
+                }
+
+                if ($sheet->getCell('I' . $row)->getValue() == 'Si') {
+                    $penultimo = $anno - 1;
+                } else {
+                    $penultimo = 'No';
+                }
+
+                if ($sheet->getCell('J' . $row)->getValue() == 'Si') {
+                    $terultimo = $anno - 2;
+                } else {
+                    $terultimo = 'No';
+                }
+
+                $data[] = [
+                    'id' => $sheet->getCell('X' . $row)->getValue(),
+                    'cognome' => $sheet->getCell('A' . $row)->getValue(),
+                    'nome' => $sheet->getCell('B' . $row)->getValue(),
+                    'indirizzo' => $sheet->getCell('C' . $row)->getValue(),
+                    'cap' => $sheet->getCell('D' . $row)->getValue(),
+                    'localita' => $sheet->getCell('E' . $row)->getValue(),
+                    'comune' => $sheet->getCell('F' . $row)->getValue(),
+                    'sigla_provincia' => $sheet->getCell('G' . $row)->getValue(),
+
+                    'consegna' => $cons,
+                    'email' => $sheet->getCell('M' . $row)->getValue(),
+                    'telefono' => $sheet->getCell('N' . $row)->getValue(),
+                    'cellulare' => $sheet->getCell('O' . $row)->getValue(),
+                    'tipo_socio' => $sheet->getCell('S' . $row)->getValue(),
+                    'pec' => $sheet->getCell('P' . $row)->getValue(),
+                    'codice_fiscale' => $sheet->getCell('Q' . $row)->getValue(),
+                    'partita_iva' => $sheet->getCell('R' . $row)->getValue(),
+                    'description' => $sheet->getCell('T' . $row)->getValue(),
+                    'published' => 1,
+                    'created_at' => $sheet->getCell('U' . $row)->getValue(),
+                    'updated_at' => $sheet->getCell('V' . $row)->getValue(),
+                ];
+                $startcount++;
+            }
+
+//-------------------------- Soci -----------------------------------
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            DB::table('socis')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            DB::table('socis')->insert($data);
+
+        } catch (Exception $e) {
+            // $error_code = $e->errorInfo[1];
+            return back()->withErrors('There was a problem uploading the data!');
+        }
+        return back()->withSuccess('I dati sono stati caricati.');
+    }
 }
