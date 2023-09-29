@@ -50,7 +50,7 @@
                                     <br>
                                 @endif
 
-                                <form action="{{ url('importSoci') }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ url('impAss') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <fieldset>
                                         <label>Segliere il file Soci da caricare <small
@@ -67,8 +67,7 @@
 
                                             <div class="input-group-append" id="button-addon2">
                                                 <button class="btn btn-primary square btn-sm cae" type="submit"><i
-                                                        class="ft-upload mr-1"></i> Carica Soci
-                                                    Excel esportati</button>
+                                                        class="ft-upload mr-1"></i> Carica Soci Excel esportati</button>
                                             </div>
                                         </div>
                                     </fieldset>
@@ -92,8 +91,7 @@
 
                                             <div class="input-group-append" id="button-addon2">
                                                 <button class="btn btn-primary square btn-sm cae" type="submit"><i
-                                                        class="ft-upload mr-1"></i> Carica Soci
-                                                    Excel old</button>
+                                                        class="ft-upload mr-1"></i> Carica Soci Excel old</button>
                                             </div>
                                         </div>
                                     </fieldset>
