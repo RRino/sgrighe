@@ -16,19 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('anagrafica_id'); 
             $table->foreign('anagrafica_id')->references('id')->on('anagraficas'); 
 
-            $table->unsignedBigInteger('ruoli_id'); 
+            $table->unsignedBigInteger('ruoli_id')->nullable(); 
             $table->foreign('ruoli_id')->references('id')->on('ruolis'); 
 
-          /*  $table->unsignedBigInteger('ruolispec_id'); 
-            $table->foreign('ruolispec_id')->references('id')->on('ruolispecs'); 
-
-            $table->unsignedBigInteger('dateiscr_id'); 
-            $table->foreign('dateiscr_id')->references('id')->on('dateiscrs'); 
-            $table->string('nome');
-         */
-            $table->unsignedBigInteger('consegne_id'); 
+            $table->unsignedBigInteger('consegne_id')->nullable(); 
             $table->foreign('consegne_id')->references('id')->on('consegnes'); 
-            $table->string('nome_cons');
+            $table->string('nome_cons')->nullable();
 
             $table->timestamps();
         });

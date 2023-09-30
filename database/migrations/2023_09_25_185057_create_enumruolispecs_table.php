@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dateiscrs', function (Blueprint $table) {
+        Schema::create('enumruolispecs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('associati_id')->constrained('associatis');
-            $table->string('nome');
-            $table->string('enumdateiscr_id')->nullable();
+            $table->enum('nome', ['Ordinario', 'Famigliare', 'Direttivo','Presidente','Vice_presidente']);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dateiscr');
+        Schema::dropIfExists('enumruolispecs');
     }
 };
