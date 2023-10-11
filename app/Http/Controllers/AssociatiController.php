@@ -11,6 +11,7 @@ use App\Models\Enumruolispec;
 use App\Models\Ruoli;
 use App\Models\Ruolispec;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AssociatiController extends Controller
 {
@@ -197,14 +198,6 @@ class AssociatiController extends Controller
 
         $viewData = [];
         $errori = ':';
-/*
-"anagrafica" => "1"
-"ass_id" => "4"
-"ruolo" => "2"
-"ruolispec" => array:1 [▶]
-"dataiscr" => array:2 [▶]
-"consegne" => "2"
- */
 
         $rid = (int) $request->anagrafica; // id anagrafica
         $ass_id = (int) $request->ass_id; // id associati
@@ -216,6 +209,7 @@ class AssociatiController extends Controller
                 $viewData['ruolispecx'][$r] = $rx;
             }
         }
+        
         if ($request?->dataiscr) {
             // crea un array con gli id date iscrizioni trasmessi da edit
             for ($r = 0; $r < count($request->dataiscr); $r++) {
@@ -266,4 +260,8 @@ class AssociatiController extends Controller
         // return redirect('/associati');
 
     }
+
+ 
+//-------------------------------------------------------
+
 }

@@ -121,9 +121,10 @@
                             <a href="/pref_bollettini" class="dropdown-item">Bollettini</a>
                             <a href="/pref_etichette" class="dropdown-item">Etichette</a>
                             <a href="/consegne" class="dropdown-item">Consegne</a>
-                            <a href="/formAddAssociati" class="dropdown-item">Add Associati</a>
                             <a href="/expAss" class="dropdown-item">Esporta excel Associati</a>
                             <a href="/formExcel_soci" class="dropdown-item">Excel</a>
+
+                            <a href="/ruoli" class="dropdown-item">Ruoli</a>
                             
                         </ul>
 
@@ -140,7 +141,7 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button class="btn btn-primary" id="menu-toggle">Menu</button>
+                <button class="btn btn-success" id="menu-toggle">Menu</button>
                 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"

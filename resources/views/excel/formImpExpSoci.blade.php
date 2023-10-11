@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+<style>
+.excel {
+  margin-right: 10px;
+}
+    </style>
 @php
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
@@ -120,10 +125,15 @@
 
 
                                     <div class="mb-3 row">
-                                        <label class="col-lg-2 col-md-6 col-sm-12 col-form-label">Tutti:</label>
+                                        <label class="col-lg-2 col-md-6 col-sm-12  col-form-label excel">Soci: </label>
                                         <div class="col-lg-10 col-md-6 col-sm-12">
                                             <a class="col-lg-6 col-md-6 col-sm-12  btn btn-primary btn-sm"
                                                 href="{{ '/exportSociTutti' }}" role="button">Esporta soci</a>
+                                        </div>
+                                        <label class="col-lg-2 col-md-6 col-sm-12  col-form-label excel">Associati: </label>
+                                        <div class="col-lg-10 col-md-6 col-sm-12">
+                                            <a class="col-lg-6 col-md-6 col-sm-12  btn btn-primary btn-sm"
+                                                href="{{ '/expAss' }}" role="button">Esporta Associati</a>
                                         </div>
                                     </div>
                                 </form>

@@ -22,8 +22,8 @@
         <div class="card mb-4">
             <div class="card-header">
                 
-                <a class="btn btn-primary " href="{{ '/formConsegne' }}" role="button">Aggiungi consegna</a>
-                <a class="btn btn-primary " href="{{ '/list' }}" role="button">Lista soci</a>
+                <a class="btn btn-primary " href="{{ '/formRuoli' }}" role="button">Aggiungi ruolo</a>
+                
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -34,44 +34,24 @@
                     </ul>
                 @endif
 
-
-
-                <div class="card">
-                    <div class="card-header"> 
-                        <form class="nrighe" action="/paginazione" method="POST">
-                            @csrf
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <label for="nom" class="">N.righe</label>
-                                </div>
-                                <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="nom" name="rows"
-                                        value="{{ session('pag') }}" placeholder="Numero righe e Invio">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                     <div class="colo">
-
                         <div class="card-body">
                             <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                       
+                                        <th scope="col">Id</th>
                                         <th scope="col">Nome</th>
-                                        <th scope="col">Sigla</th>
+                                        <th scope="col">Modifica</th>
                                         <th scope="col">Cancella</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($viewData['consegnes'] as $consegne)
+                                    @foreach ($viewData['ruolis'] as $consegne)
                                         <tr>
-        
+                                            <td>{{ $consegne->id }}</td>
                                             <td>{{ $consegne->nome }}</td>
-                                            <td>{{ $consegne->sigla }}</td>
-                                            
-     
-                                            <td><a href={{"/deleteConsegne/".$consegne->id}} onclick="return confirm('Sei sicuro?')">Cancella</a></td>
+                                            <td><a href={{"/editRuoli/".$consegne->id}}>Modifica</a></td>
+                                            <td><a href={{"/deleteRuoli/".$consegne->id}} onclick="return confirm('Sei sicuro?')">Cancella</a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

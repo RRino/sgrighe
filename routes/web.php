@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnagraficheController;
+use App\Http\Controllers\AssociatiController;
 use App\Http\Controllers\ConsegneController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\FileController;
@@ -11,13 +12,11 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServizioController;
 use App\Http\Controllers\SociController;
-use App\Http\Controllers\AssociatiController;
-use Illuminate\Support\Facades\Route;
-
-use App\Models\Ruoli;
+use App\Http\Controllers\RuoliController;
 use App\Models\Ruolispec;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,18 +31,15 @@ use Illuminate\Http\Response;
 
 Auth::routes();
 
+Route::get('/states', function (Request $request) {
+    $input = $request->option;
+    $country = Ruolispec::where('ruoli_id', $input)->get();
 
-
-Route::get('/states', function(Request $request) {
-     $input = $request->option;
-    $country = Ruolispec::where('ruoli_id',$input)->get();
-   
-   return $country;
+    return $country;
     $resp = $country->get(['id', 'nome_ruolo_specifico']);
 
     return Response::json($country->get(['id', 'nome_ruolo_specifico']));
 });
-
 
 Route::get('/nonAut', function () {
     return view('nonAutorizzato');
@@ -107,8 +103,6 @@ Route::controller(AnagraficheController::class)->group(function () {
     Route::get('/test', 'test')->name('test');
 });
 
-
-
 Route::controller(AssociatiController::class)->group(function () {
     Route::get('/asstest', 'test');
     Route::get('/associati', 'index');
@@ -118,7 +112,6 @@ Route::controller(AssociatiController::class)->group(function () {
     Route::post('editAss/updateAssociati', 'updateAssociati');
     Route::get('/formAddAssociati', 'formAddAssociati');
     Route::get('delAss/{id}', 'deleteAssociati');
-   
 });
 
 Route::controller(FileController::class)->group(function () {
@@ -134,6 +127,16 @@ Route::controller(ConsegneController::class)->group(function () {
     Route::get('/formConsegne', 'formAddConsegne');
     Route::POST('addConsegne', 'store');
     Route::get('/deleteConsegne/{id}', 'delete');
+
+});
+
+Route::controller(RuoliController::class)->group(function () {
+    Route::get('/ruoli', 'show');
+    Route::get('/formRuoli', 'add');
+    Route::POST('addRuoli', 'store');
+    Route::get('/deleteRuoli/{id}', 'delete');
+    Route::get('/editRuoli/{id}', 'edit');
+    Route::POST('updateRuoli', 'update');
 
 });
 

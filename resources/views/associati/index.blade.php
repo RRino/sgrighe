@@ -27,7 +27,7 @@
     .cancella {
         position: absolute;
         bottom: 0px;
-        margin-bottom:5px;
+        margin-bottom: 5px;
 
     }
 
@@ -42,7 +42,7 @@
     use Carbon\Carbon;
     $anno = Carbon::now()->format('Y');
     // $anno = $viewData["anno"];
-    
+
     $anno0 = 'a' . $anno;
     $anno1 = 'a' . $anno - 1;
     $anno2 = 'a' . $anno - 2;
@@ -67,9 +67,10 @@
                     <div class="card-header">{{ __('Associati') }}</div>
 
                     <div class="card-body">
-                        <a class="btn btn-success btn-sm b-add" href="{{ '/formAddAssociati' }}"
-                            role="button">Aggiungi</a>  <a class="btn btn-success btn-sm b-add" href="{{ '/associati_tabella' }}"
-                            role="button">Vista a tabella</a><br><br><br><br>
+                        <a class="btn btn-success btn-sm b-add" href="{{ '/associati_tabella' }}" role="button">Vista a
+                            tabella</a>
+                        <a class="btn btn-primary btn-sm b-add" href="{{ '/formAddAssociati' }}" role="button">Aggiungi</a>
+                        <br><br>
                         <hr>
 
                         <div id="tit2" style="text-align:center;margin-bottom:10px;font-size:16px;font-weight:700;">
@@ -136,10 +137,10 @@
 
                                         <div class="published">
                                             <label class="lab">Pubblicato:</label>
-                                            @if( $soci->anagrafica->published == 'Abilitato')
-                                            <span style="color:darkgreen">{{ $soci->anagrafica->published }}</span>
+                                            @if ($soci->anagrafica->published == 'Abilitato')
+                                                <span style="color:darkgreen">{{ $soci->anagrafica->published }}</span>
                                             @else
-                                           <span style="color:red">{{ $soci->anagrafica->published }}</span>
+                                                <span style="color:red">{{ $soci->anagrafica->published }}</span>
                                             @endif
                                             </label>
                                         </div>
@@ -150,8 +151,8 @@
                                                 <a class="btn btn-primary btn-sm adds" href="{{ '/delAss/' . $soci->id }}"
                                                     role="button" onclick="return confirm('Sei sicuro?')">Cancella</a>
 
-                                                    <a class="btn btn-primary btn-sm adds" href="{{ '/editAss/' . $soci->id }}"
-                                                        role="button" onclick="return confirm('Sei sicuro?')">Modifica</a>
+                                                <a class="btn btn-primary btn-sm adds" href="{{ '/editAss/' . $soci->id }}"
+                                                    role="button" onclick="return confirm('Sei sicuro?')">Modifica</a>
                                             @endif
                                         </div>
                                         <br><br>

@@ -113,10 +113,10 @@ function index(Request $request)
     'socis.created_at',
     'socis.updated_at',
     'iscriziones.socio_id',
-    'iscriziones.' . $anno . ' AS  a' . $anno,
-    'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
-    'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
-    'iscriziones.' . ($anno+1) . ' AS  a' . ($anno+1),
+    //'iscriziones.' . $anno . ' AS  a' . $anno,
+   // 'iscriziones.' . ($anno - 1) . ' AS  a' . ($anno - 1),
+   // 'iscriziones.' . ($anno - 2) . ' AS  a' . ($anno - 2),
+   // 'iscriziones.' . ($anno+1) . ' AS  a' . ($anno+1),
 )
     ->rightJoin('iscriziones', 'iscriziones.socio_id', '=', 'socis.id')
     ->where('socis.id', $id)->get();
