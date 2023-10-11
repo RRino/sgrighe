@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 
 class RuoliController extends Controller
 {
+   private $tabella = 'ruolis';
+  // private static $module_name = "Ruoli";
 
     public function show()
     {
         $viewData = [];
         $viewData["title"] = "Ruoli";
-        $viewData["ruolis"] = Ruoli::all(); //Ruoli::orderBy('nome');
+        $viewData[$this->tabella] = Ruoli::all(); //Ruoli::orderBy('nome');
         return view('ruoli.show')->with("viewData", $viewData);
     }
 
@@ -20,7 +22,7 @@ class RuoliController extends Controller
     {
         $viewData = [];
         $viewData["title"] = "Aggiunge Ruolo";
-        $viewData["ruolis"] = Ruoli::all();
+        $viewData[$this->tabella] = Ruoli::all();
         return view('ruoli.formAdd')->with("viewData", $viewData);
     }
 
@@ -58,7 +60,7 @@ class RuoliController extends Controller
     {
         $viewData = [];
         $viewData["title"] = "Edit Ruolo";
-        $viewData["ruolis"] = Ruoli::find($id);
+        $viewData[$this->tabella] = Ruoli::find($id);
 
         return view('ruoli.formEdit')->with("viewData", $viewData);
     }
